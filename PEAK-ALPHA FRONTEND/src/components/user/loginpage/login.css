@@ -1,0 +1,155 @@
+
+
+.loginpage .navbar {
+  width: 100%;
+  height: 120px;
+  background: #004953;
+  display: flex;
+  align-items: center; /* Center items vertically */
+  overflow: hidden; /* Hide content overflow */
+}
+
+
+.loginpage .navbar .back {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  margin-left: 20px; /* Adjust margin as needed */
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.loginpage .navbar .back:hover {
+  transform: scale(1.2);
+}
+.loginpage .navbar .logo {
+  margin-top: 0px;
+  margin-left: 50px;
+  color: white;
+  font-size: 38px;
+  margin-right: auto; /* Move the logo to the left */
+  transition: transform 0.3s ease; /* Add transition for smooth scaling */
+}
+
+.loginpage .navbar .logo:hover {
+  transform: scale(1.1); /* Scale the logo by 10% on hover */
+}
+
+.loginpage .navbar .signup {
+  background: none;
+  border: 1px solid white;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add box shadow */
+  margin-right: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.loginpage .navbar .signup:hover {
+  background: rgba(255, 255, 255, 0.1); /* Add a subtle hover effect */
+}
+
+.loginpage .banner {
+  width: 800px;
+  border-radius: 50px;
+  justify-content: center;
+  margin: 70px auto;
+  display: flex;
+}
+.loginpage .banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add box shadow */
+  border-radius: 8px;
+  padding: 20px;
+  transition: transform 0.3s ease;
+  
+}
+
+.loginpage .banner:hover{
+  transform: scale(1.01);
+
+}
+
+.loginpage .banner img {
+  max-width: 100%;
+  width: 50%;
+  height: auto;
+  border-radius: 8px;
+  filter: drop-shadow(0 -10px 8px rgba(255, 223, 0, 0.5)); /* Golden drop shadow */
+}
+
+.loginform {
+  margin: 80px;
+  margin-right: 0px;
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+.loginform h2 {
+  font-size: 24px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.loginform label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.loginform input {
+  padding: 5px;
+  width: 100%;
+  height: 30px;
+  background: #fff;
+  color: #000;
+  margin-bottom: 15px;
+  border: none; /* Remove default border */
+  border-bottom: 1px solid #ccc; /* Add bottom border */
+  border-radius: 10px; /* Remove border-radius if needed */
+}
+
+input:focus {
+  outline: none; /* Remove the default focus outline */
+  border-bottom: 2px solid #004953; /* Change the border color when focused */
+  border-radius: 10px;
+}
+
+.loginform button {
+  background-color: #004953;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #00343d;
+}
+
+p {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.loginpage .banner .container {
+  margin-left: 0px;
+  width: 400px;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  background-color: #fff;
+  height: 500px;
+  padding: 20px;
+  box-shadow: #000;
+}

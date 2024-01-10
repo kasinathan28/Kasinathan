@@ -1,0 +1,34 @@
+/* Feedback Component Styles */
+.feedback {
+    width: 80%;
+    margin-left: 300px;
+  }
+
+  .feedback h2{
+    float: left;
+  }
+  
+  .feedback table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Adjust the margin as needed */
+    margin-bottom: 20px;
+  }
+  
+  .feedback th,
+  .feedback td {
+    height: 50px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .feedback th {
+    padding: 15px;
+    background-color: #f2f2f2;
+  }
+  
+  .feedback tr:hover {
+    background-color: #f5f5f5;
+  }
+  

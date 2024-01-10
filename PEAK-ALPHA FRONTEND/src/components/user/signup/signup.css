@@ -1,0 +1,142 @@
+.signuppage .navbar {
+  width: 100%;
+  height: 120px;
+  background: #004953;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.signuppage .navbar .back {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.signuppage .navbar .back:hover {
+  transform: scale(1.2);
+}
+
+.signuppage .navbar .logo {
+  margin-top: 0px;
+  margin-left: 50px;
+  color: white;
+  font-size: 38px;
+  margin-right: auto;
+  transition: transform 0.3s ease;
+}
+
+.signuppage .navbar .logo:hover {
+  transform: scale(1.1);
+}
+
+.signuppage .navbar .signup {
+  background: none;
+  border: 1px solid white;
+  color: white;
+  padding: 8px 16px;
+  margin-right: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.signuppage .navbar .signup:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.signuppage .banner {
+  width: 800px;
+  border-radius: 50px;
+  justify-content: center;
+  margin: 70px auto;
+  height: auto;
+  display: flex;
+  border-radius: 8px;
+  padding: 20px;
+  transition: transform 0.3s ease;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  /* backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px); */
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.signuppage .banner:hover {
+  transform: scale(1.05);
+}
+
+
+
+/* Add new CSS for the modified layout */
+.signupform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.form-column {
+  flex: 1;
+  max-width: 48%;
+}
+
+.signupform label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.signupform input {
+  padding: 5px;
+  width: 100%;
+  height: 30px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-bottom: 1px solid #ccc;
+}
+
+.signupform input:focus {
+  outline: none;
+  border-bottom: 2px solid #004953;
+}
+
+.signupform button {
+  background-color: #004953;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.signupform button:hover {
+  background-color: #00343d;
+}
+
+.signuppage p {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.signuppage .banner .container {
+  margin-left: 0px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  background-color: #fff;
+  height: 500px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

@@ -36,12 +36,17 @@ router.put('/updateAddress/:username', userController.updateAddress);
 // Router for fetching the products
 router.get('/getAllproducts1', userController.getAllProducts1);
 
-
 // Router for fecthing the stripe details
 router.get('/getAllProducts3', userController.getAllProducts3);
 
 // Router for adding product to the cart
 router.post("/addToCart", cartController.addToCart);
+
+// Router to fecth the cart items
+router.get("/getCart", cartController.getCart);
+
+// Router to fetch the details of the cart products
+router.post("/getProductDetails", cartController.getProductDetails);
 
 // End of users API
 

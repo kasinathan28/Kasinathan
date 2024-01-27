@@ -68,7 +68,6 @@ function Products() {
       priceId: "",
       brand: "",
       quantity: "",
-      // type: "",
       image: null,
     });
   };
@@ -82,7 +81,6 @@ function Products() {
       priceId: "",
       quantity: "",
       brand: "",
-      // type: "",
       image: null,
     });
   };
@@ -95,7 +93,7 @@ function Products() {
       formData.append("price", productData.price);
       formData.append("priceId", productData.priceId);
       formData.append("quantity", productData.quantity);
-      // formData.append("type", productData.type);
+      formData.append("brand", productData.brand);
       formData.append("image", productData.image);
 
       const response = await axios.post(
@@ -141,7 +139,7 @@ function Products() {
       price: product.price,
       priceId: product.priceId,
       quantity: product.quantity,
-      // type: product.type,
+      brand: product.brand,
       image: null,
     });
     setIsModalOpen(true);
@@ -194,7 +192,6 @@ function Products() {
               <p>{product.brand}</p>
               <div>
                 <p>{product.description}</p>
-                {/* <p>Type: {product.type}</p> */}
               </div>
               <div>
                 <p>Price ID: {product.priceId}</p>
@@ -281,7 +278,19 @@ function Products() {
                   />
                 </div>
 
-                <div>
+                <div className="modalform-coloumn">
+                  <label>Quantity:</label>
+                  <input
+                    type="number"
+                    name="quantity"
+                    value={formData.quantity}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="modalform-row">
+              <div className="modalform-coloumn">
                   <label>Image:</label>
                   <input
                     type="file"
@@ -294,35 +303,7 @@ function Products() {
                     }
                   />
                 </div>
-                {/* <div>
-                  <label>Type:</label>
-                  <select
-                    name="type"
-                    value={formData.type}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select Type</option>
-                    <option value="type1">Type 1</option>
-                    <option value="type2">Type 2</option>
-                  </select>
-                </div> */}
-              </div>
 
-              <div className="modalform-row">
-                {/* <div>
-                  <label>Image:</label>
-                  <input
-                    type="file"
-                    name="image"
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        image: e.target.files[0],
-                      })
-                    }
-                  />
-                </div> */}
               </div>
 
               <button type="button" onClick={handleSubmit}>

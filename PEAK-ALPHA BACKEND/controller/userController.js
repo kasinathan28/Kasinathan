@@ -2,6 +2,8 @@ const Users = require("../models/Users");
 const Address = require("../models/Address"); 
 const Product = require("../models/products")
 
+
+const axios = require("axios");
 const twilio = require("twilio");
 const multer = require("multer");
 
@@ -264,5 +266,24 @@ exports.getAllProducts1 = async (req, res) => {
   } catch (error) {
     console.error('Error fetching products:', error);
     res.status(500).json({ error: 'An error occurred while fetching products' });
+  }
+};
+
+
+
+exports.getAllProducts3 = async (req, res) => {
+  try {
+    // Make a request to the Stripe API
+    const response = await axios.get('https://api.stripe.com/v1/products', {
+      headers: {
+        Authorization: `Bearer sk_test_51Od4KTSF48OWvv58UGojVhgsx9EAR0yoi4za3ocnGYtqNjXaA1PFuIYwFzkz9nyY1Y0CwWSJ3sh1hSDgWcsJFJ2Q003A3cQeTs`,
+      },
+    });
+
+    const products = response.data.data; // Assuming the products are under the 'data' key
+    res.status(200).json({ products });
+  } catch (error) {
+    console.error('Error fetching products from Stripe API:', error);
+    res.status(500).json({ error: 'An error occurred while fetching products from Stripe API' });
   }
 };

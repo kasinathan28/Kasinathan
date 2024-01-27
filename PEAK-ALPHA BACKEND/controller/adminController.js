@@ -1,7 +1,10 @@
+require("dotenv").config();
+
 const Admins = require("../models/Admin");
 const Users = require("../models/Users");
 const Address = require("../models/Address");
 const Product = require("../models/products");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 // Admin login
 exports.login = async (req, res) => {
@@ -35,21 +38,35 @@ exports.getAllProducts = async (req, res) => {
 };
 
 
-// Add New Product
 exports.addProduct = async (req, res) => {
   try {
     const { name, brand, description, price, priceId, quantity } = req.body;
 
     const newProduct = new Product({
       name,
-      brand, // Include the brand field
+      brand, 
       description,
       price,
-      priceId,
       quantity,
       image: `http://localhost:5000/uploads/${req.file.filename}`,
     });
 
+    await newProduct.save();
+
+    // Create product on Stripe
+    const stripeProduct = await stripe.products.create({
+      name: newProduct.name,
+      description: newProduct.description,
+    });
+
+    // Create price on Stripe
+    const stripePrice = await stripe.prices.create({
+      product: stripeProduct.id,
+      unit_amount: price * 100, // Stripe uses the amount in cents
+      currency: 'inr', 
+    });
+
+    newProduct.priceId = stripePrice.id; // Update the priceId field in your Product model
     await newProduct.save();
 
     res.status(201).json({
@@ -65,21 +82,21 @@ exports.addProduct = async (req, res) => {
 };
 
 
+
+
 // Update Product by ID
 exports.updateProduct = async (req, res) => {
   try {
     const productId = req.params.productId;
     const { name, brand, description, price, priceId, quantity } = req.body;
 
-    // Check if the product exists
     const existingProduct = await Product.findById(productId);
     if (!existingProduct) {
       return res.status(404).json({ error: "Product not found" });
     }
 
-    // Update the product fields
     existingProduct.name = name;
-    existingProduct.brand = brand; // Include the brand field
+    existingProduct.brand = brand; 
     existingProduct.description = description;
     existingProduct.price = price;
     existingProduct.priceId = priceId;
@@ -128,12 +145,8 @@ exports.updateProduct = async (req, res) => {
       console.log('Fetching users...');
     
       // Use the `populate` method to include the corresponding address data
-      const users = await Users.find().populate('addressId'); 
-    
-      
-    
+      const users = await Users.find().populate('addressId');
       console.log('Users fetched successfully:', users);
-    
       res.status(200).json(users);
     } catch (error) {
       console.error('Error fetching users:', error);

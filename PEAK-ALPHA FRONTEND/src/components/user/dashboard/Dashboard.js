@@ -116,6 +116,10 @@ function Dashboard() {
     );
   };
 
+  const handleCart= () =>{
+    navigate("/cart")
+  }
+
   return (
     <div className={`user-dash ${isOpen ? "expanded" : ""}`}>
       <div className={`navbar ${isOpen ? "navbar-expanded" : ""}`}>
@@ -138,7 +142,7 @@ function Dashboard() {
             <FontAwesomeIcon icon={faHome} style={{ color: "#132e35" }} />
             HOME
           </div>
-          <div className="cart-button">
+          <div className="cart-button" onClick={handleCart}>
             <FontAwesomeIcon
               icon={faShoppingCart}
               style={{ color: "#132e35" }}

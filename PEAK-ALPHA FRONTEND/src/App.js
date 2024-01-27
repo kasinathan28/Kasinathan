@@ -9,6 +9,7 @@ import Signup from './components/user/signup/Signup';
 import Dashboard from './components/user/dashboard/Dashboard';
 import Profile from './components/user/profile/Profile';
 import Home from './components/admin/index/Index';
+import Cart from './components/user/cart/cart';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path='/dashboard' element={<Dashboard/>}/>
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/admin' element={<Home/>}/>
+          <Route path='/cart' element={<Cart/>}/>
         </Routes>
       </Router>
 

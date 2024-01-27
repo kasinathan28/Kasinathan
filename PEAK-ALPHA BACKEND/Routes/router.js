@@ -1,20 +1,18 @@
 const express = require('express');
 
-
-
-
 const upload = require('../multerConfig/storageConfig');
 const userController = require('../controller/userController');
 const adminController = require('../controller/adminController');
 const feedbackController = require('../controller/feedbackController');
-
+const cartController = require('../controller/cartController');
 
 
 
 const router = new express.Router();
 
 // users API
-// Route for signup
+
+// Routee for signup
 router.post('/signup', userController.signup);
 
 // Router for OTP
@@ -38,10 +36,18 @@ router.put('/updateAddress/:username', userController.updateAddress);
 // Router for fetching the products
 router.get('/getAllproducts1', userController.getAllProducts1);
 
+
+// Router for fecthing the stripe details
+router.get('/getAllProducts3', userController.getAllProducts3);
+
+// Router for adding product to the cart
+router.post("/addToCart", cartController.addToCart);
+
 // End of users API
 
 
 // Admin API
+
 // Router for admin login
 router.post('/admin/login', adminController.login);
 
@@ -65,6 +71,7 @@ router.get('/users', adminController.getUsers);
 
 
 // FEEDBACK API's
+
 // Router for feedback submitting
 router.post('/submit-feedback', feedbackController.submitFeedback);
 

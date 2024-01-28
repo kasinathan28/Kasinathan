@@ -1,0 +1,33 @@
+.details .navbar h1 {
+    display: flex;
+    letter-spacing: 10px;
+    color: #fff;
+    font-size: 54px;
+    margin-left: 30px;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    align-items: center;
+    justify-content: center;
+  }
+
+.details .backbtn{
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    margin-left: 20px;
+    background: #b6afaf;
+}
+
+.details .main{
+    display: flex;
+    flex-direction: column;
+    background: yellow;
+}
+
+.details .main .heading{
+    float: left;
+    margin-left: 50px;
+    margin-right: auto;
+}
+
+
+

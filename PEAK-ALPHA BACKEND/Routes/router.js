@@ -5,13 +5,11 @@ const userController = require('../controller/userController');
 const adminController = require('../controller/adminController');
 const feedbackController = require('../controller/feedbackController');
 const cartController = require('../controller/cartController');
-
-
-
+const ProductDetailsController = require('../controller/productdetailsController');
 const router = new express.Router();
 
-// users API
 
+// users API
 // Routee for signup
 router.post('/signup', userController.signup);
 
@@ -48,11 +46,13 @@ router.get("/getCart", cartController.getCart);
 // Router to fetch the details of the cart products
 router.post("/getProductDetails", cartController.getProductDetails);
 
+// Router for fetching single product details in view page
+router.get("/getProductDetails/:productId", ProductDetailsController.getProductDetails);
+
 // End of users API
 
 
 // Admin API
-
 // Router for admin login
 router.post('/admin/login', adminController.login);
 
@@ -76,7 +76,6 @@ router.get('/users', adminController.getUsers);
 
 
 // FEEDBACK API's
-
 // Router for feedback submitting
 router.post('/submit-feedback', feedbackController.submitFeedback);
 

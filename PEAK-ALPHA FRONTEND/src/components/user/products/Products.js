@@ -2,10 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./products.css";
 
 function Products({ selectedBrands, selectedPrices }) {
   const [filteredProducts, setFilteredProducts] = useState([]);
+
+  const navigate = useNavigate();
+
 
   const username = localStorage.getItem("username");
 
@@ -39,7 +43,13 @@ function Products({ selectedBrands, selectedPrices }) {
 
         // Fetch additional details from your second API
         const response2 = await axios.get("http://localhost:5000/getAllProducts3");
+        response2.data.products.forEach((product) => {
+          console.log("Product ID:", product.id);
+          const stripeIds = response2.data.products.map((product) => product.id);
+          console.log(stripeIds);
+        });
 
+        
         if (!response2.data || !Array.isArray(response2.data.products)) {
           console.error("Invalid or empty response from Stripe API:", response2.data);
           return;
@@ -62,14 +72,22 @@ function Products({ selectedBrands, selectedPrices }) {
     fetchProducts();
   }, [selectedBrands, selectedPrices]);
 
-  const handleViewClick = (productId) => {
-    console.log(`View product with ID: ${productId}`);
-    // Implement your logic for "View" button click
+
+ 
+
+  const handleViewClick = (productId, stripeIds) => {
+    console.log("Product ID:", productId);
+    console.log("Stripe Product ID:", stripeIds);
+  
+    // Navigate to productDetails page with both IDs
+    navigate(`/productDetails/${productId}/${stripeIds}`);
   };
+  
+ 
+  
 
   const handleAddToCartClick = async (productId) => {
     try {
-      // Make an API request to add the product to the user's cart
       await axios.post("http://localhost:5000/addToCart", {
         username: username,
         product: productId,
@@ -95,7 +113,7 @@ function Products({ selectedBrands, selectedPrices }) {
               <p>Quantity: {product.quantity}</p>
               <p className="price">₹{product.price}</p>
               <div className="product-button">
-                <button onClick={() => handleViewClick(product._id)}>View</button>
+              <button onClick={() => handleViewClick(product._id, product.stripeProductId)}>View</button>
                 <button onClick={() => handleAddToCartClick(product._id)}>
                   Add to Cart
                 </button>

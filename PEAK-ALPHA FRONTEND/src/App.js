@@ -10,6 +10,7 @@ import Dashboard from './components/user/dashboard/Dashboard';
 import Profile from './components/user/profile/Profile';
 import Home from './components/admin/index/Index';
 import Cart from './components/user/cart/cart';
+import ProductDetails from './components/user/productDetails/productDetails';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/admin' element={<Home/>}/>
           <Route path='/cart' element={<Cart/>}/>
+          <Route path="/productDetails/:productId/:stripeProductId" element={ProductDetails} />
         </Routes>
       </Router>
 

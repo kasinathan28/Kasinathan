@@ -2,7 +2,6 @@ const Users = require("../models/Users");
 const Address = require("../models/Address"); 
 const Product = require("../models/products")
 
-
 const axios = require("axios");
 const twilio = require("twilio");
 const multer = require("multer");
@@ -279,8 +278,8 @@ exports.getAllProducts3 = async (req, res) => {
         Authorization: `Bearer sk_test_51Od4KTSF48OWvv58UGojVhgsx9EAR0yoi4za3ocnGYtqNjXaA1PFuIYwFzkz9nyY1Y0CwWSJ3sh1hSDgWcsJFJ2Q003A3cQeTs`,
       },
     });
-
-    const products = response.data.data; // Assuming the products are under the 'data' key
+    
+    const products = response.data.data;
     res.status(200).json({ products });
   } catch (error) {
     console.error('Error fetching products from Stripe API:', error);

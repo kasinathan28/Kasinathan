@@ -17,13 +17,14 @@ function Products() {
     priceId: "",
     brand: "",
     quantity: "",
+    stripeId:"",
     image: null,
   });
 
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchProducts = async () => { 
       try {
         const response = await axios.get(
           "http://localhost:5000/getAllProducts"
@@ -98,6 +99,7 @@ function Products() {
       formData.append("brand", productData.brand);
       formData.append("image", productData.image);
       formData.append("productId", productData.id);
+      formData.append("stripeId",productData.stripeId);
 
 
       const response = await axios.post(
@@ -118,51 +120,81 @@ function Products() {
     }
   };
 
-  const handleUpdateProduct = async (productData) => {
-    try {
-      const response = await axios.put(
-        `http://localhost:5000/updateProduct/${selectedProductId}`,
-        productData
-      );
+ // Frontend code using Axios
 
-      console.log("Product updated successfully:", response.data);
-      window.location.reload();
-      setIsModalOpen(false);
-      setSelectedProductId(null);
-    } catch (error) {
-      console.error("Error updating product:", error);
+ const handleUpdateProduct = async (productData) => {
+  console.log(productData);
+
+  try {
+    // Update product in MongoDB
+    const mongoResponse = await axios.put(
+      `http://localhost:5000/updateProduct/${selectedProductId}`,
+      productData
+    );
+
+    // Update product in Stripe if stripeId is defined
+    const { name, description, price, stripeId } = productData;
+    if (stripeId) {
+      const stripeResponse = await axios.post(
+        `http://localhost:5000/updateStripeProduct/${stripeId.toString()}`,
+        {
+          name,
+          description,
+          price,
+        }
+      );
+      console.log("Product updated successfully in Stripe:", stripeResponse.data);
+    } else {
+      console.log("Stripe ID is undefined. Skipping Stripe update.");
     }
-  };
 
-  const handleEditProduct = (product) => {
-    setFormMode("edit");
-    setSelectedProductId(product._id);
-    setFormData({
-      name: product.name,
-      description: product.description,
-      price: product.price,
-      priceId: product.priceId,
-      quantity: product.quantity,
-      brand: product.brand,
-      image: null,
-    });
-    setIsModalOpen(true);
-  };
+    console.log("Product updated successfully in MongoDB:", mongoResponse.data);
 
-  const handleDeleteProduct = async (productId) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:5000/deleteProduct/${productId}`
-      );
-      console.log("Product deleted successfully:", response.data);
-      const updatedProducts = products.filter(
-        (product) => product._id !== productId
-      );
-      setProducts(updatedProducts);
-    } catch (error) {
-      console.error("Error deleting product:", error);
-    }
-  };
+    window.location.reload();
+    setIsModalOpen(false);
+    setSelectedProductId(null);
+  } catch (error) {
+    console.error("Error updating product:", error);
+  }
+};
+
+
+
+  
+const handleEditProduct = (product) => {
+  setFormMode("edit");
+  setSelectedProductId(product._id);
+  setFormData({
+    name: product.name,
+    description: product.description,
+    price: product.price,
+    priceId: product.priceId,
+    quantity: product.quantity,
+    brand: product.brand,
+    stripeId: product.stripeId,
+    image: null,
+  });
+  setIsModalOpen(true);
+};
+
+
+const handleDeleteProduct = async (productId, stripeId) => {
+  console.log(stripeId);
+  try {
+    // Delete the product from both the local database and Stripe
+    const response = await axios.delete(
+      `http://localhost:5000/deleteProductAndStripe/${productId}/${stripeId}`
+    );
+
+    console.log("Product deleted successfully:", response.data);
+
+    // Update the state to reflect the deletion
+    const updatedProducts = products.filter((product) => product._id !== productId);
+    setProducts(updatedProducts);
+  } catch (error) {
+    console.error("Error deleting product:", error);
+  }
+};
 
   return (
     <div className="products-page">
@@ -198,6 +230,7 @@ function Products() {
                 <p>{product.description}</p>
               </div>
               <div>
+                <p>Stripe ID :{product.stripeId}</p>
                 <p>Price ID: {product.priceId}</p>
                 <p>Price: Rs.{product.price}</p>
               </div>

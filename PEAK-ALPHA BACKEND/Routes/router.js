@@ -65,11 +65,16 @@ router.post('/addnew', upload.single('image'), adminController.addProduct);
 // Update the product with ID
 router.put('/updateProduct/:productId', adminController.updateProduct);
 
+// Router to update the stripe product
+router.post('/updateStripeProduct/:productId', adminController.updateStripeProduct);
 
 // Roouter for deleting the product
-router.delete('/deleteProduct/:productId', adminController.deleteProduct);
 
-// Router for getting all the users in the database
+// router.delete('/deleteProduct/:productId', adminController.deleteProduct);
+
+router.delete('/deleteProductAndStripe/:productId/:stripeId', adminController.deleteProductAndStripe);
+
+// Router for getting all the users in the database 
 router.get('/users', adminController.getUsers);
 
 // End of admin API

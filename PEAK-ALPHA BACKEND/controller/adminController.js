@@ -44,7 +44,7 @@ exports.addProduct = async (req, res) => {
 
     const newProduct = new Product({
       name,
-      brand, 
+      brand,
       description,
       price,
       quantity,
@@ -63,20 +63,21 @@ exports.addProduct = async (req, res) => {
     const stripePrice = await stripe.prices.create({
       product: stripeProduct.id,
       unit_amount: price * 100, // Stripe uses the amount in cents
-      currency: 'inr', 
+      currency: 'inr',
     });
 
-    newProduct.priceId = stripePrice.id; // Update the priceId field in your Product model
+    newProduct.priceId = stripePrice.id;
+    newProduct.stripeId = stripeProduct.id; // Assigning Stripe product ID to stripeId field in your database
     await newProduct.save();
 
     res.status(201).json({
-      message: "Product added successfully",
+      message: 'Product added successfully',
       product: newProduct,
     });
   } catch (error) {
-    console.error("Error adding product:", error);
+    console.error('Error adding product:', error);
     res.status(500).json({
-      error: "An error occurred while adding the product",
+      error: 'An error occurred while adding the product',
     });
   }
 };

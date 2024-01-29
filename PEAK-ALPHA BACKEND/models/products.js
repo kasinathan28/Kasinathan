@@ -24,6 +24,10 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: false, 
   },
+  stripeId:{
+    type: String,
+    required: false,
+  }
 });
 
 

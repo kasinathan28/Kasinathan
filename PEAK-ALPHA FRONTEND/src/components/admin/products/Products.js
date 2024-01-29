@@ -85,6 +85,8 @@ function Products() {
     });
   };
 
+  
+  
   const handleAddProduct = async (productData) => {
     try {
       const formData = new FormData();
@@ -95,6 +97,8 @@ function Products() {
       formData.append("quantity", productData.quantity);
       formData.append("brand", productData.brand);
       formData.append("image", productData.image);
+      formData.append("productId", productData.id);
+
 
       const response = await axios.post(
         "http://localhost:5000/addnew",

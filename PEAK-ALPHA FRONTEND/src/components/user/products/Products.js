@@ -24,7 +24,8 @@ function Products({ selectedBrands, selectedPrices }) {
           return;
         }
 
-        let allProducts = response1.data.products;
+        let allProducts = response1.data.products; 
+
 
         if (selectedBrands.length > 0) {
           allProducts = allProducts.filter((product) =>
@@ -43,11 +44,11 @@ function Products({ selectedBrands, selectedPrices }) {
 
         // Fetch additional details from your second API
         const response2 = await axios.get("http://localhost:5000/getAllProducts3");
-        response2.data.products.forEach((product) => {
-          console.log("Product ID:", product.id);
-          const stripeIds = response2.data.products.map((product) => product.id);
-          console.log(stripeIds);
-        });
+        // response2.data.products.forEach((product) => {
+        //   console.log("Product ID:", product.id);
+        //   const stripeIds = response2.data.products.map((product) => product.id);
+        //   console.log(stripeIds);
+        // });
 
         
         if (!response2.data || !Array.isArray(response2.data.products)) {
@@ -75,12 +76,12 @@ function Products({ selectedBrands, selectedPrices }) {
 
  
 
-  const handleViewClick = (productId, stripeIds) => {
+  const handleViewClick = (productId, stripeId) => {
     console.log("Product ID:", productId);
-    console.log("Stripe Product ID:", stripeIds);
+    console.log("Stripe Product ID:", stripeId);
   
     // Navigate to productDetails page with both IDs
-    navigate(`/productDetails/${productId}/${stripeIds}`);
+    navigate(`/productDetails/${productId}/${stripeId}`);
   };
   
  

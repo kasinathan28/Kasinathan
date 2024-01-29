@@ -10,22 +10,20 @@ function Products({ selectedBrands, selectedPrices }) {
 
   const navigate = useNavigate();
 
-
   const username = localStorage.getItem("username");
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Fetch products from your first API
         const response1 = await axios.get("http://localhost:5000/getAllProducts1");
-
+  
         if (!response1.data || !Array.isArray(response1.data.products)) {
           console.error("Invalid or empty response:", response1.data);
           return;
         }
-
-        let allProducts = response1.data.products; 
-
+  
+        let allProducts = response1.data.products;
+  
 
         if (selectedBrands.length > 0) {
           allProducts = allProducts.filter((product) =>
@@ -63,7 +61,7 @@ function Products({ selectedBrands, selectedPrices }) {
           const matchingStripeProduct = stripeProducts.find((product2) => product2.id === product1.stripeProductId);
           return { ...product1, ...matchingStripeProduct };
         });
-
+  
         setFilteredProducts(combinedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -76,15 +74,13 @@ function Products({ selectedBrands, selectedPrices }) {
 
  
 
-  const handleViewClick = (productId, stripeId) => {
-    console.log("Product ID:", productId);
-    console.log("Stripe Product ID:", stripeId);
+  const handleViewClick = async (productId) => {
   
-    // Navigate to productDetails page with both IDs
-    navigate(`/productDetails/${productId}/${stripeId}`);
+      navigate(`/productDetails/${productId}`);
+   
   };
   
- 
+  
   
 
   const handleAddToCartClick = async (productId) => {

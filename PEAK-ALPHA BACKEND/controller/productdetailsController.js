@@ -2,6 +2,7 @@ const Product = require("../models/products");
 
 
 exports.getProductDetails = async (req, res) => {
+  console.log("api called");
     try {
       const productId = req.params.productId;
   

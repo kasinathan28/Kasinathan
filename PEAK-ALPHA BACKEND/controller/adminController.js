@@ -180,10 +180,8 @@ exports.deleteProductAndStripe = async (req, res) => {
       return res.status(404).json({ error: "Product not found" });
     }
 
-    // Retrieve the product from Stripe
-    const productInStripe = await stripe.products.retrieve(stripeId);
-
     // Check if there are user-created prices associated with the product
+    const productInStripe = await stripe.products.retrieve(stripeId);
     if (productInStripe.prices && productInStripe.prices.data.length > 0) {
       return res.status(400).json({ error: "Product has user-created prices" });
     }
@@ -191,15 +189,13 @@ exports.deleteProductAndStripe = async (req, res) => {
     // Delete the product from the local database
     await Product.findByIdAndDelete(productId);
 
-    // Delete the product from Stripe
-    await stripe.products.del(stripeId);
-
     res.status(200).json({ message: "Product deleted successfully" });
   } catch (error) {
     console.error("Error deleting product:", error);
     res.status(500).json({ error: "An error occurred while deleting the product" });
   }
 };
+
 
 
 

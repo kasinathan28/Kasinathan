@@ -181,9 +181,9 @@ const handleEditProduct = (product) => {
 const handleDeleteProduct = async (productId, stripeId) => {
   console.log(stripeId);
   try {
-    // Delete the product from both the local database and Stripe
+    // Delete the product from the local database
     const response = await axios.delete(
-      `http://localhost:5000/deleteProductAndStripe/${productId}/${stripeId}`
+      `http://localhost:5000/deleteProductAndStripe/${productId}`
     );
 
     console.log("Product deleted successfully:", response.data);
@@ -195,6 +195,7 @@ const handleDeleteProduct = async (productId, stripeId) => {
     console.error("Error deleting product:", error);
   }
 };
+
 
   return (
     <div className="products-page">

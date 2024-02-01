@@ -1,28 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./cart.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAtlassian } from "@fortawesome/free-brands-svg-icons";
 import { useNavigate } from "react-router-dom";
+import "./cart.css";
 
-// Styling for the card
-const CartItemCard = ({ productDetail, item }) => (
-  <div className="cart-item-card">
-    <img src={productDetail.image} alt={productDetail.name} />
-    <div className="card-details">
-      <p className="product-name">{productDetail.name}</p>
-      <p className="product-price">Price: ₹{productDetail.price}</p>
-      <p className="product-quantity">Quantity: {item.quantity}</p>
-      <div className="card-body">
-        <button>Buy Now</button>
-      </div>
-    </div>
-  </div>
-);
-
-export default function Cart() {
+const Cart = () => {
   const [userCart, setUserCart] = useState([]);
   const [productDetails, setProductDetails] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
   const username = localStorage.getItem("username");
   const navigate = useNavigate();
 
@@ -34,7 +20,7 @@ export default function Cart() {
     const fetchUserCart = async () => {
       try {
         const response = await axios.get("http://localhost:5000/getCart", {
-          params: { username: username },
+          params: { username },
         });
 
         setUserCart(response.data.cart);
@@ -51,7 +37,7 @@ export default function Cart() {
       try {
         const productIds = userCart.map((item) => item.product);
         const response = await axios.post("http://localhost:5000/getProductDetails", {
-          productIds: productIds,
+          productIds,
         });
 
         setProductDetails(response.data.productDetails);
@@ -64,6 +50,41 @@ export default function Cart() {
       fetchProductDetails();
     }
   }, [userCart]);
+
+  useEffect(() => {
+    // Calculate total amount based on product quantity and price
+    const total = userCart.reduce((acc, item) => {
+      const productDetail = productDetails.find((product) => product._id === item.product);
+      return acc + (productDetail ? productDetail.price * item.quantity : 0);
+    }, 0);
+
+    setTotalAmount(total);
+  }, [userCart, productDetails]);
+
+  const handleCheckout = () => {
+    // Add your checkout logic here
+    console.log("Checkout button clicked");
+  };
+
+  const CartItemCard = ({ productDetail, item }) => {
+    const [quantity] = useState(item.quantity);
+
+    return (
+      <div className="cart-item-card">
+        <img src={productDetail.image} alt={productDetail.name} />
+        <div className="card-details">
+          <p className="product-name">{productDetail.name}</p>
+          <p className="product-price">Price: ₹{productDetail.price}</p>
+          <div className="quantity-controls">
+            <p className="product-quantity">Quantity: {quantity}</p>
+          </div>
+          <div className="card-body">
+            <button>Buy Now</button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="cart">
@@ -86,20 +107,28 @@ export default function Cart() {
         </div>
         <div className="bar" />
 
-        {/* Display the user's cart items with product details in card format */}
         <div className="cart-items">
           {userCart.map((item) => {
             const productDetail = productDetails.find((product) => product._id === item.product);
             return (
               <div key={item._id} className="cart-item">
                 {productDetail && (
-                  <CartItemCard productDetail={productDetail} item={item} />
+                  <CartItemCard
+                    productDetail={productDetail}
+                    item={item}
+                  />
                 )}
               </div>
             );
           })}
         </div>
       </div>
+      <div className="total">
+        <p>Total: ₹{totalAmount}</p>
+        <button onClick={handleCheckout}>Checkout</button>
+      </div>
     </div>
   );
-}
+};
+
+export default Cart;

@@ -62,7 +62,6 @@ const Cart = () => {
   }, [userCart, productDetails]);
 
   const handleCheckout = () => {
-    // Add your checkout logic here
     console.log("Checkout button clicked");
   };
 
@@ -122,6 +121,7 @@ const Cart = () => {
             );
           })}
         </div>
+        
       </div>
       <div className="total">
         <p>Total: ₹{totalAmount}</p>

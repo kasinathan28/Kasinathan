@@ -17,14 +17,14 @@ function Products() {
     priceId: "",
     brand: "",
     quantity: "",
-    stripeId:"",
+    stripeId: "",
     image: null,
   });
 
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    const fetchProducts = async () => { 
+    const fetchProducts = async () => {
       try {
         const response = await axios.get(
           "http://localhost:5000/getAllProducts"
@@ -86,8 +86,6 @@ function Products() {
     });
   };
 
-  
-  
   const handleAddProduct = async (productData) => {
     try {
       const formData = new FormData();
@@ -99,8 +97,7 @@ function Products() {
       formData.append("brand", productData.brand);
       formData.append("image", productData.image);
       formData.append("productId", productData.id);
-      formData.append("stripeId",productData.stripeId);
-
+      formData.append("stripeId", productData.stripeId);
 
       const response = await axios.post(
         "http://localhost:5000/addnew",
@@ -120,82 +117,86 @@ function Products() {
     }
   };
 
- // Frontend code using Axios
+  // Frontend code using Axios
 
- const handleUpdateProduct = async (productData) => {
-  console.log(productData);
+  const handleUpdateProduct = async (productData) => {
+    console.log(productData);
 
-  try {
-    // Update product in MongoDB
-    const mongoResponse = await axios.put(
-      `http://localhost:5000/updateProduct/${selectedProductId}`,
-      productData
-    );
-
-    // Update product in Stripe if stripeId is defined
-    const { name, description, price, stripeId } = productData;
-    if (stripeId) {
-      const stripeResponse = await axios.post(
-        `http://localhost:5000/updateStripeProduct/${stripeId.toString()}`,
-        {
-          name,
-          description,
-          price,
-        }
+    try {
+      // Update product in MongoDB
+      const mongoResponse = await axios.put(
+        `http://localhost:5000/updateProduct/${selectedProductId}`,
+        productData
       );
-      console.log("Product updated successfully in Stripe:", stripeResponse.data);
-    } else {
-      console.log("Stripe ID is undefined. Skipping Stripe update.");
+
+      // Update product in Stripe if stripeId is defined
+      const { name, description, price, stripeId } = productData;
+      if (stripeId) {
+        const stripeResponse = await axios.post(
+          `http://localhost:5000/updateStripeProduct/${stripeId.toString()}`,
+          {
+            name,
+            description,
+            price,
+          }
+        );
+        console.log(
+          "Product updated successfully in Stripe:",
+          stripeResponse.data
+        );
+      } else {
+        console.log("Stripe ID is undefined. Skipping Stripe update.");
+      }
+
+      console.log(
+        "Product updated successfully in MongoDB:",
+        mongoResponse.data
+      );
+
+      window.location.reload();
+      setIsModalOpen(false);
+      setSelectedProductId(null);
+    } catch (error) {
+      console.error("Error updating product:", error);
     }
+  };
 
-    console.log("Product updated successfully in MongoDB:", mongoResponse.data);
+  const handleEditProduct = (product) => {
+    setFormMode("edit");
+    setSelectedProductId(product._id);
+    setFormData({
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      priceId: product.priceId,
+      quantity: product.quantity,
+      brand: product.brand,
+      stripeId: product.stripeId,
+      image: null,
+    });
+    setIsModalOpen(true);
+  };
 
-    window.location.reload();
-    setIsModalOpen(false);
-    setSelectedProductId(null);
-  } catch (error) {
-    console.error("Error updating product:", error);
-  }
-};
-
-
-
-  
-const handleEditProduct = (product) => {
-  setFormMode("edit");
-  setSelectedProductId(product._id);
-  setFormData({
-    name: product.name,
-    description: product.description,
-    price: product.price,
-    priceId: product.priceId,
-    quantity: product.quantity,
-    brand: product.brand,
-    stripeId: product.stripeId,
-    image: null,
-  });
-  setIsModalOpen(true);
-};
-
-
-const handleDeleteProduct = async (productId, stripeId) => {
-  console.log(stripeId);
-  try {
-    // Delete the product from the local database
-    const response = await axios.delete(
-      `http://localhost:5000/deleteProductAndStripe/${productId}`
-    );
-
-    console.log("Product deleted successfully:", response.data);
-
-    // Update the state to reflect the deletion
-    const updatedProducts = products.filter((product) => product._id !== productId);
-    setProducts(updatedProducts);
-  } catch (error) {
-    console.error("Error deleting product:", error);
-  }
-};
-
+  const handleDeleteProduct = async (productId, stripeId) => {
+    try {
+       // Delete the product from the local database
+       const response = await axios.delete(
+        `http://localhost:5000/deleteProduct/${productId}`
+     );
+     
+ 
+       console.log("Product deleted successfully:", response.data);
+ 
+       // Update the state to reflect the deletion
+       const updatedProducts = products.filter(
+          (product) => product._id !== productId
+       );
+       setProducts(updatedProducts);
+    } catch (error) {
+       console.log("Error deleting product:", error);
+    }
+ };
+ 
 
   return (
     <div className="products-page">
@@ -213,6 +214,7 @@ const handleDeleteProduct = async (productId, stripeId) => {
           <input
             type="text"
             value={filter}
+            className="searchBar"
             onChange={(e) => setFilter(e.target.value)}
             placeholder="Enter product name"
           />
@@ -328,7 +330,7 @@ const handleDeleteProduct = async (productId, stripeId) => {
                 </div>
               </div>
               <div className="modalform-row">
-              <div className="modalform-coloumn">
+                <div className="modalform-coloumn">
                   <label>Image:</label>
                   <input
                     type="file"
@@ -341,7 +343,6 @@ const handleDeleteProduct = async (productId, stripeId) => {
                     }
                   />
                 </div>
-
               </div>
 
               <button type="button" onClick={handleSubmit}>

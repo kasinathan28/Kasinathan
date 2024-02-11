@@ -1,9 +1,10 @@
-// Products.js
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./products.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 function Products({ selectedBrands, selectedPrices }) {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -24,7 +25,6 @@ function Products({ selectedBrands, selectedPrices }) {
   
         let allProducts = response1.data.products;
   
-
         if (selectedBrands.length > 0) {
           allProducts = allProducts.filter((product) =>
             selectedBrands.includes(product.brand)
@@ -36,18 +36,11 @@ function Products({ selectedBrands, selectedPrices }) {
             selectedPrices.includes(product.price)
           );
         }
-
         // Sort products by description
         allProducts.sort((a, b) => a.description.localeCompare(b.description));
 
         // Fetch additional details from your second API
         const response2 = await axios.get("http://localhost:5000/getAllProducts3");
-        // response2.data.products.forEach((product) => {
-        //   console.log("Product ID:", product.id);
-        //   const stripeIds = response2.data.products.map((product) => product.id);
-        //   console.log(stripeIds);
-        // });
-
         
         if (!response2.data || !Array.isArray(response2.data.products)) {
           console.error("Invalid or empty response from Stripe API:", response2.data);
@@ -56,7 +49,6 @@ function Products({ selectedBrands, selectedPrices }) {
 
         const stripeProducts = response2.data.products;
 
-        // Combine the data from both APIs based on a common identifier (e.g., product ID)
         const combinedProducts = allProducts.map((product1) => {
           const matchingStripeProduct = stripeProducts.find((product2) => product2.id === product1.stripeProductId);
           return { ...product1, ...matchingStripeProduct };
@@ -72,16 +64,11 @@ function Products({ selectedBrands, selectedPrices }) {
   }, [selectedBrands, selectedPrices]);
 
 
- 
-
   const handleViewClick = async (productId) => {
   
       navigate(`/productDetails/${productId}`);
    
   };
-  
-  
-  
 
   const handleAddToCartClick = async (productId) => {
     try {
@@ -90,9 +77,16 @@ function Products({ selectedBrands, selectedPrices }) {
         product: productId,
       });
 
+      toast.success("Product added to the cart successfully!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+
       console.log(`Product with ID ${productId} added to the cart for user ${username}`);
     } catch (error) {
       console.error("Error adding product to cart:", error);
+      toast.error("Error adding product to the cart. Please try again later.", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
   };
 
@@ -119,6 +113,7 @@ function Products({ selectedBrands, selectedPrices }) {
           </div>
         ))}
       </div>
+      <ToastContainer position="bottom-left" />
     </div>
   );
 }

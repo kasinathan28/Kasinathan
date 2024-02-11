@@ -49,6 +49,8 @@ router.post("/getProductDetails", cartController.getProductDetails);
 // Router for fetching single product details in view page
 router.get("/getProductDetails/:productId", ProductDetailsController.getProductDetails);
 
+// Router for getting logged in admin 
+router.get("/getAdmin/:id", adminController.getAdmin);
 // End of users API
 
 
@@ -72,7 +74,7 @@ router.post('/updateStripeProduct/:productId', adminController.updateStripeProdu
 
 // router.delete('/deleteProduct/:productId', adminController.deleteProduct);
 
-router.delete('/deleteProductAndStripe/:productId/:stripeId', adminController.deleteProductAndStripe);
+router.delete('/deleteProduct/:productId', adminController.deleteProduct);
 
 // Router for getting all the users in the database 
 router.get('/users', adminController.getUsers);
@@ -86,6 +88,9 @@ router.post('/submit-feedback', feedbackController.submitFeedback);
 
 // Router for fetching the feedbacks
 router.get('/getFeedbacks', feedbackController.getFeedbacks);
+
+// Router for deleting the feedbacks
+router.delete("/deleteFeedBack/:id",feedbackController.deleteFeedBack);
 
 
 // Export Router

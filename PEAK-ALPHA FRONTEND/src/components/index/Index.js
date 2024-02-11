@@ -81,7 +81,6 @@ function Index() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Set admin login loading to true when the login process starts
     setAdminLoginLoading(true);
 
     try {
@@ -94,9 +93,9 @@ function Index() {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       if (response.status === 200) {
-        // Admin login successful, you can redirect or perform other actions
-        console.log(response.data.message);
-        navigate("/admin");
+        const id = (response.data.admin._id);
+        console.log(id);
+        navigate(`/admin/${id}`);
       } else {
         // Admin login failed, handle accordingly
         toast.error("Login Failed.");
@@ -267,7 +266,7 @@ function Index() {
         <div>
           <div className="logo">
             PEAK
-            <FontAwesomeIcon icon={faAtlassian} style={{ color: "#132e35" }} />
+            <FontAwesomeIcon icon={faAtlassian} style={{ color: "#dfc8ea" }} />
             LPHA
           </div>
         </div>
@@ -409,100 +408,104 @@ function Index() {
         </div>
       </div>
 
-      <div className="cards">
-        <div className="card">
-          <div className="content">
-            <img src={mot} alt="mot" />
-            <div className="content1">
-              <img src={card1} alt="card1" />
-              <h2>MOT TESTING</h2>
-              <p>
-                If you need an MOT, get in touch with our team. We take care of
-                everything and ensure that your vehicle is running perfectly.
-              </p>
+      <div className="card-container">
+        <div className="cards">
+          <div className="card">
+            <div className="content">
+              <img src={mot} alt="mot" />
+              <div className="content1">
+                <img src={card1} alt="card1" />
+                <h2>MOT TESTING</h2>
+                <p>
+                  If you need an MOT, get in touch with our team. We take care
+                  of everything and ensure that your vehicle is running
+                  perfectly.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="card">
+            <div className="content">
+              <img src={repairing} alt="mot" />
+              <div className="content1">
+                <img src={card4} alt="card1" />
+                <h2>REPAIRS</h2>
+                <p>
+                  We can offer an almost limitless range of quality car and
+                  vehicle repairs. All at a fair and competitive price.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="card">
+            <div className="content">
+              <img src={tyre} alt="mot" />
+              <div className="content1">
+                <img src={card3} alt="card1" />
+                <h2>TYRES</h2>
+                <p>
+                  We are your local, independent tyre dealer, and we specialize
+                  in car tyres, van tyres, 4x4 tyres & high-performance tyres.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-        <div className="card">
-          <div className="content">
-            <img src={repairing} alt="mot" />
-            <div className="content1">
-              <img src={card4} alt="card1" />
-              <h2>REPAIRS</h2>
-              <p>
-                We can offer an almost limitless range of quality car and
-                vehicle repairs. All at a fair and competitive price.
-              </p>
+
+        <div className="cards">
+          <div className="card">
+            <div className="content">
+              <img src={remaping} alt="mot" />
+              <div className="content1">
+                <img src={card2} alt="card1" />
+                <h2>REMAPING</h2>
+                <p>
+                  We provide a professional ECU remapping service to meet your
+                  needs. For all makes & models, Petrol or Diesel.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="card">
-          <div className="content">
-            <img src={tyre} alt="mot" />
-            <div className="content1">
-              <img src={card3} alt="card1" />
-              <h2>TYRES</h2>
-              <p>
-                We are your local, independent tyre dealer, and we specialize in
-                car tyres, van tyres, 4x4 tyres & high-performance tyres.
-              </p>
+          <div className="card">
+            <div className="content">
+              <img src={wheel} alt="mot" />
+              <div className="content1">
+                <img src={card6} alt="card1" />
+                <h2>WHEEL ALIGNMENT</h2>
+                <p>
+                  We specialize in reducing your tyre wear, giving you better
+                  fuel mileage, improved handling from drifting tyres and a
+                  safer driving experience.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="cards">
-        <div className="card">
-          <div className="content">
-            <img src={remaping} alt="mot" />
-            <div className="content1">
-              <img src={card2} alt="card1" />
-              <h2>REMAPING</h2>
-              <p>
-                We provide a professional ECU remapping service to meet your
-                needs. For all makes & models, Petrol or Diesel.
-              </p>
+          <div className="card">
+            <div className="content">
+              <img src={diag} alt="mot" />
+              <div className="content1">
+                <img src={card5} alt="card1" />
+                <h2>DIAGNOSTICS</h2>
+                <p>
+                  Our technicians are equipped with state-of-the-art diagnostic
+                  equipment to ensure that your vehicle is diagnosed right the
+                  first time, every time.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="card">
-          <div className="content">
-            <img src={wheel} alt="mot" />
-            <div className="content1">
-              <img src={card6} alt="card1" />
-              <h2>WHEEL ALIGNMENT</h2>
-              <p>
-                We specialize in reducing your tyre wear, giving you better fuel
-                mileage, improved handling from drifting tyres and a safer
-                driving experience.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="card">
-          <div className="content">
-            <img src={diag} alt="mot" />
-            <div className="content1">
-              <img src={card5} alt="card1" />
-              <h2>DIAGNOSTICS</h2>
-              <p>
-                Our technicians are equipped with state-of-the-art diagnostic
-                equipment to ensure that your vehicle is diagnosed right the
-                first time, every time.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="card">
-          <div className="content">
-            <img src={diag2} alt="mot" />
-            <div className="content1">
-              <img src={card2} alt="card1" />
-              <h2>POWERS</h2>
-              <p>
-                A turbocharger gives an engine extra power without sacrificing
-                fuel efficiency. It is typically added to smaller engines to
-                improve performance.
-              </p>
+          <div className="card">
+            <div className="content">
+              <img src={diag2} alt="mot" />
+              <div className="content1">
+                <img src={card2} alt="card1" />
+                <h2>POWERS</h2>
+                <p>
+                  A turbocharger gives an engine extra power without sacrificing
+                  fuel efficiency. It is typically added to smaller engines to
+                  improve performance.
+                </p>
+              </div>
             </div>
           </div>
         </div>

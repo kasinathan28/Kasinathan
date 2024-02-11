@@ -1,0 +1,140 @@
+
+
+.checkout-page .navbar h1 {
+    display: flex;
+    letter-spacing: 10px;
+    color: #fff;
+    font-size: 54px;
+    margin-left: 30px;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .checkout-page .backbtn {
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    margin-left: 20px;
+    background: #b6afaf;
+  }
+
+
+.checkout-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkout-pro{
+    justify-content: center;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    height: 85vh;
+    margin: auto;
+}
+
+.checkout-card{
+    width: 100%;
+    color: #fff;
+    height: 100%;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.checkout-card img{
+    width: 100%;
+    height: auto;
+}
+
+
+.checkout-details {
+    width: 400px;
+    height: auto;
+    left: 0;
+    margin-top: auto;
+    bottom: 0;
+    position: absolute;
+    text-align: left;
+    margin-left: 50px;
+    margin-bottom: 70px;
+    padding: 20px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.checkout-details p{
+    font-size: 18px;
+}
+
+.address-div {
+    margin: auto;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 85vh;
+    background: #fff;
+  }
+
+  .address-div h2{
+    float: left;
+    margin-left: 50px;
+    margin-right: auto;
+  }
+  
+  .checkout-form {
+    width: 90%;
+    height: 90%;
+    justify-content: center;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    background: #b9b5e2;
+    padding: 20px;
+    border-radius: 10px;
+   
+  }
+
+  .form-row1 {
+    display: flex;
+    flex-direction: column;
+   
+  }
+
+  .form-row1 label {
+    font-size: 16px;
+    color: #333;
+   
+  }
+
+  .form-row1 input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 97%;
+    font-size: 14px;
+  }
+
+  .submit-btn {
+    padding: 10px;
+    width: 200px;
+    border: none;
+    border-radius: 20px;
+    background: #333;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+   
+    float: right;
+    margin-left: auto;
+  }
+
+  .submit-btn:hover {
+    background: #555;
+  } 

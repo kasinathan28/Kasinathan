@@ -2,11 +2,7 @@ const nodemailer = require("nodemailer");
 const Feedback = require("../models/feedback");
 
 
-// erawlhpotlymhpor
 
-
-
-// Create a nodemailer transporter using your email service provider
 // Create a nodemailer transporter using your email service provider
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -15,9 +11,6 @@ const transporter = nodemailer.createTransport({
     pass: "erawlhpotlymhpor", // replace with your app password
   },
 });
-
-
-
 
 // Submit feedback
 exports.submitFeedback = async (req, res) => {
@@ -76,3 +69,21 @@ exports.getFeedbacks = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
+// Delete a feedback
+exports.deleteFeedBack = async (req, res) => {
+  const id = req.params.id; // Get the ID of the feedback from request parameters
+  console.log(id); // Log the ID for debugging
+  
+  try {
+    const feedback = await Feedback.findByIdAndDelete(id); // Find the feedback by ID and delete it
+    if (!feedback) {
+      return res.status(404).json({ error: "Feedback not found" }); // If feedback not found, return 404
+    }
+    res.status(200).json({ message: "Feedback deleted successfully" }); // Respond with success message
+  } catch (error) {
+    console.log("Error deleting the feedback", error);
+    res.status(500).json({ error: "An error occurred while deleting feedback" }); // Respond with error status
+  }
+}

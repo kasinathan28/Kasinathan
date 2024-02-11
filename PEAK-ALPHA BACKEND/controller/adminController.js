@@ -4,6 +4,7 @@ const Admins = require("../models/Admin");
 const Users = require("../models/Users");
 const Address = require("../models/Address");
 const Product = require("../models/products");
+const Admin = require("../models/Admin");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 // Admin login
@@ -17,12 +18,30 @@ exports.login = async (req, res) => {
       res.status(401).json({ error: "Invalid admin username or password" });
       return;
     }
-    res.status(200).json({ message: "Admin login successful" });
+    console.log(admin);
+    res.status(200).json({ message: "Admin login successful", admin });
   } catch (error) {
     console.error("Error during admin login:", error);
     res.status(500).json({ error: "An error occurred during admin login" });
   }
 };
+
+
+// Get admin Profile
+exports.getAdmin = async(req,res) =>{
+  console.log("Admin profile api called.");
+  const {id} = req.params;
+  console.log(id);
+  try{
+    const admin = await Admin.findById(id);
+    console.log(admin);
+    return res.status(200).json(admin);
+  }
+  catch(error){
+    console.log("Erro fetchinf the admin.", error);
+  }
+}
+
 
 // Get all products
 exports.getAllProducts = async (req, res) => {
@@ -37,6 +56,9 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
+
+
+// End point to add a new product.
 exports.addProduct = async (req, res) => {
   try {
     const { name, brand, description, price, priceId, quantity } = req.body;
@@ -80,6 +102,7 @@ exports.addProduct = async (req, res) => {
     });
   }
 };
+
 
 // Update Product by ID
 exports.updateProduct = async (req, res) => {
@@ -169,11 +192,10 @@ exports.updateStripeProduct = async (req, res) => {
 
 
 // Delete Product by ID and from Stripe
-exports.deleteProductAndStripe = async (req, res) => {
+exports.deleteProduct = async (req, res) => {
   try {
     const productId = req.params.productId;
-    const stripeId = req.params.stripeId;
-
+    
     // Check if the product exists in the local database
     const existingProduct = await Product.findById(productId);
     if (!existingProduct) {
@@ -181,7 +203,7 @@ exports.deleteProductAndStripe = async (req, res) => {
     }
 
     // Check if there are user-created prices associated with the product
-    const productInStripe = await stripe.products.retrieve(stripeId);
+    const productInStripe = await stripe.products.retrieve(existingProduct.stripeId);
     if (productInStripe.prices && productInStripe.prices.data.length > 0) {
       return res.status(400).json({ error: "Product has user-created prices" });
     }
@@ -195,8 +217,6 @@ exports.deleteProductAndStripe = async (req, res) => {
     res.status(500).json({ error: "An error occurred while deleting the product" });
   }
 };
-
-
 
 
 

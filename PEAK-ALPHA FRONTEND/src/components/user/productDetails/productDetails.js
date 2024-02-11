@@ -1,5 +1,3 @@
-// ProductDetails.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -7,14 +5,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAtlassian } from '@fortawesome/free-brands-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import './productsDetails.css';
+import Loader from '../../loader/Loader';
 
 function ProductDetails() {
   const [productDetails, setProductDetails] = useState({});
+  const [imageLoaded, setImageLoaded] = useState(false); // State to track image loading
   const { productId } = useParams();
   const navigate = useNavigate();
 
   const handleBack = () => {
     navigate('/dashboard');
+  };
+
+  const handleBuy = () => {
+    navigate(`/checkout/${productId}`);
   };
 
   useEffect(() => {
@@ -24,7 +28,6 @@ function ProductDetails() {
 
         if (response.data && response.data.product) {
           const { stripeId } = response.data.product;
-          setProductDetails(response.data.product);
 
           const stripeResponse = await axios.get(`https://api.stripe.com/v1/products/${stripeId}`, {
             headers: {
@@ -34,15 +37,14 @@ function ProductDetails() {
 
           const stripeProduct = stripeResponse.data;
 
-          if (stripeProduct) {
-            setProductDetails((prevDetails) => ({
-              ...prevDetails,
-              name: stripeProduct.name,
-              description: stripeProduct.description,
-              bg: stripeProduct.images[0],
+          setProductDetails({
+            ...response.data.product,
+            name: stripeProduct.name,
+            description: stripeProduct.description,
+            bg: stripeProduct.images[0],
+          });
 
-            }));
-          }
+          setImageLoaded(true); // Set imageLoaded to true after setting product details
         } else {
           console.error('Invalid or empty response:', response.data);
         }
@@ -70,17 +72,31 @@ function ProductDetails() {
       </div>
       <div className="main">
         <div className="background">
-          <img src={productDetails.bg} alt={productDetails.name}/>
+          {!imageLoaded && <Loader />} {/* Render the Loader component until the image is loaded */}
+          <img
+            src={productDetails.bg}
+            alt={productDetails.name}
+            style={{ display: imageLoaded ? 'block' : 'none' }} // Hide the image until it's loaded
+          />
         </div>
-        <div className="heading">
-          <h1>Preview</h1>
-        </div>
-        <div className="product-card1">
-          <img src={productDetails.image} alt={productDetails.name} />
-          <p>Name: {productDetails.name}</p>
-          <p>Description: {productDetails.description}</p>
-          <p>Price: ₹{productDetails.price}</p>
-        </div>
+        {imageLoaded && ( // Render page content after image is loaded
+          <>
+            <div className="heading">
+              <h1>Preview</h1>
+            </div>
+            <div className="product-card1">
+              <img src={productDetails.image} alt={productDetails.name} />
+              <p>Name: {productDetails.name}</p>
+              <p>Description: {productDetails.description}</p>
+              <p>Price: ₹{productDetails.price}</p>
+              <div>
+                <button className="buy-btn" onClick={handleBuy}>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import Profile from './components/user/profile/Profile';
 import Home from './components/admin/index/Index';
 import Cart from './components/user/cart/cart';
 import ProductDetails from './components/user/productDetails/productDetails';
+import CheckoutPage from './components/user/checkout/Checkout';
 
 function App() {
   return (
@@ -22,9 +23,10 @@ function App() {
           <Route path='/signup' element={<Signup/>}/>
           <Route path='/dashboard' element={<Dashboard/>}/>
           <Route path='/profile' element={<Profile/>}/>
-          <Route path='/admin' element={<Home/>}/>
+          <Route path='/admin/:id' element={<Home/>}/>
           <Route path='/cart' element={<Cart/>}/>
           <Route path="/productDetails/:productId" element={<ProductDetails />} />
+          <Route path="/checkout/:productId" element={<CheckoutPage />} />
         </Routes>
       </Router>
 

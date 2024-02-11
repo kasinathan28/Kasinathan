@@ -11,49 +11,31 @@ const accountSid = "ACe3e8a0c5012984c57f28389d766dc89d";
 const authToken = "e18ea88a2125204d2dcb0e0dfedf16f3";
 const twilioClient = twilio(accountSid, authToken);
 
-const upload = require("../multerConfig/storageConfig"); // Ensure multer is properly configured in storageConfig
-
-// Multer storage configuration
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, './uploads');
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, Date.now() + '-' + file.originalname);
-//   },
-// });
-
-// Inside your signup route handler
-// Inside your signup route handler
+const upload = require("../multerConfig/storageConfig");
 
 exports.signup = async (req, res) => {
   const { username, password, phoneNumber, email, otp } = req.body;
 
   try {
-    // Check if the session and OTP are defined
     if (!otp || otp !== req.body.otp) {
       res.status(400).json({ error: 'Invalid OTP' });
       return;
     }
 
-    // Clear the OTP from the session once used
     delete req.body.otp;
 
-    // Check if the username already exists
     const existingUsername = await Users.findOne({ username });
     if (existingUsername) {
       res.status(400).json({ error: 'Username already exists' });
       return;
     }
 
-    // Check if the phone number already exists
     const existingPhoneNumber = await Users.findOne({ phoneNumber });
     if (existingPhoneNumber) {
       res.status(400).json({ error: 'Phone number already exists' });
       return;
     }
 
-    // Check if the email already exists
     const existingEmail = await Users.findOne({ email });
     if (existingEmail) {
       res.status(400).json({ error: 'Email already exists' });
@@ -62,7 +44,7 @@ exports.signup = async (req, res) => {
 
     const newUser = new Users({
       username,
-      password, // Note: In a production environment, consider hashing the password before saving it to the database
+      password,
       phoneNumber,
       email,
     });
@@ -82,16 +64,14 @@ exports.generateAndSendOtp = async (req, res) => {
   const { phoneNumber, otp } = req.body;
 
   try {
-    // Validate that the provided OTP is not empty
     if (!otp) {
       res.status(400).json({ error: "Invalid OTP" });
       return;
     }
 
-    // Send the provided OTP to the specified phone number using Twilio
     await twilioClient.messages.create({
       body: `Your OTP for signup: ${otp}`,
-      to: `+91${phoneNumber}`, // Make sure to format the phone number correctly
+      to: `+91${phoneNumber}`, 
       from: "+18083536054",
     });
 
@@ -125,7 +105,7 @@ exports.login = async (req, res) => {
 
 /// fetching user data
 exports.getUserData = async (req, res) => {
-  const { username } = req.body; // Change to req.body since you are sending username in the request body
+  const { username } = req.body; 
 
   try {
     console.log("Received username:", username);
@@ -138,14 +118,12 @@ exports.getUserData = async (req, res) => {
       return;
     }
 
-    // Extract only necessary user data to send to the client
     const userData = {
       name: user.username,
       phoneNumber: user.phoneNumber,
       email: user.email,
       password: user.password,
       profilePicture: user.profilePicture,
-      // Add other fields as needed
     };
 
     console.log("User Data:", userData);
@@ -158,14 +136,12 @@ exports.getUserData = async (req, res) => {
 
 
 
-// Assuming multer is configured with the appropriate storage and is available in the 'upload' variable
-
+// update profile
 exports.updateprofile = async (req, res) => {
   const { username, name, phoneNumber, password, email } = req.body;
-  const { filename, path } = req.file; // Assuming multer provides the file information
+  const { filename, path } = req.file;
 
   try {
-    // Update the user profile in the database with the new file information
     const updateFields = {
       name,
       phoneNumber,
@@ -173,7 +149,6 @@ exports.updateprofile = async (req, res) => {
       email,
     };
 
-    // Add profilePicture to updateFields if it is provided
     if (path) {
       updateFields.profilePicture = { path };
     }
@@ -230,23 +205,18 @@ exports.updateAddress = async (req, res) => {
   const { pincode, city, houseName, landmark } = req.body;
 
   try {
-    // Find the user by username
     const user = await Users.findOne({ username });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Find or create the user's address based on the provided parameters
     const userAddress = await Address.findOneAndUpdate(
       { pincode, city, houseName, landmark },
       { pincode, city, houseName, landmark },
       { new: true, upsert: true }
     );
 
-  
-
-    // Update the user's address ID in the Users collection
     user.addressId = userAddress._id;
     await user.save();
 
@@ -272,7 +242,6 @@ exports.getAllProducts1 = async (req, res) => {
 
 exports.getAllProducts3 = async (req, res) => {
   try {
-    // Make a request to the Stripe API
     const response = await axios.get('https://api.stripe.com/v1/products', {
       headers: {
         Authorization: `Bearer sk_test_51Od4KTSF48OWvv58UGojVhgsx9EAR0yoi4za3ocnGYtqNjXaA1PFuIYwFzkz9nyY1Y0CwWSJ3sh1hSDgWcsJFJ2Q003A3cQeTs`,

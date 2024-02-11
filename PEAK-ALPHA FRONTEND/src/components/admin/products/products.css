@@ -63,6 +63,18 @@
 }
 
 
+.products-page .searchBar {
+  padding: 8px;
+  margin-top: 15px;
+  width: 250px;
+  margin-right: 10px;
+  margin-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+
 
 
 .products-page .main .card button:hover {
@@ -94,8 +106,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 400px; /* Adjusted width for better spacing */
-  height: 400px; /* Adjusted height for better spacing */
+  width: auto; 
+  height: 450px; 
   border-radius: 20px;
   margin: 30px;
   background: #fff;

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Products from "../products/Products";
 import Users from "../../admin/users/Users";
 import Feedback from "../feedback/Feedback";
+import AdminProfile from "../profile/AdminProfile";
+import Bookings from "../Bookings/Bookings";
 
 function Home() {
   const [activeItem, setActiveItem] = useState("Products");
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const handleItemClick = (item) => {
@@ -15,20 +18,13 @@ function Home() {
 
   const handleLogout = () => {
     // Implement your logout logic here
-    navigate('/');
+    navigate("/");
     console.log("Logout clicked");
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      // Close the dropdown when user clicks outside of it
-      // Add your logic here if needed
-    };
-
-    // Attach the event listener to the document body
+    const handleClickOutside = (event) => {};
     document.body.addEventListener("click", handleClickOutside);
-
-    // Cleanup the event listener on component unmount
     return () => {
       document.body.removeEventListener("click", handleClickOutside);
     };
@@ -96,8 +92,12 @@ function Home() {
 
         <div className="content">
           {activeItem === "Products" && <Products />}
-          {activeItem === "Users" && <Users/>}
-          {activeItem === "Feedbacks" && <Feedback/>}
+          {activeItem === "Users" && <Users />}
+          {activeItem === "Feedbacks" && <Feedback />}
+          {activeItem === "Profile" && <AdminProfile />}
+          {activeItem === "Bookings" && <Bookings />}
+
+
         </div>
       </div>
     </div>

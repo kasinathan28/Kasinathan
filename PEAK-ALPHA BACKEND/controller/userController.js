@@ -239,7 +239,7 @@ exports.getAllProducts1 = async (req, res) => {
 };
 
 
-
+// Get the product details from the stripe.
 exports.getAllProducts3 = async (req, res) => {
   try {
     const response = await axios.get('https://api.stripe.com/v1/products', {
@@ -253,5 +253,45 @@ exports.getAllProducts3 = async (req, res) => {
   } catch (error) {
     console.error('Error fetching products from Stripe API:', error);
     res.status(500).json({ error: 'An error occurred while fetching products from Stripe API' });
+  }
+};
+
+
+// API for making the purchase.
+exports.makePurchase = async (req, res) => {
+  const { productId } = req.params;
+  const { priceId, shippingDetails } = req.body;
+
+  console.log("price ID", priceId);
+
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+  console.log(stripe);
+  try {
+    // Fetch product details from the database using productId
+    const product = await Product.findById(productId);
+    console.log("Product found:", product);
+
+    // Create a Checkout session on Stripe
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: priceId, // Use the Stripe ID obtained from the product
+          quantity: 1, // Assuming quantity is 1, modify as needed
+        },
+      ],
+      // payment_method_types: ['card'],
+      mode: 'payment',
+      currency: 'inr',
+      success_url: 'http://localhost:3000/success', 
+      cancel_url: 'http://localhost:3000/cancel',
+    });
+
+    // Store session ID if needed
+    const storedSessionId = session.id;
+    console.log("Stored Session ID:", storedSessionId);
+    res.json({ url: session.url, sessionId: session.id });
+  } catch (error) {
+    console.error("Error making purchase:", error);
+    res.status(500).json({ error: "Failed to make purchase" });
   }
 };

@@ -57,6 +57,7 @@ import card5 from "../../assets/card5.png";
 import card6 from "../../assets/card6.png";
 import call from "../../assets/call.jpeg";
 import email from "../../assets/email.png";
+import Loader from "../loader/Loader";
 const images = [car1, car2, car3];
 
 function Index() {
@@ -64,11 +65,9 @@ function Index() {
   const servicesRef = useRef(null);
   const contactsRef = useRef(null);
   const feedbackRef = useRef(null);
-  const [loading, setLoading] = useState(false);
-
   const [adminLoginLoading, setAdminLoginLoading] = useState(false);
-
-  // for feedbacks
+  
+  const [loading, setLoading] = useState(true); // Set loading to true initially
 
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
@@ -77,6 +76,18 @@ function Index() {
   // for admin login
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 6000);
+
+    return () => clearTimeout(timeout); 
+  }, []);
+
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -257,6 +268,10 @@ function Index() {
       clearInterval(imageInterval);
     };
   }, []);
+
+  if (loading) {
+    return <Loader loading={loading} />;
+  }
 
   return (
     <div className="indexpage">

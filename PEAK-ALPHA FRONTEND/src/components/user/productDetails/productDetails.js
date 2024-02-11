@@ -1,26 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAtlassian } from '@fortawesome/free-brands-svg-icons';
-import { useNavigate } from 'react-router-dom';
 import './productsDetails.css';
-import Loader from '../../loader/Loader';
+import LoaderMain from '../../loadermain/LoaderMain';
+import ShippingPopUp from '../shippingAddresspopup/ShippingPopUp';
 
 function ProductDetails() {
   const [productDetails, setProductDetails] = useState({});
-  const [imageLoaded, setImageLoaded] = useState(false); // State to track image loading
+  const [imageLoaded, setImageLoaded] = useState(false); 
+  const [showShippingPopup, setShowShippingPopup] = useState(false); 
   const { productId } = useParams();
+
   const navigate = useNavigate();
 
+  // Handle back 
   const handleBack = () => {
-    navigate('/dashboard');
+    navigate("/dashboard");
   };
 
+  // to show the shipping address popup 
   const handleBuy = () => {
-    navigate(`/checkout/${productId}`);
+    setShowShippingPopup(true); 
   };
 
+  // Fetch the product details from the database and the stripe
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
@@ -44,7 +49,7 @@ function ProductDetails() {
             bg: stripeProduct.images[0],
           });
 
-          setImageLoaded(true); // Set imageLoaded to true after setting product details
+          setImageLoaded(true); 
         } else {
           console.error('Invalid or empty response:', response.data);
         }
@@ -72,20 +77,19 @@ function ProductDetails() {
       </div>
       <div className="main">
         <div className="background">
-          {!imageLoaded && <Loader />} {/* Render the Loader component until the image is loaded */}
+          {!imageLoaded && <LoaderMain />} 
           <img
             src={productDetails.bg}
             alt={productDetails.name}
-            style={{ display: imageLoaded ? 'block' : 'none' }} // Hide the image until it's loaded
+            style={{ display: imageLoaded ? 'block' : 'none' }} 
           />
         </div>
-        {imageLoaded && ( // Render page content after image is loaded
+        {imageLoaded && ( 
           <>
             <div className="heading">
               <h1>Preview</h1>
             </div>
             <div className="product-card1">
-              <img src={productDetails.image} alt={productDetails.name} />
               <p>Name: {productDetails.name}</p>
               <p>Description: {productDetails.description}</p>
               <p>Price: ₹{productDetails.price}</p>
@@ -98,6 +102,8 @@ function ProductDetails() {
           </>
         )}
       </div>
+      {/* Render the ShippingAddressPopup if showShippingPopup state is true */}
+      {showShippingPopup && <ShippingPopUp onClose={() => setShowShippingPopup(false)} />}
     </div>
   );
 }

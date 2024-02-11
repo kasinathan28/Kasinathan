@@ -46,11 +46,14 @@ router.get("/getCart", cartController.getCart);
 // Router to fetch the details of the cart products
 router.post("/getProductDetails", cartController.getProductDetails);
 
-// Router for fetching single product details in view page
+// Router for fetching single product details in details page
 router.get("/getProductDetails/:productId", ProductDetailsController.getProductDetails);
 
 // Router for getting logged in admin 
 router.get("/getAdmin/:id", adminController.getAdmin);
+
+// Router for making purchase on the stripe
+router.post('/purchase/:productId', userController.makePurchase);
 // End of users API
 
 
@@ -71,9 +74,7 @@ router.put('/updateProduct/:productId', adminController.updateProduct);
 router.post('/updateStripeProduct/:productId', adminController.updateStripeProduct);
 
 // Roouter for deleting the product
-
 // router.delete('/deleteProduct/:productId', adminController.deleteProduct);
-
 router.delete('/deleteProduct/:productId', adminController.deleteProduct);
 
 // Router for getting all the users in the database 

@@ -21,10 +21,10 @@ function App() {
           <Route path="/" element={<Index/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/signup' element={<Signup/>}/>
-          <Route path='/dashboard' element={<Dashboard/>}/>
-          <Route path='/profile' element={<Profile/>}/>
+          <Route path='/dashboard/:profileId' element={<Dashboard/>}/>
+          <Route path='/profile/:profileId' element={<Profile/>}/>
           <Route path='/admin/:id' element={<Home/>}/>
-          <Route path='/cart' element={<Cart/>}/>
+          <Route path='/cart/:profileId' element={<Cart/>}/>
           <Route path="/productDetails/:productId" element={<ProductDetails />} />
           <Route path="/checkout/:productId" element={<CheckoutPage />} />
         </Routes>

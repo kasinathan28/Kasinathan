@@ -36,14 +36,14 @@ function Login() {
       // Check the response and handle accordingly
       if (response.status === 200) {
         const { token, message } = response.data;
-  
+        console.log(response.data);
+        const profileId = (response.data.user._id);
         localStorage.setItem("token", token);
         localStorage.setItem("username",username);
   
-        // Introduce a minimum timeout of 2 seconds for the success toast
         setTimeout(() => {
           toast.success(message);
-          navigate("/dashboard", { state: { username } });
+          navigate(`/dashboard/:${profileId}`, { state: { username } });
         }, 2000);
       } else {
         // Introduce a minimum timeout of 2 seconds for the error toast

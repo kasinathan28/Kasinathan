@@ -1,6 +1,3 @@
-.user-dash {
-  font-family: "Arial", sans-serif;
-}
 
 .user-dash .navbar {
   width: 100%;
@@ -17,11 +14,15 @@
   color: #fff;
   font-size: 54px;
   margin-left: 30px;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  letter-spacing: 20px;
   align-items: center;
   justify-content: center;
 }
 
+.user-dash .navbar .logo1
+{
+  margin-right: 20px;
+}
 .left-section {
   display: flex;
   align-items: center;
@@ -31,7 +32,6 @@
   cursor: pointer;
   padding: 10px;
   margin-right: 15px;
-  color: #132e35;
 }
 
 .searchBar {
@@ -51,7 +51,7 @@
   padding: 10px;
   font-size: 18px;
   margin-right: 15px;
-  color: #132e35;
+  color: #fff;
 }
 
 .category-button {
@@ -147,7 +147,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #132e35;
+  color: #132e35;
+  background: #dfc8ea;
   position: relative;
   width: 290px;
   overflow: hidden;
@@ -159,7 +160,6 @@
   left: 0;
   width: 290px;
   z-index: 100;
-  /* Add any other styles for the fixed position */
 }
 
 
@@ -173,6 +173,10 @@
 .user-dash .sidebar .price {
   width: 100%;
   margin-bottom: 20px;
+}
+
+.brand h3{
+  color: #132e35;
 }
 
 .user-dash .sidebar .userul {
@@ -199,11 +203,19 @@
 .user-dash .sidebar input[type="checkbox"] {
   cursor: pointer;
   width: 50px;
-  height: 15px;
+  height: 18px;
 }
 
 .user-dash .sidebar label:hover {
   color: #ffcc00;
+}
+
+.user-dash .sidebar li:hover{
+background: #dfc8ea;
+}
+
+.user-dash .sidebar strong:hover{
+  color:#132e35;
 }
 
 .user-dash .sidebar h3 {

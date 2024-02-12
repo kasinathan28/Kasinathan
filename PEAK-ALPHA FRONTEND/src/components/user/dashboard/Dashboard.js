@@ -6,7 +6,7 @@ import { faAtlassian } from "@fortawesome/free-brands-svg-icons";
 import { faShoppingCart, faHome } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import "./dashboard.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import HamburgerMenu from "react-hamburger-menu";
 import ad1 from "../../../assets/corossial 1.png";
 import ad2 from "../../../assets/ad2.png";
@@ -15,6 +15,8 @@ import axios from "axios";
 import Products from "../products/Products";
 
 function Dashboard() {
+  const demoProfileId = useParams();
+  const profileId = demoProfileId.profileId;
   const [isOpen, setIsOpen] = useState(false);
   const images = [ad1, ad2, ad3];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -117,7 +119,7 @@ function Dashboard() {
   };
 
   const handleCart= () =>{
-    navigate("/cart")
+    navigate(`/cart/:${profileId}`);
   }
 
   return (
@@ -128,7 +130,8 @@ function Dashboard() {
             PEAK
             <FontAwesomeIcon
               icon={faAtlassian}
-              style={{ color: "#132e35" }}
+              className="logo1"
+              style={{ color: "#b9b5e2" }}
             />
             LPHA
           </h1>
@@ -139,13 +142,13 @@ function Dashboard() {
           }`}
         >
           <div className="home-button">
-            <FontAwesomeIcon icon={faHome} style={{ color: "#132e35" }} />
+            <FontAwesomeIcon icon={faHome} style={{ color: "#b9b5e2" }} />
             HOME
           </div>
           <div className="cart-button" onClick={handleCart}>
             <FontAwesomeIcon
               icon={faShoppingCart}
-              style={{ color: "#132e35" }}
+              style={{ color: "#b9b5e2" }}
             />
             CART
           </div>
@@ -167,7 +170,7 @@ function Dashboard() {
               height={20}
               strokeWidth={3}
               rotate={0}
-              color="#132e35"
+              color="#b9b5e2"
               borderRadius={0}
               animationDuration={0.5}
             />

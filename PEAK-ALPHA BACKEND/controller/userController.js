@@ -95,7 +95,7 @@ exports.login = async (req, res) => {
       res.status(401).json({ error: "Invalid username or password" });
       return;
     }
-    res.status(200).json({ message: "Login successful" });
+    res.status(200).json({ message: "Login successful",user });
   } catch (error) {
     console.error("Error during login:", error);
     res.status(500).json({ error: "An error occurred during login" });
@@ -268,7 +268,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
   console.log(stripe);
   try {
     // Fetch product details from the database using productId
-    const product = await Product.findById(productId);
+    const product = await Product.efindById(productId);
     console.log("Product found:", product);
 
     // Create a Checkout session on Stripe

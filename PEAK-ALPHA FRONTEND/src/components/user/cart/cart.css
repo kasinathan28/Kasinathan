@@ -5,7 +5,6 @@
   color: #fff;
   font-size: 54px;
   margin-left: 30px;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   align-items: center;
   justify-content: center;
 }
@@ -26,9 +25,9 @@
 }
 
 .cart .main .heading {
-  color: #000;
+  color: #fff;
   float: left;
-  width: auto;
+  width: 400px;
   font-size: 24px;
 }
 
@@ -44,7 +43,7 @@
   height: auto;
   margin: 10px;
   margin-top: 120px;
-  margin-bottom: 150px; /* Adjust this value as needed */
+  margin-bottom: 150px;
   display: flex;
   flex-wrap: wrap;
   padding: 20px;
@@ -143,7 +142,7 @@
   align-items: center;
   justify-content: center;
   color: #fff;
-  z-index: 2; /* Add this line */
+  z-index: 2;
 }
 
 

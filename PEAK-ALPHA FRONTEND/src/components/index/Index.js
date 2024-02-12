@@ -55,8 +55,9 @@ import card3 from "../../assets/card3.png";
 import card4 from "../../assets/card4.png";
 import card5 from "../../assets/card5.png";
 import card6 from "../../assets/card6.png";
-import call from "../../assets/call.jpeg";
-import email from "../../assets/email.png";
+import call from "../../assets/call.png";
+import EmailVect from "../../assets/email.png";
+import CardLoader from "../../assets/carloader.gif";
 import Loader from "../loader/Loader";
 const images = [car1, car2, car3];
 
@@ -66,9 +67,7 @@ function Index() {
   const contactsRef = useRef(null);
   const feedbackRef = useRef(null);
   const [adminLoginLoading, setAdminLoginLoading] = useState(false);
-  
-  const [loading, setLoading] = useState(true); // Set loading to true initially
-
+  const [loading, setLoading] = useState(true);
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [message, setmessage] = useState("");
@@ -78,17 +77,18 @@ function Index() {
   const [password, setPassword] = useState("");
 
 
-
+// set loading time
   useEffect(() => {
+
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 6000);
+    }, 3000);
 
     return () => clearTimeout(timeout); 
   }, []);
 
 
-
+// Handle admin Login 
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -108,16 +108,13 @@ function Index() {
         console.log(id);
         navigate(`/admin/${id}`);
       } else {
-        // Admin login failed, handle accordingly
         toast.error("Login Failed.");
 
         console.error("Admin login failed");
       }
     } catch (error) {
-      // Handle API call error
       console.error("Error during admin login:", error);
     } finally {
-      // Set admin login loading back to false when the login process is complete
       setAdminLoginLoading(false);
     }
   };
@@ -151,17 +148,14 @@ function Index() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Set feedback form loading to true when the feedback submission starts
     setLoading(true);
 
     const submitFeedback = async () => {
       try {
-        // Set a timeout of, for example, 10 seconds (adjust as needed)
         const timeoutPromise = new Promise((_, reject) =>
           setTimeout(() => reject(new Error("Timeout exceeded")), 10000)
         );
 
-        // Perform the actual API request
         const feedbackPromise = axios.post(
           "http://localhost:5000/submit-feedback",
           {
@@ -171,10 +165,8 @@ function Index() {
           }
         );
 
-        // Wait for either the feedback request or the timeout to resolve
         const response = await Promise.race([feedbackPromise, timeoutPromise]);
 
-        // Check the response and handle accordingly
         if (response && response.status === 201) {
           toast.success(response.data.message);
         } else {
@@ -184,13 +176,10 @@ function Index() {
         console.error("Error submitting feedback:", error);
         toast.error("An error occurred while submitting feedback");
       } finally {
-        // Set feedback form loading back to false when the feedback submission is complete
         setLoading(false);
 
-        // Set a minimum time for showing the loading (e.g., 2 seconds)
         const minimumLoadingTime = 2000;
 
-        // Use setTimeout for an asynchronous delay
         await new Promise((resolve) => setTimeout(resolve, minimumLoadingTime));
       }
     };
@@ -273,6 +262,7 @@ function Index() {
     return <Loader loading={loading} />;
   }
 
+  
   return (
     <div className="indexpage">
       {loading && <div className="loading-spinner">Loading...</div>}
@@ -283,6 +273,7 @@ function Index() {
             PEAK
             <FontAwesomeIcon icon={faAtlassian} style={{ color: "#dfc8ea" }} />
             LPHA
+            <img className="logoImg" src={CardLoader}/>
           </div>
         </div>
 
@@ -352,9 +343,10 @@ function Index() {
           <div className="div1">
             <p>
               Discover the perfect vehicle and all the body parts you need in
-              one convenient place! At Peak
+              one convenient place! At "<strong>
+                Peak
               <FontAwesomeIcon icon={faAtlassian} className="logo" />
-              lpha , we understand that finding the right vehicle and sourcing
+              lpha </strong>", we understand that finding the right vehicle and sourcing
               quality body parts can be a challenge. That's why we've created a
               user-friendly platform that simplifies the process.
             </p>
@@ -543,12 +535,12 @@ function Index() {
 
             <div className="sub1">
               <div className="subcircle">
-                <img src={email} alt="email" />
+                <img src={EmailVect} alt="email" />
               </div>
               <ul>
+                <li>peakalpha2024@gmail.com</li>
                 <li>way2kasinathb35@gmail.com</li>
-                <li></li>
-                <li></li>
+                <li>Demo@gmail.com</li>
               </ul>
             </div>
           </div>

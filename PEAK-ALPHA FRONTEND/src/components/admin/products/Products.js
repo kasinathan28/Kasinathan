@@ -228,16 +228,16 @@ function Products() {
             </div>
             <div>
               <h3>{product.name}</h3>
-              <p>{product.brand}</p>
+              <h3>{product.brand}</h3>
               <div>
-                <p>{product.description}</p>
+                <p><strong>{product.description}</strong></p>
               </div>
               <div>
-                <p>Stripe ID :{product.stripeId}</p>
-                <p>Price ID: {product.priceId}</p>
-                <p>Price: Rs.{product.price}</p>
+                <p><strong>Stripe ID :</strong>{product.stripeId}</p>
+                <p><strong>Price ID:</strong> {product.priceId}</p>
+                <p><strong>Price: Rs.</strong>{product.price}</p>
               </div>
-              <p>Quantity: {product.quantity}</p>
+              <p><strong>Quantity: </strong>{product.quantity}</p>
               <div className="product-card-button">
                 <button
                   className="edit"

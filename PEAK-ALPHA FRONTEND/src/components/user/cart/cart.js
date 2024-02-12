@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAtlassian } from "@fortawesome/free-brands-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./cart.css";
 
 const Cart = () => {
+  const demoProfileId = useParams();
+  const profileId = demoProfileId.profileId;
   const [userCart, setUserCart] = useState([]);
   const [productDetails, setProductDetails] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
@@ -13,8 +15,9 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate("/dashboard");
+    navigate(`/dashboard/:${profileId}`);
   };
+
 
   useEffect(() => {
     const fetchUserCart = async () => {

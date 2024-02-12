@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
+
 function Products({ selectedBrands, selectedPrices }) {
   const [filteredProducts, setFilteredProducts] = useState([]);
 

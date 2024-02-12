@@ -1,11 +1,11 @@
 
 .navbar {
-  background-color: #92a4b1;
+  background-color:#22395c;
   width: 100%;
-  height: 140px;
+  height: 160px;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 999;
 }
 
 .navbar .logo {
@@ -21,15 +21,20 @@
   font-size: 54px;
 }
 
+
+.navbar .logoImg{
+  width: 400px;
+  height: 100px;
+  object-fit: contain;
+  mix-blend-mode:lighten;
+  float: left;
+}
+
+
 .navbar .div1 {
   width: 1100px;
-  height: 60px;
-  background: rgba(
-    60,
-    86,
-    101,
-    0.7
-  ); 
+  height: 80px;
+  background-color: #b9b5e2;
   float: right;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%);
   backdrop-filter: blur(10px); 
@@ -39,7 +44,7 @@
   margin-left: 10px;
   text-decoration: none;
   width: 150px;
-  height: 60px;
+  height: 80px;
   float: right;
   margin-right: 30px;
   display: flex;
@@ -48,7 +53,6 @@
 }
 
 .navbar .div2 button {
- 
   display: flex;
   align-items: center;
   font-size: 16px;
@@ -56,14 +60,17 @@
   background-color: #29343d;
   color: #fff;
   width: 100%;
-  height: 100%;
+  height: 80%;
   border: none;
+  margin: 10px;
+  border-radius: 20px;
+  transition: 0.3s ease all;
   cursor: pointer;
 }
 
 .navbar .div3 {
   width: 150px;
-  height: 60px;
+  height: 80px;
   float: right;
   display: flex;
   align-items: center;
@@ -73,28 +80,46 @@
 .navbar .div4,
 .div5 {
   width: 100px;
-  height: 60px;
+  height: 80px;
   float: right;
   display: flex;
   align-items: center;
   margin-right: 100px;
   color: #fff;
-  margin-left: auto;
+  font-size: 18px;
+  margin-left: 150px;
+}
+
+.navbar .div4 .timestamp{
+  margin-left: -100px;
 }
 
 .navbar .div3 button {
-
   display: flex;
   font-size: 16px;
   align-items: center;
   justify-content: center;
   background-color: #29343d;
   color: #fff;
+  margin: 10px;
+  border-radius: 20px;
   width: 100%;
-  height: 100%;
+  height: 80%;
   border: none;
   cursor: pointer;
+  transition: 0.3s ease all;
 }
+
+.navbar .div3 button:hover{
+  background: #fff;
+  color: #000 ;
+}
+
+.navbar .div2 button:hover{
+  color: #000;
+  background: #fff;
+}
+
 
 .navbar .div6 {
   margin-left: auto; 
@@ -106,7 +131,6 @@
 }
 
 .navbar .div6 button {
- 
   font-size: 16px;
   border: none;
   cursor: pointer;
@@ -120,7 +144,7 @@
 .navbar .div6 button:hover {
   background-color: transparent; 
   transform: scale(1.2); 
-  color: #29343d; 
+  color: #6d98b3; 
 }
 
 
@@ -204,12 +228,13 @@
   overflow: hidden;
   padding-bottom: 80px;
   position: relative;
-  background: #3c5665;
+  background: #22395c;
 }
 
 .about h2 {
   text-align: left;
   margin-left: 100px;
+  margin-top: 50px;
   color: #fff;
   font-size: 34px;
 }
@@ -217,21 +242,24 @@
 .about .main {
   display: flex;
 }
+
 .about .div1 {
   margin-top: 30px;
   position: relative;
   width: 900px;
   text-wrap: wrap;
   height: 300px;
-  background: #132e35;
+  background: #b9b5e2;
 }
+
 .about .div1 p {
   justify-content: center;
-  margin: 30px;
   text-align: left;
+  margin: 30px;
+  align-items: center;
   margin-left: 40px;
-  color: #fff;
-  margin-top: 50px;
+  color: #22395c;
+  font-weight: 400;
   font-size: 28px;
   line-height: 45px;
 }
@@ -242,10 +270,9 @@
   right: -300px; 
   width: 300px; 
   height: 100%;
-
   background: linear-gradient(
     to right,
-    #132e35,
+    #b9b5e2,
     #fff
   ); 
   border-radius: 0 100% 100% 0; 
@@ -283,14 +310,16 @@
   position: relative;
   width: 900px;
   height: 300px;
-  background: #132e35;
+  background: #b9b5e2;
 }
+
 .about .div4 p {
   justify-content: center;
   margin: 30px;
   text-align: left;
   margin-left: 40px;
-  color: #fff;
+  color: #22395c;
+  font-weight: 400;
   margin-top: 50px;
   font-size: 28px;
   line-height: 45px;
@@ -302,10 +331,11 @@
   top: 0;
   left: -300px; 
   width: 300px; 
+  height: 100%;
   background: linear-gradient(
     to right,
     #fff,
-    #132e35
+    #b9b5e2
   ); 
   border-radius: 100% 0 0 100%;
 }
@@ -365,17 +395,18 @@
   justify-content: center;
   margin-top: 50px; 
 }
+
 .vectors .card {
   width: 250px;
   height: 250px;
   color: #fff;
   justify-content: center;
   transition: transform 0.3s ease-in-out, border-radius 0.3s ease-in-out,
-    box-shadow 0.3s ease-in-out; 
+  box-shadow 0.3s ease-in-out; 
   box-shadow: 0 0 20px rgba(82, 74, 74, 0.5);
-
   filter: none;
 }
+
 
 .vectors .card:hover {
   transform: scale(1.05) translate(10%, -10%);
@@ -418,7 +449,7 @@
 
 .cards {
   width: auto;
-  background: #fff;
+  background: #b9b5e2;
   height: auto;
   display: flex;
   margin: 20px;
@@ -443,7 +474,7 @@
   margin: 0;
   margin-right: 50px;
   height: 450px;
-  background: #132e35;
+  background: #22395c;
   color: #fff;
   border-radius: 30px;
 }
@@ -493,11 +524,11 @@
 .contacts .main {
   display: flex;
   margin: 50px;
-  background: url("../../assets/bg3.png");
   border-radius: 20px;
-
   gap: 10px;
 }
+
+
 .contacts .circle {
   width: 50%;
   height: auto;
@@ -535,8 +566,6 @@
 }
 
 .sub1 li {
-  margin-bottom: 15px;
-  color: #000;
   width: 300px;
   font-size: 18px;
   font-weight: bold;
@@ -544,6 +573,8 @@
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   transition: background-color 0.5s ease;
+  list-style-type: none; /* Hides the indicator */
+
 }
 
 .sub1 li:hover {
@@ -581,6 +612,7 @@ footer {
   height: 430px;
   background: #3c5665;
   display: flex;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask2194%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='url(%26quot%3b%23SvgjsLinearGradient2195%26quot%3b)'%3e%3c/rect%3e%3cpath d='M1002.506%2c99.233C1017.069%2c98.79%2c1026.121%2c84.979%2c1032.967%2c72.118C1039.283%2c60.253%2c1043.545%2c46.358%2c1036.857%2c34.699C1030.144%2c22.997%2c1015.986%2c18.481%2c1002.506%2c19.014C989.991%2c19.509%2c979.118%2c26.571%2c972.559%2c37.241C965.629%2c48.513%2c962.905%2c62.157%2c968.661%2c74.072C975.215%2c87.639%2c987.446%2c99.691%2c1002.506%2c99.233' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M849.5 128.96 a152.55 152.55 0 1 0 305.1 0 a152.55 152.55 0 1 0 -305.1 0z' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M1313.0776841044012 446.6146031547516L1344.2224702552035 300.0899044764193 1197.6977715768712 268.94511832561693 1166.552985426069 415.4698170039493z' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M263.729%2c529.582C288.973%2c529.242%2c317.56%2c527.842%2c330.373%2c506.089C343.305%2c484.135%2c332.906%2c457.055%2c319.045%2c435.675C306.588%2c416.461%2c286.625%2c403.695%2c263.729%2c403.298C240.103%2c402.889%2c218.107%2c414.044%2c204.99%2c433.699C190.106%2c456.002%2c179.897%2c485.061%2c193.904%2c507.925C207.548%2c530.196%2c237.613%2c529.933%2c263.729%2c529.582' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M977.4 443.77 a102.39 102.39 0 1 0 204.78 0 a102.39 102.39 0 1 0 -204.78 0z' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M574.1815776801516 561.2999258372258L636.628477975685 619.5326024453451 694.8611545838043 557.0857021498116 632.4142542882709 498.85302554169243z' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M395.84 449.87 a145.34 145.34 0 1 0 290.68 0 a145.34 145.34 0 1 0 -290.68 0z' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M425.168%2c101.658C448.954%2c100.88%2c471.917%2c92.112%2c484.899%2c72.165C499.189%2c50.208%2c504.159%2c22.306%2c491.872%2c-0.832C478.884%2c-25.289%2c452.802%2c-42.096%2c425.168%2c-40.312C399.783%2c-38.673%2c384.54%2c-15.151%2c371.882%2c6.914C359.31%2c28.828%2c345.88%2c54.286%2c358.265%2c76.306C370.795%2c98.585%2c399.621%2c102.493%2c425.168%2c101.658' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float2'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask2194'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3clinearGradient x1='50%25' y1='0%25' x2='50%25' y2='100%25' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient2195'%3e%3cstop stop-color='%230e2a47' offset='0'%3e%3c/stop%3e%3cstop stop-color='rgba(44%2c 25%2c 94%2c 1)' offset='1'%3e%3c/stop%3e%3c/linearGradient%3e%3cstyle%3e %40keyframes float1 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-10px%2c 0)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float1 %7b animation: float1 5s infinite%3b %7d %40keyframes float2 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-5px%2c -5px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float2 %7b animation: float2 4s infinite%3b %7d %40keyframes float3 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(0%2c -10px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float3 %7b animation: float3 6s infinite%3b %7d %3c/style%3e%3c/defs%3e%3c/svg%3e");
 }
 
 footer .div1,
@@ -592,21 +624,26 @@ footer .div3 {
 }
 
 footer .div1 {
-  background-color: #537c8e;
+  text-align: left;
 }
+
 footer .div1 h1 {
+  margin-left: 40px;
   color: #fff;
   letter-spacing: 10px;
 }
+
 footer .div1 p {
   color: #fff;
+  margin-left: 40px;
   font-size: 18px;
 }
+
 footer .div1 h2 {
   color: #fff;
   font-size: 18px;
   text-align: left;
-  margin-left: 30px;
+  margin-left: 40px;
   margin-top: 30px;
 }
 
@@ -614,7 +651,7 @@ footer .div1 h2 {
   display: flex;
   flex-direction: column;
   float: left;
-  margin-left: 40px;
+  margin-left: 50px;
 }
 
 .social-icons a {
@@ -638,12 +675,11 @@ footer .div1 h2 {
   color: #007bff; 
 }
 
-footer .div2 {
-  background-color: #608aa0;
-}
+
 
 footer .div2 .admin-login-container {
   display: flex;
+  margin-right: 80px;
   flex-direction: column;
   align-items: center;
 }
@@ -663,6 +699,7 @@ footer .div2 .admin-login-container p {
   background-color: #fff;
   border-radius: 50%;
 }
+
 .profile-picture svg {
   text-align: center;
   font-size: 100px; 
@@ -696,16 +733,20 @@ input:focus {
 
 footer button {
   padding: 10px;
-  background-color: #3c5665;
+  background-color: #dfc8ea;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: 0.3s ease all;
+  color:#22395c;
 }
 
-footer .div3 {
-  background-color: #6d98b3;
+footer button:hover{
+  background: #22395c;
+  color: #fff;
 }
+
 footer .div3 h2 {
   color: #fff;
   font-size: 24px;
@@ -751,13 +792,14 @@ footer .div3 h2 {
 .feedback-form button {
   margin-top: 5px;
   padding: 12px;
-  background-color: #3c5665;
-  color: #fff;
+  background-color: #dfc8ea;
+  color:#22395c ;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
 .feedback-form button:hover {
-  background-color: #132e35;
+  background-color: #22395c;
+  color: #fff;
 }

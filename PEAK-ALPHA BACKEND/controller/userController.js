@@ -102,12 +102,12 @@ exports.login = async (req, res) => {
   }
 };
 
-
+// API for getting the user data
 exports.getUserData = async (req, res) => {
   const { profileId } = req.params;
-  
+
   try {
-    const user = await Users.findById(profileId); // Use findById to find user by profileId
+    const user = await Users.findById(profileId); 
   
     if (!user) {
       console.log("User not found for profileId:", profileId);
@@ -167,15 +167,11 @@ exports.updateprofile = async (req, res) => {
 };
 
 
-
-
-
 // Get user's address by username
 exports.getUserAddress = async (req, res) => {
-  const { username } = req.params;
-
+  const { profileId } = req.params;
   try {
-    const user = await Users.findOne({ username });
+    const user = await Users.findById(profileId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -193,6 +189,7 @@ exports.getUserAddress = async (req, res) => {
     res.status(500).json({ error: "An error occurred fetching user's address" });
   }
 };
+
 
 
 // Router for updating the address
@@ -222,6 +219,7 @@ exports.updateAddress = async (req, res) => {
     res.status(500).json({ error: "An error occurred during address update" });
   }
 };
+
 
 // get all products
 exports.getAllProducts1 = async (req, res) => {
@@ -253,31 +251,42 @@ exports.getAllProducts3 = async (req, res) => {
 };
 
 
-// API for making the purchase.
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 exports.makePurchase = async (req, res) => {
   const { productId } = req.params;
   const { priceId, shippingDetails } = req.body;
 
-  console.log("price ID", priceId);
+  const { fullName, address, phoneNumber, state, zipCode, country } = shippingDetails;
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-  console.log(stripe);
   try {
     // Fetch product details from the database using productId
-    const product = await Product.efindById(productId);
-    console.log("Product found:", product);
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
 
     // Create a Checkout session on Stripe
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
-          price: priceId, // Use the Stripe ID obtained from the product
-          quantity: 1, // Assuming quantity is 1, modify as needed
+          price: priceId,
+          quantity: 1,
         },
       ],
-      // payment_method_types: ['card'],
       mode: 'payment',
-      currency: 'inr',
+      payment_intent_data: {
+        description: `Service: ${product.name}`,
+        shipping: {
+          name: fullName,
+          address: {
+            line1: address,
+            city: state,
+            postal_code: zipCode,
+            country: country,
+          },
+        },
+      },
       success_url: 'http://localhost:3000/success', 
       cancel_url: 'http://localhost:3000/cancel',
     });
@@ -287,7 +296,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
     console.log("Stored Session ID:", storedSessionId);
     res.json({ url: session.url, sessionId: session.id });
   } catch (error) {
-    console.error("Error making purchase:", error);
+    console.log("Error making purchase:", error);
     res.status(500).json({ error: "Failed to make purchase" });
   }
 };

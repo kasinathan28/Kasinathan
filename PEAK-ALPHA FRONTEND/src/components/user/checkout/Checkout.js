@@ -77,7 +77,6 @@ export default function CheckoutPage() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Perform actions with formData, for example, sending it to the server.
     console.log(formData);
   };
 

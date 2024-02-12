@@ -3,8 +3,11 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import "./addressform.css";
+import { useParams } from "react-router-dom";
 
 function AddressForm() {
+  const demoProfileId = useParams();
+  const profileId = demoProfileId.profileId;
   const [city, setCity] = useState("");
   const [pincode, setPincode] = useState("");
   const [houseName, setHouseName] = useState("");
@@ -17,11 +20,10 @@ function AddressForm() {
     const fetchUserAddress = async () => {
       try {
         const username = localStorage.getItem("username");
-        const response = await axios.get(`http://localhost:5000/getUserAddress/${username}`);
+        const response = await axios.get(`http://localhost:5000/getUserAddress/${profileId}`);
 
         if (response.status === 200) {
           const { address } = response.data;
-          // Update state with fetched address details
           setCity(address.city);
           setPincode(address.pincode);
           setHouseName(address.houseName);
@@ -36,10 +38,9 @@ function AddressForm() {
     };
 
     fetchUserAddress();
-  }, []); // Empty dependency array ensures the effect runs only once when the component mounts
+  }, []); 
 
   
-
   // function to submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +48,6 @@ function AddressForm() {
     try {
       const username = localStorage.getItem("username");
 
-      // Make the API call to update the address
       const response = await axios.put(`http://localhost:5000/updateAddress/${username}`, {
         pincode,
         city,
@@ -55,21 +55,16 @@ function AddressForm() {
         landmark,
       });
       
-      // Check the response and handle accordingly
       if (response.status === 200) {
         const { message, address } = response.data;
 
-        // Show success toast
         toast.success(message);
 
-        // Log the updated address
         console.log("Updated Address:", address);
       } else {
-        // Show error toast
         toast.error("Failed to update address. Please try again later.");
       }
     } catch (error) {
-      // Show error toast
       toast.error("Failed to update address. Please try again later.");
     }
   };
@@ -112,10 +107,11 @@ function AddressForm() {
   // Use useEffect to trigger the pincode lookup when pincode changes
   useEffect(() => {
     // Check if the pincode is a 6-digit number before triggering the lookup
-    if (pincode.length === 6) {
+    if (pincode.length === 6 && !useCurrentLocation) {
       fetchCityFromPincode(pincode);
     }
-  }, [pincode]);
+  }, [pincode, useCurrentLocation]);
+
   const updateLocation = () => {
     return new Promise((resolve, reject) => {
       if (navigator.geolocation) {
@@ -166,20 +162,17 @@ function AddressForm() {
 
   const handleCheckboxChange = async (e) => {
     setUseCurrentLocation(e.target.checked);
-
+  
     if (e.target.checked) {
       try {
         const locationDetails1 = await updateLocation();
         setCurrentLocation(locationDetails1);
-
-        // Use temporary variables to store the values
-        // const tempCity = locationDetails1.area;
+        
         const tempPincode = locationDetails1.pincode;
-
+  
         // Wait for the updateLocation function to complete before setting the state
-        // setCity(tempCity);
         setPincode(tempPincode);
-
+  
         // Log the updated values
         console.log(tempPincode);
       } catch (error) {
@@ -189,13 +182,13 @@ function AddressForm() {
     } else {
       // Clear current location when checkbox is unchecked
       setCurrentLocation({ latitude: null, longitude: null, area: null });
-
+  
       // Reset city and pincode to empty strings or initial values
-      setCity("");
-      setPincode("");
+      setCity(""); // Clear city field
+      setPincode(""); // Clear pincode field
     }
   };
-
+  
   return (
     <div>
       <form className="address-form" onSubmit={handleSubmit}>

@@ -94,7 +94,6 @@ const EditProfileForm = () => {
         console.error("Error fetching user data", error);
       }
     };
-
     fetchUserData();
   }, []);
 

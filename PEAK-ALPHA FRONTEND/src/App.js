@@ -12,6 +12,7 @@ import Home from './components/admin/index/Index';
 import Cart from './components/user/cart/cart';
 import ProductDetails from './components/user/productDetails/productDetails';
 import CheckoutPage from './components/user/checkout/Checkout';
+import SuccessPage from './components/stripePages/SuccessPage';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path='/cart/:profileId' element={<Cart/>}/>
           <Route path="/productDetails/:profileId/:productId" element={<ProductDetails />} />
           <Route path="/checkout/:productId" element={<CheckoutPage />} />
+          {/* <Route path="/success" element={<SuccessPage/>} /> */}
         </Routes>
       </Router>
     </div>

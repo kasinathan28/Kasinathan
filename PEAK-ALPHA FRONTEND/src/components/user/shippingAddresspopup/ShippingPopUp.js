@@ -50,6 +50,8 @@ function ShippingPopUp({ onClose }) {
       address: formData.address,
       zipCode: formData.zip,
       phoneNumber: formData.phoneNumber,
+      state: formData.state,
+      country:"India",
     };
   
     console.log(priceId);

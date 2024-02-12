@@ -26,7 +26,7 @@ router.post('/getUserData/:profileId', userController.getUserData);
 router.post('/updateprofile', upload.single('profilePicture'), userController.updateprofile);
 
 // router for fetching the address details of the user
-router.get("/getUserAddress/:username", userController.getUserAddress);
+router.get("/getUserAddress/:profileId", userController.getUserAddress);
 
 // Router for   updating the address
 router.put('/updateAddress/:username', userController.updateAddress);

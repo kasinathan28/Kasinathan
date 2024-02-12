@@ -6,12 +6,14 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faShoppingCart, faHome } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import HamburgerMenu from "react-hamburger-menu";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 import EditProfileForm from "../editprofile/EditProfileForm";
 import AddressForm from "../address/AddressForm";
 
 function Profile() {
+  const profileId = useParams();
+  console.log(profileId);
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("Profile");
@@ -29,7 +31,7 @@ function Profile() {
   };
 
   const handleBack = () => {
-    navigate("/dashboard");
+    navigate(`/dashboard/${profileId}`);
   };
 
   useEffect(() => {
@@ -49,33 +51,7 @@ function Profile() {
             LPHA
           </h1>
         </div>
-        {/* <div className="hamburger-menu">
-          <HamburgerMenu
-            isOpen={isOpen}
-            menuClicked={toggleMenu}
-            width={30}
-            height={20}
-            strokeWidth={3}
-            rotate={0}
-            color="#132e35"
-            borderRadius={0}
-            animationDuration={0.5}
-          />
-          {isOpen && (
-            <div className="dropdown-menu hamburger-dropdown">
-              <ul>
-                <li onClick={() => handleItemClick("Profile")}>
-                  <FontAwesomeIcon icon={faUser} />
-                  PROFILE
-                </li>
-                <li onClick={() => handleItemClick("Address")}>
-                  <FontAwesomeIcon icon={faShoppingCart} />
-                  ADDRESS
-                </li>
-              </ul>
-            </div>
-          )}
-        </div> */}
+        
       </header>
       <div className="main">
         <div className="sidebar">
@@ -103,7 +79,6 @@ function Profile() {
   );
 }
 
-// Sample content components for Profile and Address
 const ProfileContent = () => {
   return (
     <div>

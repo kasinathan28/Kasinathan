@@ -21,15 +21,14 @@ function App() {
           <Route path="/" element={<Index/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/signup' element={<Signup/>}/>
-          <Route path='/dashboard/:profileId' element={<Dashboard/>}/>
+          <Route path="/dashboard/:profileId" element={<Dashboard />} />
           <Route path='/profile/:profileId' element={<Profile/>}/>
           <Route path='/admin/:id' element={<Home/>}/>
           <Route path='/cart/:profileId' element={<Cart/>}/>
-          <Route path="/productDetails/:productId" element={<ProductDetails />} />
+          <Route path="/productDetails/:profileId/:productId" element={<ProductDetails />} />
           <Route path="/checkout/:productId" element={<CheckoutPage />} />
         </Routes>
       </Router>
-
     </div>
    
     

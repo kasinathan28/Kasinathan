@@ -103,21 +103,17 @@ exports.login = async (req, res) => {
 };
 
 
-/// fetching user data
 exports.getUserData = async (req, res) => {
-  const { username } = req.body; 
-
+  const { profileId } = req.params;
+  
   try {
-    console.log("Received username:", username);
-
-    const user = await Users.findOne({ username });
-
+    const user = await Users.findById(profileId); // Use findById to find user by profileId
+  
     if (!user) {
-      console.log("User not found for username:", username);
-      res.status(404).json({ error: "User not found...!" });
-      return;
+      console.log("User not found for profileId:", profileId);
+      return res.status(404).json({ error: "User not found" });
     }
-
+    
     const userData = {
       name: user.username,
       phoneNumber: user.phoneNumber,

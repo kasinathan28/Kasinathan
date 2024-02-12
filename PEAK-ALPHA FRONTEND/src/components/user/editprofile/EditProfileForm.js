@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./editprofile.css";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const EditProfileForm = () => {
   const [name, setName] = useState("");
@@ -11,6 +12,8 @@ const EditProfileForm = () => {
   const [password, setPassword] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const demoProfileId = useParams();
+  const profileId = demoProfileId.profileId;
 
   const handleProfilePictureChange = (e) => {
     const file = e.target.files[0];
@@ -24,14 +27,9 @@ const EditProfileForm = () => {
     setIsLoading(true);
 
     try {
-      // Retrieve username from localStorage
-      const username = localStorage.getItem("username");
-
-      // Simulate an asynchronous profile update logic (replace with your actual logic)
       await new Promise((resolve) => setTimeout(resolve, 2000));
-
       const formData = new FormData();
-      formData.append("username", username); // Add this line to include the username
+      formData.append("profileId", profileId); // Add this line to include the username
       formData.append("name", name);
       formData.append("phoneNumber", phoneNumber);
       formData.append("password", password);
@@ -79,11 +77,10 @@ const EditProfileForm = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const username = localStorage.getItem("username");
-        const response = await axios.post("http://localhost:5000/getUserData", {
-          username: username,
+        const response = await axios.post(`http://localhost:5000/getUserData/${profileId}`, {
+          profileId: profileId,
         });
-        console.log(name);
+        console.log(profileId);
 
         const userData = response.data;
         console.log("User Data:", userData);

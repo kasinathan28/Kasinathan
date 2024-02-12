@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./products.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,6 +8,10 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 function Products({ selectedBrands, selectedPrices }) {
+  const demoProfileId = useParams();
+  const profileId = demoProfileId.profileId;
+  console.log(profileId);
+
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   const navigate = useNavigate();
@@ -67,7 +71,7 @@ function Products({ selectedBrands, selectedPrices }) {
 
   const handleViewClick = async (productId) => {
   
-      navigate(`/productDetails/${productId}`);
+      navigate(`/productDetails/${profileId}/${productId}`);
    
   };
 

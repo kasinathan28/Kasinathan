@@ -1,5 +1,3 @@
-// Dashboard.jsx
-
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAtlassian } from "@fortawesome/free-brands-svg-icons";
@@ -22,7 +20,6 @@ function Dashboard() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const navigate = useNavigate();
   const [isSidebarFixed, setIsSidebarFixed] = useState(false);
-
   const [brands, setBrands] = useState([]);
   const [prices, setPrices] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
@@ -56,7 +53,6 @@ function Dashboard() {
         const response = await axios.get(
           "http://localhost:5000/getAllProducts1"
         );
-
         const uniqueBrands = [
           ...new Set(response.data.products.map((product) => product.brand)),
         ];
@@ -67,7 +63,6 @@ function Dashboard() {
         console.error("Error fetching products:", error);
       }
     };
-
     fetchProducts();
   }, []);
 
@@ -90,7 +85,7 @@ function Dashboard() {
   };
 
   const handleProfile = () => {
-    navigate("/profile");
+    navigate(`/profile/${profileId}`);
   };
 
   const handleLogout = () => {
@@ -99,8 +94,7 @@ function Dashboard() {
   };
 
   const handleScroll = () => {
-    const scrollTop =
-      window.pageYOffset || document.documentElement.scrollTop;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     setIsSidebarFixed(scrollTop >= 120);
   };
 
@@ -118,9 +112,9 @@ function Dashboard() {
     );
   };
 
-  const handleCart= () =>{
-    navigate(`/cart/:${profileId}`);
-  }
+  const handleCart = () => {
+    navigate(`/cart/${profileId}`);
+  };
 
   return (
     <div className={`user-dash ${isOpen ? "expanded" : ""}`}>
@@ -137,9 +131,7 @@ function Dashboard() {
           </h1>
         </div>
         <div
-          className={`right-section ${
-            isOpen ? "right-section-expanded" : ""
-          }`}
+          className={`right-section ${isOpen ? "right-section-expanded" : ""}`}
         >
           <div className="home-button">
             <FontAwesomeIcon icon={faHome} style={{ color: "#b9b5e2" }} />
@@ -182,9 +174,7 @@ function Dashboard() {
                     PROFILE
                   </li>
                   <li onClick={handleLogout}>
-                    <FontAwesomeIcon
-                      icon={faShoppingCart}
-                    />
+                    <FontAwesomeIcon icon={faShoppingCart} />
                     LOGOUT
                   </li>
                 </ul>

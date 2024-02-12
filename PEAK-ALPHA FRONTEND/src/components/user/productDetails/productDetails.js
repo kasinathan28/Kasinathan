@@ -8,16 +8,16 @@ import LoaderMain from '../../loadermain/LoaderMain';
 import ShippingPopUp from '../shippingAddresspopup/ShippingPopUp';
 
 function ProductDetails() {
+  const { profileId, productId } = useParams();
   const [productDetails, setProductDetails] = useState({});
   const [imageLoaded, setImageLoaded] = useState(false); 
   const [showShippingPopup, setShowShippingPopup] = useState(false); 
-  const { productId } = useParams();
 
   const navigate = useNavigate();
 
   // Handle back 
   const handleBack = () => {
-    navigate("/dashboard");
+    navigate(`/dashboard/${profileId}`);
   };
 
   // to show the shipping address popup 

@@ -15,7 +15,7 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate(`/dashboard/:${profileId}`);
+    navigate(`/dashboard/${profileId}`);
   };
 
 

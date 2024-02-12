@@ -20,7 +20,7 @@ router.post('/generateAndSendOtp', userController.generateAndSendOtp);
 router.post('/login', userController.login);
 
 // Router for fetching user data
-router.post('/getUserData', userController.getUserData);
+router.post('/getUserData/:profileId', userController.getUserData);
 
 // Router for updating the profile with file upload
 router.post('/updateprofile', upload.single('profilePicture'), userController.updateprofile);

@@ -224,7 +224,6 @@ exports.deleteProduct = async (req, res) => {
 exports.getUsers = async (req, res) => {
   try {
     console.log("Fetching users...");
-
     // Use the `populate` method to include the corresponding address data
     const users = await Users.find().populate("addressId");
     console.log("Users fetched successfully:", users);

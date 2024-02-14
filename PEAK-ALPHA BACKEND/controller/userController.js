@@ -1,6 +1,6 @@
 const Users = require("../models/Users");
-const Address = require("../models/Address"); 
-const Product = require("../models/products")
+const Address = require("../models/Address");
+const Product = require("../models/products");
 
 const axios = require("axios");
 const twilio = require("twilio");
@@ -18,7 +18,7 @@ exports.signup = async (req, res) => {
 
   try {
     if (!otp || otp !== req.body.otp) {
-      res.status(400).json({ error: 'Invalid OTP' });
+      res.status(400).json({ error: "Invalid OTP" });
       return;
     }
 
@@ -26,19 +26,19 @@ exports.signup = async (req, res) => {
 
     const existingUsername = await Users.findOne({ username });
     if (existingUsername) {
-      res.status(400).json({ error: 'Username already exists' });
+      res.status(400).json({ error: "Username already exists" });
       return;
     }
 
     const existingPhoneNumber = await Users.findOne({ phoneNumber });
     if (existingPhoneNumber) {
-      res.status(400).json({ error: 'Phone number already exists' });
+      res.status(400).json({ error: "Phone number already exists" });
       return;
     }
 
     const existingEmail = await Users.findOne({ email });
     if (existingEmail) {
-      res.status(400).json({ error: 'Email already exists' });
+      res.status(400).json({ error: "Email already exists" });
       return;
     }
 
@@ -51,13 +51,12 @@ exports.signup = async (req, res) => {
 
     await newUser.save();
 
-    res.status(201).json({ message: 'User created successfully' });
+    res.status(201).json({ message: "User created successfully" });
   } catch (error) {
-    console.error('Error during signup:', error);
-    res.status(500).json({ error: 'An error occurred during signup' });
+    console.error("Error during signup:", error);
+    res.status(500).json({ error: "An error occurred during signup" });
   }
 };
-
 
 // Endpoint to send OTP to the provided phone number
 exports.generateAndSendOtp = async (req, res) => {
@@ -71,7 +70,7 @@ exports.generateAndSendOtp = async (req, res) => {
 
     await twilioClient.messages.create({
       body: `Your OTP for signup: ${otp}`,
-      to: `+91${phoneNumber}`, 
+      to: `+91${phoneNumber}`,
       from: "+18083536054",
     });
 
@@ -81,8 +80,6 @@ exports.generateAndSendOtp = async (req, res) => {
     res.status(500).json({ error: "An error occurred during OTP sending" });
   }
 };
-
-
 
 // user login
 exports.login = async (req, res) => {
@@ -95,26 +92,25 @@ exports.login = async (req, res) => {
       res.status(401).json({ error: "Invalid username or password" });
       return;
     }
-    res.status(200).json({ message: "Login successful",user });
+    res.status(200).json({ message: "Login successful", user });
   } catch (error) {
     console.error("Error during login:", error);
     res.status(500).json({ error: "An error occurred during login" });
   }
 };
 
-
 // API for getting the user data
 exports.getUserData = async (req, res) => {
   const { profileId } = req.params;
 
   try {
-    const user = await Users.findById(profileId); 
-  
+    const user = await Users.findById(profileId);
+
     if (!user) {
       console.log("User not found for profileId:", profileId);
       return res.status(404).json({ error: "User not found" });
     }
-    
+
     const userData = {
       name: user.username,
       phoneNumber: user.phoneNumber,
@@ -127,11 +123,11 @@ exports.getUserData = async (req, res) => {
     res.status(200).json(userData);
   } catch (error) {
     console.error("Error fetching user data:", error);
-    res.status(500).json({ error: "An error occurred while fetching user data" });
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching user data" });
   }
 };
-
-
 
 // update profile
 exports.updateprofile = async (req, res) => {
@@ -160,13 +156,14 @@ exports.updateprofile = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    res.status(200).json({ message: "Profile updated successfully", user: updatedUser });
+    res
+      .status(200)
+      .json({ message: "Profile updated successfully", user: updatedUser });
   } catch (error) {
     console.error("Error during profile update:", error);
     res.status(500).json({ error: "An error occurred during profile update" });
   }
 };
-
 
 // Get user's address by username
 exports.getUserAddress = async (req, res) => {
@@ -187,11 +184,11 @@ exports.getUserAddress = async (req, res) => {
     res.status(200).json({ address: userAddress });
   } catch (error) {
     console.error("Error fetching user's address:", error);
-    res.status(500).json({ error: "An error occurred fetching user's address" });
+    res
+      .status(500)
+      .json({ error: "An error occurred fetching user's address" });
   }
 };
-
-
 
 // Router for updating the address
 exports.updateAddress = async (req, res) => {
@@ -214,13 +211,14 @@ exports.updateAddress = async (req, res) => {
     user.addressId = userAddress._id;
     await user.save();
 
-    res.status(200).json({ message: "Address updated successfully", address: userAddress });
+    res
+      .status(200)
+      .json({ message: "Address updated successfully", address: userAddress });
   } catch (error) {
     console.error("Error during address update:", error);
     res.status(500).json({ error: "An error occurred during address update" });
   }
 };
-
 
 // get all products
 exports.getAllProducts1 = async (req, res) => {
@@ -228,31 +226,35 @@ exports.getAllProducts1 = async (req, res) => {
     const products = await Product.find();
     res.status(200).json({ products });
   } catch (error) {
-    console.error('Error fetching products:', error);
-    res.status(500).json({ error: 'An error occurred while fetching products' });
+    console.error("Error fetching products:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching products" });
   }
 };
-
 
 // Get the product details from the stripe.
 exports.getAllProducts3 = async (req, res) => {
   try {
-    const response = await axios.get('https://api.stripe.com/v1/products', {
+    const response = await axios.get("https://api.stripe.com/v1/products", {
       headers: {
-        Authorization: `Bearer sk_test_51Od4KTSF48OWvv58UGojVhgsx9EAR0yoi4za3ocnGYtqNjXaA1PFuIYwFzkz9nyY1Y0CwWSJ3sh1hSDgWcsJFJ2Q003A3cQeTs`,
+        Authorization: `Bearer sk_test_51Ojlv2SHpAQ54psvuBo0ftWrIczsL7q8qGynsO2CXvazJ0eBVzXaO0lXP6GZm64vYt0BlTjhhhSgSo097jEOxVCd005HDV2jpK`,
       },
     });
-    
+
     const products = response.data.data;
     res.status(200).json({ products });
   } catch (error) {
-    console.error('Error fetching products from Stripe API:', error);
-    res.status(500).json({ error: 'An error occurred while fetching products from Stripe API' });
+    console.error("Error fetching products from Stripe API:", error);
+    res
+      .status(500)
+      .json({
+        error: "An error occurred while fetching products from Stripe API",
+      });
   }
 };
 
-
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 exports.makePurchase = async (req, res) => {
   const { productId } = req.params;
@@ -261,8 +263,17 @@ exports.makePurchase = async (req, res) => {
 
   try {
     const product = await Product.findById(productId);
-    if (!product) {
+    if (!product) { 
       return res.status(404).json({ error: "Product not found" });
+    }
+
+    // Determine whether the transaction currency is INR or not
+    const isINRTransaction = product.currency === 'INR';
+
+    // Define the allowed countries for shipping address collection
+    let allowedCountries = []; // Default value allows no countries
+    if (isINRTransaction) {
+      allowedCountries = ['IN']; // For INR transactions, allow only India
     }
 
     // Create a Checkout session on Stripe
@@ -273,21 +284,13 @@ exports.makePurchase = async (req, res) => {
           quantity: 1,
         },
       ],
-      mode: 'payment',
-      payment_intent_data: {
-        description: `Service: ${product.name}`,
-        shipping: {
-          name: fullName,
-          address: {
-            line1: address,
-            city: state,
-            postal_code: zipCode,
-            country: country,
-          },
-        },
+      mode: "payment",
+      billing_address_collection: 'required', // Require customer name and address
+      shipping_address_collection: {
+        allowed_countries: allowedCountries, // Specify the allowed countries
       },
       success_url: "http://localhost:3000/Success?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: 'http://localhost:3000/cancel',
+      cancel_url: "http://localhost:3000/cancel",
     });
 
     // Store session ID if needed

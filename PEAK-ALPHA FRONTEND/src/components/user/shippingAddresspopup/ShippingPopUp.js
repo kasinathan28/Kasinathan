@@ -10,7 +10,7 @@ function ShippingPopUp({ onClose }) {
   const [formData, setFormData] = useState({
     fullName: "",
     address: "",
-    phoneNumber: "",
+    phoneNumber:"",
     state: "",
     zip: "",
   });
@@ -52,14 +52,13 @@ function ShippingPopUp({ onClose }) {
       fullName: formData.fullName,
       address: formData.address,
       zipCode: formData.zip,
-      phoneNumber: formData.phoneNumber,
+      phoneNumber:formData.phoneNumber,
       state: formData.state,
-      country:"India",
     };
   
     console.log(priceId);
   
-    if (deliveryData.email) {
+    if (deliveryData.fullName) {
       // Make an API request to make the purchase
       try {
         const response = await axios.post(`http://localhost:5000/purchase/${productId}`, {
@@ -72,7 +71,6 @@ function ShippingPopUp({ onClose }) {
         // Set the payment URL state
         setPaymentUrl(response.data.url);
         
-        // Navigate to the payment URL
         window.location.href = response.data.url;
       } catch (error) {
         console.error("Error making purchase:", error);
@@ -115,7 +113,7 @@ function ShippingPopUp({ onClose }) {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="phoneNumber">Phone No:</label>
+          <label htmlFor="phoneNumber">Phone :</label>
           <input
             type="text"
             id="phoneNumber"

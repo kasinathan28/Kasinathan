@@ -39,7 +39,7 @@ function ProductDetails() {
 
           const stripeResponse = await axios.get(`https://api.stripe.com/v1/products/${stripeId}`, {
             headers: {
-              'Authorization': 'Bearer sk_test_51Od4KTSF48OWvv58UGojVhgsx9EAR0yoi4za3ocnGYtqNjXaA1PFuIYwFzkz9nyY1Y0CwWSJ3sh1hSDgWcsJFJ2Q003A3cQeTs',
+              'Authorization': 'Bearer sk_test_51Ojlv2SHpAQ54psvuBo0ftWrIczsL7q8qGynsO2CXvazJ0eBVzXaO0lXP6GZm64vYt0BlTjhhhSgSo097jEOxVCd005HDV2jpK',
             },
           });
 
@@ -105,7 +105,6 @@ function ProductDetails() {
           </>
         )}
       </div>
-      {/* Render the ShippingAddressPopup if showShippingPopup state is true */}
       {showShippingPopup && <ShippingPopUp onClose={() => setShowShippingPopup(false)} />}
     </div>
   );

@@ -102,6 +102,7 @@ exports.login = async (req, res) => {
   }
 };
 
+
 // API for getting the user data
 exports.getUserData = async (req, res) => {
   const { profileId } = req.params;
@@ -256,11 +257,9 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 exports.makePurchase = async (req, res) => {
   const { productId } = req.params;
   const { priceId, shippingDetails } = req.body;
-
-  const { fullName, address, phoneNumber, state, zipCode, country } = shippingDetails;
+  const { fullName, address, state, zipCode, country } = shippingDetails;
 
   try {
-    // Fetch product details from the database using productId
     const product = await Product.findById(productId);
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
@@ -287,7 +286,7 @@ exports.makePurchase = async (req, res) => {
           },
         },
       },
-      success_url: 'http://localhost:3000/success', 
+      success_url: "http://localhost:3000/Success?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: 'http://localhost:3000/cancel',
     });
 

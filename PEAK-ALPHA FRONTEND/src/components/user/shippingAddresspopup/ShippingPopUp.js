@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./shippingPopup.css";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import {loadStripe} from '@stripe/stripe-js';
 
 function ShippingPopUp({ onClose }) {
   const { productId } = useParams();
@@ -44,7 +45,9 @@ function ShippingPopUp({ onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+  
+    const stripe = await loadStripe("pk_test_51Od4KTSF48OWvv58PYdeaQGDxJoU8F9eA9JemFbaj5e01QWgQeYhjXAHiPJqhtAZKiMOnud8LZzHk1OG4iJKdv7800Ya6P5ZvF");
+
     const deliveryData = {
       fullName: formData.fullName,
       address: formData.address,
@@ -56,12 +59,12 @@ function ShippingPopUp({ onClose }) {
   
     console.log(priceId);
   
-    if (deliveryData.phoneNumber) {
+    if (deliveryData.email) {
       // Make an API request to make the purchase
       try {
         const response = await axios.post(`http://localhost:5000/purchase/${productId}`, {
           priceId: priceId,
-          shippingDetails: deliveryData // Pass delivery data to the backend
+          shippingDetails: deliveryData,
         });
   
         console.log("Purchase successful:", response.data);

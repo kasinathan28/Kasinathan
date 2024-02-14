@@ -6,6 +6,9 @@ import { faAtlassian } from '@fortawesome/free-brands-svg-icons';
 import './productsDetails.css';
 import LoaderMain from '../../loadermain/LoaderMain';
 import ShippingPopUp from '../shippingAddresspopup/ShippingPopUp';
+import {loadStripe} from '@stripe/stripe-js';
+
+
 
 function ProductDetails() {
   const { profileId, productId } = useParams();

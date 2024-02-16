@@ -254,27 +254,18 @@ exports.getAllProducts3 = async (req, res) => {
   }
 };
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
+
+// Making purchase in the stripe
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 exports.makePurchase = async (req, res) => {
   const { productId } = req.params;
   const { priceId, shippingDetails } = req.body;
-  const { fullName, address, state, zipCode, country } = shippingDetails;
+  const { fullName, address, phoneNumber, state, zip, country } = shippingDetails;
 
   try {
-    const product = await Product.findById(productId);
-    if (!product) { 
-      return res.status(404).json({ error: "Product not found" });
-    }
-
-    // Determine whether the transaction currency is INR or not
-    const isINRTransaction = product.currency === 'INR';
-
-    // Define the allowed countries for shipping address collection
-    let allowedCountries = []; // Default value allows no countries
-    if (isINRTransaction) {
-      allowedCountries = ['IN']; // For INR transactions, allow only India
-    }
+    // Define allowed countries for shipping
+    const allowedCountries =  ['US', 'CA', 'GB', 'AU', 'IN'] ;
 
     // Create a Checkout session on Stripe
     const session = await stripe.checkout.sessions.create({
@@ -285,12 +276,11 @@ exports.makePurchase = async (req, res) => {
         },
       ],
       mode: "payment",
-      billing_address_collection: 'required', // Require customer name and address
       shipping_address_collection: {
-        allowed_countries: allowedCountries, // Specify the allowed countries
+        allowed_countries: allowedCountries,
       },
       success_url: "http://localhost:3000/Success?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "http://localhost:3000/cancel",
+      cancel_url: "http://localhost:3000",
     });
 
     // Store session ID if needed

@@ -1,41 +1,33 @@
 import React, { useState, useEffect } from "react";
-import "./shippingPopup.css";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import {loadStripe} from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import "./shippingPopup.css";
+import { useParams } from "react-router-dom";
 
 function ShippingPopUp({ onClose }) {
   const { productId } = useParams();
-
   const [formData, setFormData] = useState({
     fullName: "",
     address: "",
-    phoneNumber:"",
+    phoneNumber: "",
     state: "",
     zip: "",
+    country: "US", // Set the country outside India, for example, "US"
   });
-
-  const [stripeProductId, setStripeProductId] = useState("");
-  const [priceId, setPriceId ] = useState();
+  const [priceId, setPriceId] = useState();
   const [paymentUrl, setPaymentUrl] = useState();
 
-  const navigate = useNavigate();
-
-
   useEffect(() => {
-    // Fetch the Stripe ID for the given product ID
-    const fetchStripeProductId = async () => {
+    const fetchProductDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/getProductDetails/${productId}`);
-        setStripeProductId(response.data.product.stripeId);
-        console.log(stripeProductId);
         setPriceId(response.data.product.priceId);
       } catch (error) {
         console.log("Error fetching product details:", error);
       }
     };
 
-    fetchStripeProductId();
+    fetchProductDetails();
   }, [productId]);
 
   const handleChange = (e) => {
@@ -45,43 +37,40 @@ function ShippingPopUp({ onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const stripe = await loadStripe("pk_test_51Od4KTSF48OWvv58PYdeaQGDxJoU8F9eA9JemFbaj5e01QWgQeYhjXAHiPJqhtAZKiMOnud8LZzHk1OG4iJKdv7800Ya6P5ZvF");
+
+    const stripe = await loadStripe("pk_test_51Ojlv2SHpAQ54psvKPbEvnq7k46Qa9q3E2C4ABtlRNgPYAO7Y6VYVPABirMGvsfyav8pGPQD5r1b3haqdY2zIgUS00zPfoGDqj");
 
     const deliveryData = {
       fullName: formData.fullName,
       address: formData.address,
-      zipCode: formData.zip,
-      phoneNumber:formData.phoneNumber,
+      phoneNumber: formData.phoneNumber,
       state: formData.state,
+      zip: formData.zip,
+      country: formData.country, // Include the country in the delivery data
     };
-  
-    console.log(priceId);
-  
+
     if (deliveryData.fullName) {
-      // Make an API request to make the purchase
       try {
         const response = await axios.post(`http://localhost:5000/purchase/${productId}`, {
           priceId: priceId,
           shippingDetails: deliveryData,
         });
-  
-        console.log("Purchase successful:", response.data);
-        
-        // Set the payment URL state
+
         setPaymentUrl(response.data.url);
-        
-        window.location.href = response.data.url;
+        const { data: { sessionId } } = response;
+
+        // Redirect to Checkout session URL
+        const { error } = await stripe.redirectToCheckout({ sessionId });
+        if (error) {
+          console.error("Error redirecting to Checkout:", error);
+        }
       } catch (error) {
         console.error("Error making purchase:", error);
       }
     } else {
       alert("Please fill in all required fields.");
-      console.log("missing delivery Data", deliveryData);
     }
   };
-  
-  
 
   return (
     <div className="shipping-popup">
@@ -113,7 +102,7 @@ function ShippingPopUp({ onClose }) {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="phoneNumber">Phone :</label>
+          <label htmlFor="phoneNumber">Phone:</label>
           <input
             type="text"
             id="phoneNumber"

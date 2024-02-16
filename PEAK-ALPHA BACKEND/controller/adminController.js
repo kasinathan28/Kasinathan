@@ -203,10 +203,10 @@ exports.deleteProduct = async (req, res) => {
     }
 
     // Check if there are user-created prices associated with the product
-    const productInStripe = await stripe.products.retrieve(existingProduct.stripeId);
-    if (productInStripe.prices && productInStripe.prices.data.length > 0) {
-      return res.status(400).json({ error: "Product has user-created prices" });
-    }
+    // const productInStripe = await stripe.products.retrieve(existingProduct.stripeId);
+    // if (productInStripe.prices && productInStripe.prices.data.length > 0) {
+    //   return res.status(400).json({ error: "Product has user-created prices" });
+    // }
 
     // Delete the product from the local database
     await Product.findByIdAndDelete(productId);

@@ -178,13 +178,13 @@ function Products() {
   };
 
   const handleDeleteProduct = async (productId, stripeId) => {
+    console.log(productId);
     try {
        // Delete the product from the local database
        const response = await axios.delete(
         `http://localhost:5000/deleteProduct/${productId}`
      );
      
- 
        console.log("Product deleted successfully:", response.data);
  
        // Update the state to reflect the deletion

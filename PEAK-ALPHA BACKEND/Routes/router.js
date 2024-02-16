@@ -6,6 +6,8 @@ const adminController = require('../controller/adminController');
 const feedbackController = require('../controller/feedbackController');
 const cartController = require('../controller/cartController');
 const ProductDetailsController = require('../controller/productdetailsController');
+const StripeController = require("../controller/stripeController");
+
 const router = new express.Router();
 
 
@@ -52,8 +54,7 @@ router.get("/getProductDetails/:productId", ProductDetailsController.getProductD
 // Router for getting logged in admin 
 router.get("/getAdmin/:id", adminController.getAdmin);
 
-// Router for making purchase on the stripe
-router.post('/purchase/:productId', userController.makePurchase);
+
 // End of users API
 
 
@@ -92,6 +93,15 @@ router.get('/getFeedbacks', feedbackController.getFeedbacks);
 
 // Router for deleting the feedbacks
 router.delete("/deleteFeedBack/:id",feedbackController.deleteFeedBack);
+
+
+
+// Stripe API's
+// Router for making purchase on the stripe
+router.post('/purchase/:productId', StripeController.makePurchase );
+
+// Router for getting the details from the Session id
+router.get('/getBookingDetails/:session_id', StripeController.getBookignDetails);
 
 
 // Export Router

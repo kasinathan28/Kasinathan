@@ -1,3 +1,30 @@
 .successPage h1{
     color: #000;
 }
+
+
+.successPage .navbar h1 {
+    display: flex;
+    letter-spacing: 10px;
+    color: #fff;
+    font-size: 54px;
+    margin-left: 30px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .successPage .backbtn {
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    margin-left: 20px;
+    background: #b6afaf;
+  }
+  
+  .successPage .main {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 864.5px;
+  }
+  

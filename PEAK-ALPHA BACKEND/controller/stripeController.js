@@ -73,9 +73,11 @@ exports.getBookignDetails = async (req, res) => {
   }
 };
 
+
+
 exports.sendReceiptByEmail = async (req, res) => {
   try {
-    const { paymentIntentId, recipientEmail } = req.body;
+    const { paymentIntentId } = req.params;
 
     // Retrieve payment intent
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
@@ -115,8 +117,8 @@ exports.sendReceiptByEmail = async (req, res) => {
         // Specify your email service and credentials
         service: 'Gmail',
         auth: {
-          user: '.',
-          pass: ''
+          user: 'peakalpha2024@gmail.com',
+          pass: 'erawlhpotlymhpor'
         }
       });
 

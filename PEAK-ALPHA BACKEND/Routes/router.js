@@ -111,7 +111,7 @@ router.get('/getBookingDetails/:session_id', StripeController.getBookignDetails)
 router.get('/getInvoice/:session_id', StripeController.downloadInvoice);
 
 // crete invoice
-router.post('/createInvoice/:payment_intent', StripeController.generateReceiptPDF);
+router.post('/createInvoice/:payment_intent', StripeController.sendReceiptByEmail);
 
 // Export Router
 module.exports = router;

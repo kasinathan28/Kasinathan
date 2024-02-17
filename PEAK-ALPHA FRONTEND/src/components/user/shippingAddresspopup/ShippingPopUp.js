@@ -46,7 +46,7 @@ function ShippingPopUp({ onClose }) {
       phoneNumber: formData.phoneNumber,
       state: formData.state,
       zip: formData.zip,
-      country: formData.country, // Include the country in the delivery data
+      country: formData.country, 
     };
 
     if (deliveryData.fullName) {
@@ -72,6 +72,7 @@ function ShippingPopUp({ onClose }) {
     }
   };
 
+  
   return (
     <div className="shipping-popup">
       <button className="close-btn" onClick={onClose}>

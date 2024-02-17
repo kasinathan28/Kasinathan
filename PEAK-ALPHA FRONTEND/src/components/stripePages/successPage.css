@@ -1,30 +1,63 @@
-.successPage h1{
-    color: #000;
+.successPage {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' width='1980' height='982' preserveAspectRatio='none' viewBox='0 0 1980 982'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1016%26quot%3b)' fill='none'%3e%3crect width='1980' height='982' x='0' y='0' fill='%231e3266'%3e%3c/rect%3e%3cpath d='M2112 982L0 982 L0 610.62Q65.37 510.99%2c 165 576.36Q239.82 552.18%2c 264 627.01Q301.75 499.76%2c 429 537.52Q502.56 446.08%2c 594 519.63Q711.36 471.99%2c 759 589.35Q868.77 534.12%2c 924 643.89Q940.52 561.41%2c 1023 577.93Q1075.59 465.51%2c 1188 518.1Q1244.15 475.25%2c 1287 531.41Q1401.51 546.92%2c 1386 661.43Q1383.99 560.42%2c 1485 558.41Q1524.84 499.25%2c 1584 539.09Q1668.81 524.9%2c 1683 609.72Q1708.91 536.63%2c 1782 562.55Q1900.85 516.39%2c 1947 635.24Q2036.28 559.51%2c 2112 648.79z' fill='%23182f5d'%3e%3c/path%3e%3cpath d='M2079 982L0 982 L0 616.64Q51.82 569.46%2c 99 621.28Q237.13 594.41%2c 264 732.54Q333.11 702.64%2c 363 771.75Q392.61 636.36%2c 528 665.97Q633.99 606.96%2c 693 712.95Q748.33 669.28%2c 792 724.6Q803.16 636.76%2c 891 647.92Q924.1 582.01%2c 990 615.11Q1046.75 572.86%2c 1089 629.61Q1197.26 572.88%2c 1254 681.14Q1321.45 649.59%2c 1353 717.04Q1393.32 592.36%2c 1518 632.67Q1575.21 590.88%2c 1617 648.08Q1719.83 651.91%2c 1716 754.74Q1812.32 686.06%2c 1881 782.38Q1904.98 707.37%2c 1980 731.35Q2002.71 655.06%2c 2079 677.77z' fill='%2325467d'%3e%3c/path%3e%3cpath d='M2013 982L0 982 L0 852.25Q52.18 739.43%2c 165 791.61Q294.33 755.94%2c 330 885.27Q353.78 810.05%2c 429 833.83Q531.32 771.15%2c 594 873.48Q617.27 797.75%2c 693 821.02Q794.01 757.03%2c 858 858.04Q959.09 794.13%2c 1023 895.21Q1073.11 780.32%2c 1188 830.43Q1261.32 804.75%2c 1287 878.07Q1306.67 798.75%2c 1386 818.42Q1405.04 738.46%2c 1485 757.5Q1573.14 680.64%2c 1650 768.79Q1708.12 727.9%2c 1749 786.02Q1833.7 771.72%2c 1848 856.42Q1873.37 716.78%2c 2013 742.15z' fill='%23356cb1'%3e%3c/path%3e%3cpath d='M2112 982L0 982 L0 925.75Q16.47 843.22%2c 99 859.69Q197.33 793.02%2c 264 891.35Q329.24 857.59%2c 363 922.82Q430.01 890.83%2c 462 957.84Q554.46 885.3%2c 627 977.76Q693.21 878.97%2c 792 945.18Q876.43 930.61%2c 891 1015.03Q925.53 950.56%2c 990 985.08Q1027.59 923.67%2c 1089 961.26Q1123.6 830.86%2c 1254 865.46Q1355.63 802.09%2c 1419 903.72Q1546.77 866.49%2c 1584 994.26Q1616.03 927.29%2c 1683 959.32Q1737.61 848.92%2c 1848 903.53Q1919.29 875.82%2c 1947 947.11Q2037.28 872.39%2c 2112 962.68z' fill='white'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1016'%3e%3crect width='1980' height='982' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+  height: 950px;
+}
+
+.successPage h1 {
+  color: #000;
+}
+
+.successPage .navbar h1 {
+  display: flex;
+  letter-spacing: 10px;
+  color: #fff;
+  font-size: 54px;
+  margin-left: 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+.successPage .backbtn {
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  margin-left: 20px;
+  background: #b6afaf;
+}
+
+.thanks-svg{
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  width: 300px;
+  height: 300px;
+}
+
+.successPage .invc-btn {
+  padding: 20px;
+  border: none;
+  font-size: 18px;
+  background: #dfc8ea;
+  border-radius: 10px;
+}
+
+.thanks {
+  width: 60%;
+  height: 400px;
+  display: flex;
+  margin: 40px auto;
+  border-radius: 10px;
 }
 
 
-.successPage .navbar h1 {
-    display: flex;
-    letter-spacing: 10px;
-    color: #fff;
-    font-size: 54px;
-    margin-left: 30px;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .successPage .backbtn {
-    padding: 10px;
-    border: none;
-    border-radius: 20px;
-    margin-left: 20px;
-    background: #b6afaf;
-  }
-  
-  .successPage .main {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    height: 864.5px;
-  }
-  
+.successPage .desc h1{
+  color: #fff;
+  margin-top: -50px;
+}
+
+.successPage .desc2 {
+  width: 400px;
+  margin: auto;
+  color: #fff;
+  text-wrap: balance;
+}

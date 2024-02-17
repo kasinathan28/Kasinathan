@@ -14,6 +14,7 @@ function SuccessPage() {
   const navigate = useNavigate();
   const { session_id } = useParams();
   const [bookingDetails, setBookingDetails] = useState(null);
+  const [invoice, setInvoice] = useState();
 
   const { width, height } = useWindowSize()
 
@@ -35,6 +36,20 @@ function SuccessPage() {
     fetchBookingDetails();
   }, [session_id]);
 
+  useEffect(() =>{
+    const createInvoice = async ()=>{
+      try {
+        const invoice = await axios.post(`http://localhost:5000/createInvoice/${bookingDetails.payment_intent}`);
+        setInvoice(invoice.data);
+        console.log(invoice);
+      } catch (error) {
+        console.log("Error creating invoice", error);
+      }
+    };
+    createInvoice();
+  }, []);
+  
+
   const handleBack = () => {
     navigate(-1);
   };
@@ -55,6 +70,7 @@ function SuccessPage() {
           </h1>
         </div>
       </div>
+
       <div className="booking-details">
         <div className="thanks">
           <Confetti width={width} height={height} numberOfPieces={50} />

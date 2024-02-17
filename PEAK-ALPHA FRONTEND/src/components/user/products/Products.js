@@ -119,7 +119,7 @@ function Products({ selectedBrands, selectedPrices }) {
         
         ))}
       </div>
-      <ToastContainer position="bottom-left" />
+      <ToastContainer position="top-left" />
     </div>
   );
 }

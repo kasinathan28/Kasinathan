@@ -1,20 +1,33 @@
 const Product = require("../models/products");
-
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const pdf = require('html-pdf');
+const fs = require('fs');
 
 // Making purchase in the stripe
 exports.makePurchase = async (req, res) => {
   const { productId } = req.params;
   const { priceId, shippingDetails } = req.body;
-  const { fullName, address, phoneNumber, state, zip, country } =
-    shippingDetails;
+  const { fullName, address, phoneNumber, state, zip, country } = shippingDetails;
 
   try {
     // Define allowed countries for shipping
     const allowedCountries = ["US", "CA", "GB", "AU", "IN"];
 
+    // Create a new Stripe customer
+    const customer = await stripe.customers.create({
+      name: fullName,
+      address: {
+        line1: address,
+        city: state,
+        postal_code: zip,
+        country: country,
+      },
+      phone: phoneNumber,
+    });
+
     // Create a Checkout session on Stripe
     const session = await stripe.checkout.sessions.create({
+      customer: customer.id, // Assign customer to the session
       line_items: [
         {
           price: priceId,
@@ -25,7 +38,7 @@ exports.makePurchase = async (req, res) => {
       shipping_address_collection: {
         allowed_countries: allowedCountries,
       },
-      success_url: "http://localhost:3000/success{CHECKOUT_SESSION_ID}",
+      success_url: "http://localhost:3000/success/{CHECKOUT_SESSION_ID}",
       cancel_url: "http://localhost:3000",
     });
 
@@ -40,7 +53,6 @@ exports.makePurchase = async (req, res) => {
 };
 
 
-
 // Get details with the session id
 exports.getBookignDetails = async (req, res) => {
   const session_id = req.params;
@@ -48,7 +60,9 @@ exports.getBookignDetails = async (req, res) => {
   console.log("session ID:", session_id.session_id);
 
   try {
-    const session = await stripe.checkout.sessions.retrieve(session_id.session_id);
+    const session = await stripe.checkout.sessions.retrieve(
+      session_id.session_id
+    );
     console.log(session);
     res.status(200).json(session);
   } catch (error) {
@@ -59,122 +73,74 @@ exports.getBookignDetails = async (req, res) => {
   }
 };
 
-
-
-// Download invoice for a session
-exports.downloadInvoice = async (req, res) => {
-  console.log("params:",req.params);
-  const demoId  = req.params;
-  const sessionId = demoId.session_id;
-  console.log(sessionId);
-
+exports.sendReceiptByEmail = async (req, res) => {
   try {
-    // Retrieve the Checkout session from Stripe
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const { paymentIntentId, recipientEmail } = req.body;
 
-    // Check if the session is paid and has an invoice
-    if (session.payment_status !== "paid" || !session.invoice) {
-      return res.status(404).json({ error: "No invoice found for this session" });
-    }
-
-    // Retrieve the invoice ID from the session
-    const invoiceId = session.invoice;
-
-    // Download the invoice PDF
-    const invoicePdf = await stripe.invoices.retrievePdf(invoiceId);
-
-    // Set response headers for the PDF
-    res.set({
-      "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename=invoice_${invoiceId}.pdf`,
-    });
-
-    // Send the PDF data as response
-    res.send(invoicePdf);
-  } catch (error) {
-    console.error("Error downloading invoice:", error);
-    res.status(500).json({ error: "Failed to download invoice" });
-  }
-};
-
-
-// Create invoice
-// Create an invoice with a payment intent ID
-exports.createInvoiceWithPaymentIntent = async (req, res) => {
-  console.log(req.params);
-  const  demoId  = req.params;
-  const paymentIntentId =demoId.payment_intent;
-  console.log(paymentIntentId);
-  try {
+    // Retrieve payment intent
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
-    // Extract customer information from payment intent's shipping details
-    const { name, address } = paymentIntent.shipping;
-
-    // Retrieve the customer's ID from the payment intent
+    // Ensure payment intent contains valid customer information
     const customerId = paymentIntent.customer;
+    if (!customerId) {
+      throw new Error("Payment intent does not contain a valid customer ID");
+    }
 
-    // Create an invoice for the customer
-    const invoice = await stripe.invoices.create({
-      customer: customerId,
-      description: 'Invoice for the successful payment intent',
-      auto_advance: false,
+    // Construct HTML content for the receipt
+    const htmlContent = `
+      <html>
+        <head>
+          <title>Receipt</title>
+        </head>
+        <body>
+          <h1>Receipt for Your Payment</h1>
+          <p>Thank you for your payment. Here is your receipt for the recent purchase:</p>
+          <p>Amount: ${paymentIntent.amount} ${paymentIntent.currency.toUpperCase()}</p>
+          <p>Payment Method: ${paymentIntent.payment_method_details.card.brand} ending in ${paymentIntent.payment_method_details.card.last4}</p>
+          <!-- Add more receipt details here as needed -->
+        </body>
+      </html>
+    `;
+
+    // Generate PDF from HTML content
+    pdf.create(htmlContent).toBuffer(async (err, buffer) => {
+      if (err) {
+        console.error("Error generating PDF:", err);
+        res.status(500).json({ error: "Failed to generate PDF" });
+        return;
+      }
+
+      // Set up Nodemailer transporter
+      const transporter = nodemailer.createTransport({
+        // Specify your email service and credentials
+        service: 'Gmail',
+        auth: {
+          user: '.',
+          pass: ''
+        }
+      });
+
+      // Define email options
+      const mailOptions = {
+        from: 'your_email@gmail.com',
+        to: recipientEmail,
+        subject: 'Payment Receipt',
+        html: '<p>Thank you for your payment. Please find your receipt attached.</p>',
+        attachments: [
+          {
+            filename: 'receipt.pdf',
+            content: buffer
+          }
+        ]
+      };
+
+      // Send email
+      await transporter.sendMail(mailOptions);
+
+      res.status(200).json({ message: 'Receipt sent successfully' });
     });
-
-    // Set the shipping address for the customer
-    await stripe.customers.update(customerId, {
-      shipping: {
-        name,
-        address: {
-          line1: address.line1,
-          line2: address.line2,
-          city: address.city,
-          state: address.state,
-          postal_code: address.postal_code,
-          country: address.country,
-        },
-      },
-    });
-
-    res.status(200).json({ message: 'Invoice created successfully', invoice });
   } catch (error) {
-    console.error('Error creating invoice:', error);
-    res.status(500).json({ error: 'Failed to create invoice' });
+    console.error("Error sending receipt:", error);
+    res.status(500).json({ error: "Failed to send receipt" });
   }
 };
-
-
-
-// // Create an invoice with a payment intent ID
-// exports.createInvoiceWithPaymentIntent = async (req, res) => {
- 
-//   try {
-//     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-
-//     // Extract customer information from payment intent's shipping details
-//     const { name, address } = paymentIntent.shipping;
-
-//     // Create an invoice for the customer
-//     const invoice = await stripe.invoices.create({
-//       customer: paymentIntent.customer,
-//       description: 'Invoice for the successful payment intent',
-//       auto_advance: false,
-//       shipping: {
-//         name, // Use the name from the shipping details
-//         address: {
-//           line1: address.line1,
-//           line2: address.line2,
-//           city: address.city,
-//           state: address.state,
-//           postal_code: address.postal_code,
-//           country: address.country,
-//         },
-//       },
-//     });
-
-//     res.status(200).json({ message: 'Invoice created successfully', invoice });
-//   } catch (error) {
-//     console.error('Error creating invoice:', error);
-//     res.status(500).json({ error: 'Failed to create invoice' });
-//   }
-// };

@@ -31,11 +31,6 @@
   font-size: 24px;
 }
 
-.cart .bar {
-  width: 100%;
-  height: 2px;
-  margin: auto;
-}
 
 
 
@@ -133,36 +128,44 @@
 .cart .total {
   overflow: hidden;
   width: 100%;
+  background-color: #dfc8ea;
   height: auto;
-  background: #000;
   bottom: 0;
   position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  z-index: 2;
+  color: #000;
+ 
 }
 
 
 .cart .total p {
   font-size: 24px;
   margin-bottom: 10px;
+  transition: 0.3s ease all;
 }
 
+.cart .total button:hover .cart .total p{
+  color: #e44d26;
+}
 .cart .total button {
   margin: 20px;
   padding: 15px 30px;
   border: none;
   border-radius: 20px;
-  background: #e44d26;
+  background: #b9b5e2;
   color: #fff;
   font-size: 18px;
   cursor: pointer;
-  transition: background 0.3s ease all;
+  transition:  0.3s ease all;
 }
 
 .cart .total button:hover {
-  background: #333;
+  background: #22395c;
+}
+
+.cart .total button:hover .cart .total p{
+  color: #e44d26;
 }

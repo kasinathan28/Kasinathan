@@ -145,7 +145,7 @@ function Dashboard() {
             />
             CART
           </div>
-          <div>
+          {/* <div>
             <input
               type="text"
               placeholder="Search..."
@@ -153,7 +153,7 @@ function Dashboard() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </div>
+          </div> */}
 
           <div className="hamburger-menu">
             <HamburgerMenu
@@ -197,7 +197,7 @@ function Dashboard() {
       <div className="sidebar-and-content">
         <div className={`sidebar ${isSidebarFixed ? "fixed" : ""}`}>
           <div className="filters">
-            <h2>Filters</h2>
+            {/* <h2>Filters</h2> */}
             <div className="brand">
               <h3>Brands</h3>
               <ul className="userul">
@@ -218,6 +218,14 @@ function Dashboard() {
           </div>
         </div>
         <div className="display-container">
+          <div className="searchbar-container">
+            <label>Seach: </label> 
+            <input 
+            type="text"
+            className="searchBar"
+            placeholder="search"
+            />
+          </div>
           <Products
             selectedBrands={selectedBrands}
             selectedPrices={selectedPrices}

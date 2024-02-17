@@ -20,34 +20,16 @@ function SuccessPage() {
 
   console.log(session_id);
 
-  useEffect(() => {
-    const fetchBookingDetails = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/getBookingDetails/${session_id}`
-        );
-        setBookingDetails(response.data);
-        console.log(bookingDetails.amount_total);
-      } catch (error) {
-        console.log("Error fetching booking details:", error);
-      }
-    };
+ 
 
-    fetchBookingDetails();
-  }, [session_id]);
+  const downloadInvoice =()=>{
+    try {
+      console.log("Downaloding invoice");
+    } catch (error) {
+      
+    }
+  }
 
-  useEffect(() =>{
-    const createInvoice = async ()=>{
-      try {
-        const invoice = await axios.post(`http://localhost:5000/createInvoice/${bookingDetails.payment_intent}`);
-        setInvoice(invoice.data);
-        console.log(invoice);
-      } catch (error) {
-        console.log("Error creating invoice", error);
-      }
-    };
-    createInvoice();
-  }, []);
   
 
   const handleBack = () => {
@@ -82,13 +64,9 @@ function SuccessPage() {
           <p>You will get an order confirmation mail soon with the order details. And you can download the Invoice.</p>
           </div>
         </div>
-        {bookingDetails && (
-          <>
-            <button className="invc-btn" onClick={handleDownloadInvoice}>
+            <button className="invc-btn" onClick={downloadInvoice}>
               Download Invoice
             </button>
-          </>
-        )}
       </div>
     </div>
   );

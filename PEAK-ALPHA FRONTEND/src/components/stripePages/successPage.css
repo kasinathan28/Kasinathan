@@ -38,7 +38,18 @@
   border: none;
   font-size: 18px;
   background: #dfc8ea;
+  transition: 0.3s ease all;
   border-radius: 10px;
+}
+
+.successPage button:hover{
+  background: #22395c;
+  cursor: pointer;
+  color: #dfc8ea;
+}
+
+.successPage button:active{
+  transform: translateY(10px);
 }
 
 .thanks {

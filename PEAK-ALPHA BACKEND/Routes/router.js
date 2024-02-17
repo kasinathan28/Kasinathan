@@ -108,7 +108,7 @@ router.post('/purchase/:productId', StripeController.makePurchase );
 router.get('/getBookingDetails/:session_id', StripeController.getBookignDetails);
 
 // Router for downlaoding the stripe invoice.
-router.get('/getInvoice/:session_id', StripeController.downloadInvoice);
+// router.get('/getInvoice/:session_id', StripeController.downloadInvoice);
 
 // crete invoice
 router.post('/createInvoice/:payment_intent', StripeController.sendReceiptByEmail);

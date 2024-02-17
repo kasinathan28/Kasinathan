@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 
+
 function Products({ selectedBrands, selectedPrices }) {
   const demoProfileId = useParams();
   const profileId = demoProfileId.profileId;

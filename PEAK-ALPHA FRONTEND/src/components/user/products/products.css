@@ -72,14 +72,14 @@
 .display-container .product-card p.quantity {
   font-size: 14px;
   margin: 4px 0;
-  color: #777;
+  color: #000;
   text-align: right;
 }
 
 .display-container .product-card p.description {
   font-size: 14px;
   margin: 8px 10px;
-  color: #666;
+  color: #000;
   text-align: left;
 }
 

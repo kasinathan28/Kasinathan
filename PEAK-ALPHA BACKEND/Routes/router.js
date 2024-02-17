@@ -42,6 +42,9 @@ router.get('/getAllProducts3', userController.getAllProducts3);
 // Router for adding product to the cart
 router.post("/addToCart", cartController.addToCart);
 
+// Router for updating the quantity in the cart
+router.put('/updateCartItem/:productId', cartController.updateProduct);
+
 // Router to fecth the cart items
 router.get("/getCart", cartController.getCart);
 
@@ -84,6 +87,7 @@ router.get('/users', adminController.getUsers);
 // End of admin API
 
 
+
 // FEEDBACK API's
 // Router for feedback submitting
 router.post('/submit-feedback', feedbackController.submitFeedback);
@@ -103,6 +107,11 @@ router.post('/purchase/:productId', StripeController.makePurchase );
 // Router for getting the details from the Session id
 router.get('/getBookingDetails/:session_id', StripeController.getBookignDetails);
 
+// Router for downlaoding the stripe invoice.
+router.get('/getInvoice/:session_id', StripeController.downloadInvoice);
+
+// crete invoice
+router.post('/createInvoice/:payment_intent', StripeController.sendReceiptByEmail);
 
 // Export Router
 module.exports = router;

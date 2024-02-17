@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 
+
 function Products({ selectedBrands, selectedPrices }) {
   const demoProfileId = useParams();
   const profileId = demoProfileId.profileId;
@@ -100,25 +101,25 @@ function Products({ selectedBrands, selectedPrices }) {
       <div className="product-grid">
         {filteredProducts.map((product) => (
           <div key={product._id} className="product-card">
-            <div className="product-image">
-              <img src={product.image} alt={product.name} />
-            </div>
-            <div className="product-details">
-              <h3>{product.name}</h3>
-              <h5>{product.description}</h5>
-              <p>Quantity: {product.quantity}</p>
-              <p className="price">₹{product.price}</p>
-              <div className="product-button">
+          <div className="product-details">
+            <h1 className="title">{product.name}</h1>
+            <h3 className="sub-title">{product.brand}</h3>
+          <div className="product-image">
+            <img src={product.image} alt={product.name} />
+          </div>
+            <p className="quantity">Quantity: {product.quantity}</p>
+            <p className="description" id="desc">{product.description}</p>
+            <p className="price">₹{product.price}</p>
+            <div className="product-button">
               <button onClick={() => handleViewClick(product._id, product.stripeProductId)}>View</button>
-                <button onClick={() => handleAddToCartClick(product._id)}>
-                  Add to Cart
-                </button>
-              </div>
+              <button onClick={() => handleAddToCartClick(product._id)}>Add to Cart</button>
             </div>
           </div>
+        </div>
+        
         ))}
       </div>
-      <ToastContainer position="bottom-left" />
+      <ToastContainer position="top-left" />
     </div>
   );
 }

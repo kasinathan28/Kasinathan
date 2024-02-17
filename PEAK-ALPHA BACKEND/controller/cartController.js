@@ -49,3 +49,25 @@ exports.getProductDetails = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+
+// update he cart items.
+exports.updateProduct= async(req, res) =>{
+  const { productId } = req.params;
+  const { quantity } = req.body;
+  console.log("Product Id:", productId);
+
+  try {
+    // Find the product by ID and update its quantity
+    const updatedProduct = await Cart.findByIdAndUpdate(productId, { quantity }, { new: true });
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json({ message: "Product quantity updated successfully", updatedProduct });
+  } catch (error) {
+    console.error("Error updating product quantity:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

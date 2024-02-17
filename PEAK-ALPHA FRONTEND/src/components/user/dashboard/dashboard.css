@@ -34,12 +34,22 @@
   margin-right: 15px;
 }
 
+
+.searchbar-container{
+  width: auto;
+  height: auto;
+  justify-content:left;
+  display: flex;
+  align-items: center;
+  margin: auto 20px;
+}
+
 .searchBar {
   padding: 8px;
-  margin-top: 15px;
+  margin-top: 25px;
   width: 250px;
-  margin-right: 10px;
-  margin-left: 10px;
+  justify-content: left;
+  margin-right: auto;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;

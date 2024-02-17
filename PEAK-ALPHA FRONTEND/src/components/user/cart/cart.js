@@ -55,7 +55,6 @@ const Cart = () => {
   }, [userCart]);
 
   useEffect(() => {
-    // Calculate total amount based on product quantity and price
     const total = userCart.reduce((acc, item) => {
       const productDetail = productDetails.find((product) => product._id === item.product);
       return acc + (productDetail ? productDetail.price * item.quantity : 0);
@@ -68,8 +67,35 @@ const Cart = () => {
     console.log("Checkout button clicked");
   };
 
+  const updateQuantity = async (itemId, newQuantity) => {
+    try {
+      const response = await axios.put(`http://localhost:5000/updateCartItem/${itemId}`, {
+        quantity: newQuantity
+      });
+      
+      // Check if the response is successful and contains updated cart data
+      if (response.status === 200 && response.data.cart) {
+        // Update user cart with the updated data
+        setUserCart(response.data.cart);
+      } else {
+        console.error("Error updating quantity: Invalid response format");
+      }
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+    }
+  };
+  
+
   const CartItemCard = ({ productDetail, item }) => {
-    const [quantity] = useState(item.quantity);
+    const [quantity, setQuantity] = useState(item.quantity);
+
+    const handleIncreaseAndDecrease = (change) => {
+      const newQuantity = quantity + change;
+      if (newQuantity >= 1) {
+        setQuantity(newQuantity);
+        updateQuantity(item._id, newQuantity);
+      }
+    };
 
     return (
       <div className="cart-item-card">
@@ -78,7 +104,9 @@ const Cart = () => {
           <p className="product-name">{productDetail.name}</p>
           <p className="product-price">Price: ₹{productDetail.price}</p>
           <div className="quantity-controls">
-            <p className="product-quantity">Quantity: {quantity}</p>
+            <button onClick={() => handleIncreaseAndDecrease(-1)}>-</button>
+            <p className="product-quantity">{quantity}</p>
+            <button onClick={() => handleIncreaseAndDecrease(1)}>+</button>
           </div>
           <div className="card-body">
             <button>Buy Now</button>
@@ -103,11 +131,11 @@ const Cart = () => {
         </div>
       </div>
 
+
       <div className="main">
         <div className="heading">
           <h1>Your cart</h1>
         </div>
-        <div className="bar" />
 
         <div className="cart-items">
           {userCart.map((item) => {
@@ -124,7 +152,6 @@ const Cart = () => {
             );
           })}
         </div>
-        
       </div>
       <div className="total">
         <p>Total: ₹{totalAmount}</p>

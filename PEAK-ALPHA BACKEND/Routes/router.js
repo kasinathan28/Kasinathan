@@ -107,11 +107,10 @@ router.post('/purchase/:productId', StripeController.makePurchase );
 // Router for getting the details from the Session id
 router.get('/getBookingDetails/:session_id', StripeController.getBookignDetails);
 
-// Router for downlaoding the stripe invoice.
-// router.get('/getInvoice/:session_id', StripeController.downloadInvoice);
-
 // crete invoice
 router.post('/createInvoice/:payment_intent', StripeController.sendReceiptByEmail);
+
+
 
 // Export Router
 module.exports = router;

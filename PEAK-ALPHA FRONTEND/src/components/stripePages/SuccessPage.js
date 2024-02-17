@@ -3,40 +3,43 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAtlassian } from "@fortawesome/free-brands-svg-icons";
-import "./successPage.css";
-import Confetti from "react-confetti";
-import useWindowSize from 'react-use/lib/useWindowSize'
-
+import Confetti from "react-confetti"; // Import Confetti component
 
 import success from "../../assets/success page.svg";
+import "./successPage.css";
 
 function SuccessPage() {
   const navigate = useNavigate();
   const { session_id } = useParams();
-  const [bookingDetails, setBookingDetails] = useState(null);
-  const [invoice, setInvoice] = useState();
+  const [payment_intent, setPaymentIntent] = useState(null);
 
-  const { width, height } = useWindowSize()
-
-  console.log(session_id);
-
- 
-
-  const downloadInvoice =()=>{
-    try {
-      console.log("Downaloding invoice");
-    } catch (error) {
-      
-    }
-  }
-
+  useEffect(() => {
+    const GetIntent = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/getBookingDetails/${session_id}`);
+        setPaymentIntent(response.data);
   
-
+        try {
+          const sendEmail = await axios.post(`http://localhost:5000/createInvoice/${payment_intent}`);
+          console.log(sendEmail);
+        } catch (error) {
+          console.log("Error sending email",error);
+        }
+      } catch (error) {
+        console.log("Error fetching the Payment intent", error);
+      }
+    };
+    GetIntent();
+  }, []); 
+  
   const handleBack = () => {
     navigate(-1);
   };
 
-  const handleDownloadInvoice = () => {};
+  const handleHome =()=>{
+    navigate(-4)
+  }
+  
 
   return (
     <div className="successPage">
@@ -55,18 +58,22 @@ function SuccessPage() {
 
       <div className="booking-details">
         <div className="thanks">
-          <Confetti width={width} height={height} numberOfPieces={50} />
           <img className="thanks-svg" src={success} alt="success svg" />
         </div>
         <div className="desc">
           <h1>Thanks for your order.</h1>
           <div className="desc2">
-          <p>You will get an order confirmation mail soon with the order details. And you can download the Invoice.</p>
+            <p>You will get an order confirmation mail soon with the order details. And you can download the Invoice.</p>
           </div>
         </div>
-            <button className="invc-btn" onClick={downloadInvoice}>
-              Download Invoice
+        {payment_intent && (
+          <>
+            <button className="invc-btn" onClick={handleHome}>
+              Go Home
             </button>
+            <Confetti /> 
+          </>
+        )}
       </div>
     </div>
   );

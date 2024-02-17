@@ -64,8 +64,8 @@ exports.getBookignDetails = async (req, res) => {
     const session = await stripe.checkout.sessions.retrieve(
       session_id.session_id
     );
-    console.log(session);
-    res.status(200).json(session);
+    console.log(session.payment_intent);
+    res.status(200).json(session.payment_intent);
   } catch (error) {
     console.error("Error retrieving Stripe session details:", error);
     res
@@ -75,12 +75,13 @@ exports.getBookignDetails = async (req, res) => {
 };
 
 
-
 // Send the receipt as email
 exports.sendReceiptByEmail = async (req, res) => {
+  console.log("API called for sending receipt");
   try {
     const demoId = req.params;
     const payment_intent = demoId.payment_intent;
+    console.log(payment_intent);
 
     // Retrieve payment intent
     const paymentIntent = await stripe.paymentIntents.retrieve(payment_intent);
@@ -92,11 +93,23 @@ exports.sendReceiptByEmail = async (req, res) => {
     }
 
     // Read the HTML content from receipt_template.html
-    const htmlContent = fs.readFileSync('receipt_template.html', 'utf8');
+    let htmlContent = fs.readFileSync('receipt_template.html', 'utf8');
+
+    // Dynamically replace placeholders in the HTML content
+    htmlContent = htmlContent.replace('${paymentIntent.amount}', paymentIntent.amount);
+    htmlContent = htmlContent.replace('${paymentIntent.currency.toUpperCase()}', paymentIntent.currency.toUpperCase());
+    htmlContent = htmlContent.replace('${paymentIntent.shipping.name}', paymentIntent.shipping.name);
+    htmlContent = htmlContent.replace('${paymentIntent.shipping.address.line1}', paymentIntent.shipping.address.line1);
+    htmlContent = htmlContent.replace('${paymentIntent.shipping.address.city}', paymentIntent.shipping.address.city);
+    htmlContent = htmlContent.replace('${paymentIntent.shipping.address.state}', paymentIntent.shipping.address.state);
+    htmlContent = htmlContent.replace('${paymentIntent.shipping.address.postal_code}', paymentIntent.shipping.address.postal_code);
+    htmlContent = htmlContent.replace('${paymentIntent.shipping.address.country}', paymentIntent.shipping.address.country);
+    htmlContent = htmlContent.replace('${paymentIntent.shipping.phone}', paymentIntent.shipping.phone);
 
     // Generate PDF from HTML content
     generatePDF(htmlContent, async (err, buffer) => {
       if (err) {
+        console.error("Error generating PDF:", err);
         res.status(500).json({ error: "Failed to generate PDF" });
         return;
       }
@@ -114,19 +127,9 @@ exports.sendReceiptByEmail = async (req, res) => {
       // Define email options
       const mailOptions = {
         from: "Peak Alpha <peakalpha2024@gmail.com>",
-        to: "<mayabaiju1982@gmail.com>", // Ensure recipientEmail is defined
+        to: "<way2kasinathb35@gmail.com>",
         subject: "Your Payment Receipt from Peak Alpha",
-        html: `
-          <div style="font-family: Arial, sans-serif; padding: 20px;">
-            <h1 style="color: #1e90ff;">Payment Receipt</h1>
-            <p style="font-size: 16px;">Dear Customer,</p>
-            <p style="font-size: 16px;">Thank you for your recent purchase from Peak Alpha. We appreciate your business!</p>
-            <p style="font-size: 16px;">Please find your payment receipt attached.</p>
-            <hr style="border: 1px solid #ccc; margin: 20px 0;">
-            <p style="font-size: 16px;">If you have any questions or concerns, feel free to <a href="mailto:support@peakalpha.com" style="color: #1e90ff; text-decoration: none;">contact our support team</a>.</p>
-            <p style="font-size: 16px;">Best regards,<br>Peak Alpha Team</p>
-          </div>
-        `,
+        html: htmlContent,
         attachments: [
           {
             filename: "New Order Receipt from Peak Alpha.pdf",
@@ -134,6 +137,7 @@ exports.sendReceiptByEmail = async (req, res) => {
           },
         ],
       };
+      
       // Send email
       await transporter.sendMail(mailOptions);
 
@@ -144,3 +148,7 @@ exports.sendReceiptByEmail = async (req, res) => {
     res.status(500).json({ error: "Failed to send receipt" });
   }
 };
+
+
+
+

@@ -41,8 +41,6 @@ function Bookings() {
 
   return (
     <div className='admin'>
-
-
     <div className='bookingPage'>
       <h1>Bookings Page</h1>
       <div className='bookingCard-container'>

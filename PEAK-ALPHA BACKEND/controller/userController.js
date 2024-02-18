@@ -204,34 +204,49 @@ exports.getUserAddress = async (req, res) => {
 // Router for updating the address
 exports.updateAddress = async (req, res) => {
   const { profileId } = req.params;
-  console.log(profileId);
   const { pincode, city, houseName, landmark } = req.body;
 
   try {
+    // Find the user by profileId
     const user = await Users.findById(profileId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const userAddress = await Address.findOneAndUpdate(
-      { pincode, city, houseName, landmark },
-      { pincode, city, houseName, landmark },
-      { new: true, upsert: true }
-    );
+    // Find the user's existing address
+    let userAddress = await Address.findById(user.addressId);
 
+    if (!userAddress) {
+      // If the user doesn't have an existing address, create a new one
+      userAddress = new Address({
+        pincode,
+        city,
+        houseName,
+        landmark
+      });
+    } else {
+      // If the user already has an address, update it
+      userAddress.pincode = pincode;
+      userAddress.city = city;
+      userAddress.houseName = houseName;
+      userAddress.landmark = landmark;
+    }
+
+    // Save the updated or new address
+    await userAddress.save();
+
+    // Update the user's addressId with the updated address
     user.addressId = userAddress._id;
     await user.save();
-    console.log(userAddress);
 
-    res
-      .status(200)
-      .json({ message: "Address updated successfully", address: userAddress });
+    res.status(200).json({ message: "Address updated successfully", address: userAddress });
   } catch (error) {
     console.error("Error during address update:", error);
     res.status(500).json({ error: "An error occurred during address update" });
   }
 };
+
 
 // get all products
 exports.getAllProducts1 = async (req, res) => {

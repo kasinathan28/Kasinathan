@@ -6,6 +6,7 @@ import Users from "../../admin/users/Users";
 import Feedback from "../feedback/Feedback";
 import AdminProfile from "../profile/AdminProfile";
 import Bookings from "../Bookings/Bookings";
+import Cancellations from "../Cancellations/Cancellations";
 
 function Home() {
   const [activeItem, setActiveItem] = useState("Products");
@@ -96,6 +97,8 @@ function Home() {
           {activeItem === "Feedbacks" && <Feedback />}
           {activeItem === "Profile" && <AdminProfile />}
           {activeItem === "Bookings" && <Bookings />}
+          {activeItem === "Cancellations" && <Cancellations />}
+
 
 
         </div>

@@ -8,6 +8,7 @@ const cartController = require('../controller/cartController');
 const ProductDetailsController = require('../controller/productdetailsController');
 const StripeController = require("../controller/stripeController");
 const BookignController = require("../controller/bookingsController");
+const CancellationController = require("../controller/cancelaltionController");
 const router = new express.Router();
 
 
@@ -60,7 +61,11 @@ router.post("/newBooking", BookignController.newBooking);
 // Router for getting the user's bookings
 router.get("/getUserBookings/:profileId", BookignController.getUserBookings);
 
+// Router for adding new cancellation request.
+router.post("/newCancellation/:profileId", CancellationController.newCancellation );
+
 // End of users API
+
 
 
 // Admin API
@@ -91,6 +96,9 @@ router.get('/users', adminController.getUsers);
 
 // Router for getting all the bookings from the database.
 router.get('/getBookings', BookignController.getAllBookings);
+
+// Router for getting all the cancellation reqs
+router.get("/getCancellation", CancellationController.Cancellations);
 
 // End of admin API
 

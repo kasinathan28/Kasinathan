@@ -1,0 +1,70 @@
+.cancellationPage {
+    margin-left: 250px;
+  }
+
+  .cancellationPage h1{
+    text-align: left;
+    color: #fff;
+  }
+  
+  .cancellationTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .cancellationTable th,
+  .cancellationTable td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .cancellationTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .cancellationTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .cancellationTable tbody tr:hover {
+    background-color: #ddd;
+  }
+  
+  .cancellationPage button{
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+  } 
+
+  .cancellationPage #delete{
+    background:rgb(218, 84, 84);
+    transition: 0.2s ease all;
+  }
+
+  .cancellationPage #delete:hover{
+    background: red;
+  }
+
+  .cancellationPage #delete:active{
+    transform: translateY(5px);
+  }
+
+  .cancellationPage #approve{
+    transition: 0.2s ease all;
+    background: lightgreen;
+  }
+
+
+  .cancellationPage #approve:hover{
+    transition: 0.2s ease all;
+    background-color: rgb(97, 238, 97);
+  }
+
+  .cancellationPage #approve:active{
+    transform: translateY(5px);
+  }

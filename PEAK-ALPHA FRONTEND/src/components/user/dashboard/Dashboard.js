@@ -4,14 +4,13 @@ import { faAtlassian } from "@fortawesome/free-brands-svg-icons";
 import { faShoppingCart, faHome } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import "./dashboard.css";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import HamburgerMenu from "react-hamburger-menu";
 import ad1 from "../../../assets/corossial 1.png";
 import ad2 from "../../../assets/ad2.png";
 import ad3 from "../../../assets/ad3.png";
 import axios from "axios";
 import Products from "../products/Products";
-
 
 function Dashboard() {
   const demoProfileId = useParams();
@@ -26,6 +25,7 @@ function Dashboard() {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedPrices, setSelectedPrices] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [products, setProducts] = useState([]);
 
   const handleBrandChange = (brand) => {
     const updatedBrands = selectedBrands.includes(brand)
@@ -58,7 +58,7 @@ function Dashboard() {
           ...new Set(response.data.products.map((product) => product.brand)),
         ];
         setBrands(uniqueBrands);
-
+        setProducts(response.data.products); // Update products state with fetched products
         console.log("Products fetched successfully:", response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -107,12 +107,6 @@ function Dashboard() {
     };
   }, []);
 
-  const filterProducts = (products) => {
-    return products.filter((product) =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  };
-
   const handleCart = () => {
     navigate(`/cart/${profileId}`);
   };
@@ -145,16 +139,6 @@ function Dashboard() {
             />
             CART
           </div>
-          {/* <div>
-            <input
-              type="text"
-              placeholder="Search..."
-              className="searchBar"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div> */}
-
           <div className="hamburger-menu">
             <HamburgerMenu
               isOpen={isOpen}
@@ -197,7 +181,6 @@ function Dashboard() {
       <div className="sidebar-and-content">
         <div className={`sidebar ${isSidebarFixed ? "fixed" : ""}`}>
           <div className="filters">
-            {/* <h2>Filters</h2> */}
             <div className="brand">
               <h3>Brands</h3>
               <ul className="userul">
@@ -218,18 +201,22 @@ function Dashboard() {
           </div>
         </div>
         <div className="display-container">
-          <div className="searchbar-container">
-            <label>Seach: </label> 
-            <input 
-            type="text"
-            className="searchBar"
-            placeholder="search"
+          {/* <div className="searchbar-container">
+            <label>Search: </label>
+            <input
+              type="text"
+              className="searchBar"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </div>
+          </div> */}
           <Products
             selectedBrands={selectedBrands}
             selectedPrices={selectedPrices}
-            products={filterProducts}
+            products={products.filter((product) =>
+              product.name.toLowerCase().includes(searchQuery.toLowerCase())
+            )}
           />
         </div>
       </div>

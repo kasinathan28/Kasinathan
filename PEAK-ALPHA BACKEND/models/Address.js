@@ -18,7 +18,6 @@ const addressSchema = new mongoose.Schema({
     required: true,
   },
   
-  // You can add more fields based on your needs
 });
 
 const Address = mongoose.model("Address", addressSchema);

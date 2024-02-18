@@ -6,6 +6,7 @@ const axios = require("axios");
 const twilio = require("twilio");
 const multer = require("multer");
 
+
 // Twilio configuration
 const accountSid = "ACe3e8a0c5012984c57f28389d766dc89d";
 const authToken = "648d2f0be4b6457ffff6c52f504dff02";
@@ -129,25 +130,34 @@ exports.getUserData = async (req, res) => {
   }
 };
 
-// update profile
+
+// Update user address.
 exports.updateprofile = async (req, res) => {
-  const { username, name, phoneNumber, password, email } = req.body;
-  const { filename, path } = req.file;
+  const { name, phoneNumber, password, email } = req.body;
+  const profileId = req.params.profileId; // Corrected to req.params.profileId
 
   try {
-    const updateFields = {
-      name,
-      phoneNumber,
-      password,
-      email,
-    };
+    const updateFields = {};
 
-    if (path) {
-      updateFields.profilePicture = { path };
+    // Add fields to update only if they are provided in the request
+    if (name) {
+      updateFields.username = name;
+    }
+    if (phoneNumber) {
+      updateFields.phoneNumber = phoneNumber;
+    }
+    if (password) {
+      updateFields.password = password;
+    }
+    if (email) {
+      updateFields.email = email;
+    }
+    if (req.file && req.file.path) {
+      updateFields.profilePicture = { path: req.file.path };
     }
 
     const updatedUser = await Users.findOneAndUpdate(
-      { username },
+      { _id: profileId }, // Use _id to find the user to update
       updateFields,
       { new: true }
     );
@@ -164,6 +174,7 @@ exports.updateprofile = async (req, res) => {
     res.status(500).json({ error: "An error occurred during profile update" });
   }
 };
+
 
 // Get user's address by username
 exports.getUserAddress = async (req, res) => {
@@ -192,11 +203,12 @@ exports.getUserAddress = async (req, res) => {
 
 // Router for updating the address
 exports.updateAddress = async (req, res) => {
-  const { username } = req.params;
+  const { profileId } = req.params;
+  console.log(profileId);
   const { pincode, city, houseName, landmark } = req.body;
 
   try {
-    const user = await Users.findOne({ username });
+    const user = await Users.findById(profileId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -210,6 +222,7 @@ exports.updateAddress = async (req, res) => {
 
     user.addressId = userAddress._id;
     await user.save();
+    console.log(userAddress);
 
     res
       .status(200)

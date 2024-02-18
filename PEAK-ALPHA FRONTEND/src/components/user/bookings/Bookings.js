@@ -55,6 +55,9 @@ function Bookings() {
                 {booking.productDetails.image && (
                   <img  src={booking.productDetails.image} alt={booking.productDetails.name} />
                 )}
+                <div>
+                  <button >Cancel </button>
+                </div>
               </div>
             ) : (
               <p>No product details found for this booking</p>

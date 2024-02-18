@@ -3,16 +3,17 @@ const Product = require("../models/products");
 
 // End point to add the product to cart.
 exports.addToCart = async (req, res) => {
-  const { username, product } = req.body;
+  const { profileId, product } = req.body;
+  console.log(profileId);
   try {
-   const existingCartItem = await Cart.findOne({ username, product });
+   const existingCartItem = await Cart.findOne({ profileId, product });
     if (existingCartItem) {
       existingCartItem.quantity += 1;
       await existingCartItem.save();
     } else {
-      await Cart.create({ username, product, quantity: 1 });
+      await Cart.create({ profileId, product, quantity: 1 });
     }
-    const updatedCart = await Cart.find({ username }).populate("product");
+    const updatedCart = await Cart.find({ profileId }).populate("product");
     res
       .status(200)
       .json({
@@ -27,9 +28,9 @@ exports.addToCart = async (req, res) => {
 
 // End point to get the cart items
 exports.getCart = async (req, res) => {
-  const { username } = req.query;
+  const { profileId } = req.query;
   try {
-    const userCart = await Cart.find({ username });
+    const userCart = await Cart.find({ profileId });
     res.status(200).json({ cart: userCart });
   } catch (error) {
     console.error("Error fetching user's cart:", error);

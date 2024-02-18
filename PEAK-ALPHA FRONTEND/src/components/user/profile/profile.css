@@ -58,7 +58,7 @@
   .sidebar {
     /* position: absolute; */
     min-width: 200px;
-    background-color: #333;
+    background-color: #22395c;
     color: #fff;
     padding: 20px;
     height: calc(100vh - 160px); 
@@ -107,7 +107,7 @@
   
  
   .sidebar li.active {
-    background-color: #555;
+    background-color: #dfc8ea;
   }
   
   .sidebar li.active-profile .profile-content,

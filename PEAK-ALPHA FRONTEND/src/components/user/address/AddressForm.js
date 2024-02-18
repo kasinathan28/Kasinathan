@@ -19,7 +19,6 @@ function AddressForm() {
   useEffect(() => {
     const fetchUserAddress = async () => {
       try {
-        const username = localStorage.getItem("username");
         const response = await axios.get(`http://localhost:5000/getUserAddress/${profileId}`);
 
         if (response.status === 200) {
@@ -48,7 +47,7 @@ function AddressForm() {
     try {
       const username = localStorage.getItem("username");
 
-      const response = await axios.put(`http://localhost:5000/updateAddress/${username}`, {
+      const response = await axios.put(`http://localhost:5000/updateAddress/${profileId}`, {
         pincode,
         city,
         houseName,
@@ -74,7 +73,7 @@ function AddressForm() {
     // Ensure that the pincode is a valid 6-digit number
     const isSixDigitPincode = /^\d{6}$/.test(enteredPincode);
     if (!isSixDigitPincode) {
-      console.warn("Invalid pincode format. Please enter a 6-digit pincode.");
+      console.alert("Invalid pincode format. Please enter a 6-digit pincode.");
       return;
     }
 
@@ -105,12 +104,12 @@ function AddressForm() {
   };
 
   // Use useEffect to trigger the pincode lookup when pincode changes
-  useEffect(() => {
-    // Check if the pincode is a 6-digit number before triggering the lookup
-    if (pincode.length === 6 && !useCurrentLocation) {
-      fetchCityFromPincode(pincode);
-    }
-  }, [pincode, useCurrentLocation]);
+  // useEffect(() => {
+  //   // Check if the pincode is a 6-digit number before triggering the lookup
+  //   if (pincode.length === 6 && !useCurrentLocation) {
+  //     fetchCityFromPincode(pincode);
+  //   }
+  // }, [pincode, useCurrentLocation]);
 
   const updateLocation = () => {
     return new Promise((resolve, reject) => {

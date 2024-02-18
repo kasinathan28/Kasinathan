@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 
+
 function Products({ selectedBrands, selectedPrices }) {
   const demoProfileId = useParams();
   const profileId = demoProfileId.profileId;
@@ -18,9 +19,11 @@ function Products({ selectedBrands, selectedPrices }) {
 
   const navigate = useNavigate();
 
-  const username = localStorage.getItem("username");
+  const [username, setUsername] = useState();
 
   useEffect(() => {
+
+   
     const fetchProducts = async () => {
       try {
         const response1 = await axios.get("http://localhost:5000/getAllProducts1");
@@ -80,7 +83,7 @@ function Products({ selectedBrands, selectedPrices }) {
   const handleAddToCartClick = async (productId) => {
     try {
       await axios.post("http://localhost:5000/addToCart", {
-        username: username,
+        profileId: profileId,
         product: productId,
       });
 

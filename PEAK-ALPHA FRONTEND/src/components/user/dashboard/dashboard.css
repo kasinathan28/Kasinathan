@@ -220,13 +220,16 @@
   color: #ffcc00;
 }
 
-.user-dash .sidebar li:hover{
-background: #dfc8ea;
+.user-dash .sidebar li{
+  transition: 0.2s ease all;
 }
 
-.user-dash .sidebar strong:hover{
-  color:#132e35;
+.user-dash .sidebar li:hover{
+background: #22395c;
+color: #fff;
+border-radius: 20px;
 }
+
 
 .user-dash .sidebar h3 {
   margin-bottom: 10px;

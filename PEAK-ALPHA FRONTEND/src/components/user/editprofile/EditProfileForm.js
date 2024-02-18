@@ -22,28 +22,25 @@ const EditProfileForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Show loading state
     setIsLoading(true);
-
+  
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
       const formData = new FormData();
-      formData.append("profileId", profileId); // Add this line to include the username
+      formData.append("username", name); // Change profileId to username
       formData.append("name", name);
       formData.append("phoneNumber", phoneNumber);
       formData.append("password", password);
       formData.append("email", email);
-
+  
       // Only append profile picture if it is not null
       if (profilePicture) {
         formData.append("profilePicture", profilePicture);
       }
-
-      console.log("FormData Content:", formData);
-
+  
       const response = await axios.post(
-        "http://localhost:5000/updateprofile",
+        `http://localhost:5000/updateprofile/${profileId}`,
         formData,
         {
           headers: {
@@ -51,18 +48,17 @@ const EditProfileForm = () => {
           },
         }
       );
-
       // Check the response and handle accordingly
       if (response.status === 200) {
         const { message, user } = response.data;
-
+  
         // Show success toast
         toast.success(message);
-
+  
         // Update local state with the new profile picture path
         setProfilePicture(user.profilePicture.path);
       } else {
-        // Show error toast
+        console.log("Error updating the profile.", error);
         toast.error("Failed to update profile. Please try again later.");
       }
     } catch (error) {
@@ -73,6 +69,7 @@ const EditProfileForm = () => {
       setIsLoading(false);
     }
   };
+  
 
   useEffect(() => {
     const fetchUserData = async () => {

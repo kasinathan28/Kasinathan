@@ -14,23 +14,23 @@
   
   .adminpage .navbar h1 {
     margin-left: 30px;
-    /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
+   
     color: #fff;
     letter-spacing: 10px;
     font-size: 40px;
   }
   
-  /* Main container styles */
+ 
   .adminpage .main {
     display: flex;
   }
   
   
- /* Sidebar styles */
+
  .adminpage .main .sidebar {
-  position: fixed;  /* Change from "sticky" to "fixed" */
+  position: fixed; 
   width: 200px;
-  background-color: #333;
+  background-color: #22395c;
   color: #fff;
   padding: 20px;
   height: calc(100vh - 160px);
@@ -38,7 +38,7 @@
   font-size: 18px;
 }
   
-  /* Sidebar list styles */
+ 
   .adminpage .main .sidebar ul {
     list-style: none;
     padding: 0;
@@ -58,19 +58,19 @@
     background: red;
     color: #fff;
   }
-  /* Content styles */
+ 
   .content {
     flex-grow: 1;
     padding: 20px;
   }
   
-  /* Styling for content inside the sidebar */
+ 
   .sidebar-content {
     color: #fff;
     margin-top: 20px;
   }
   
-  /* Styling for different sections in the content */
+ 
   .profile-content {
     display: none;
   }
@@ -79,12 +79,13 @@
     display: none;
   }
   
-  /* Show the content based on the active item */
+ 
   .sidebar li.active {
-    background-color: #555;
+    background-color: #dfc8ea;
+    color: #22395c;
   }
 
- /* Styling for the "Profile" and "Logout" buttons */
+
  .bottom-section li.profile-logout {
     padding: 10px;
     cursor: pointer;

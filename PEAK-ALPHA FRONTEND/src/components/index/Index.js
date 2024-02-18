@@ -71,7 +71,7 @@ function Index() {
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [message, setmessage] = useState("");
-
+  const [feedbackLoading , setFeedbackLoading] = useState(false);
   // for admin login
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -148,7 +148,7 @@ function Index() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    setLoading(true);
+    setFeedbackLoading(true);
 
     const submitFeedback = async () => {
       try {
@@ -176,7 +176,7 @@ function Index() {
         console.error("Error submitting feedback:", error);
         toast.error("An error occurred while submitting feedback");
       } finally {
-        setLoading(false);
+        setFeedbackLoading(false);
 
         const minimumLoadingTime = 2000;
 

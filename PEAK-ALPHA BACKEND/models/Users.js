@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   profilePicture: {
     filename: { type: String },
     path: { type: String },
-  },
+  },  
   addressId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Address',

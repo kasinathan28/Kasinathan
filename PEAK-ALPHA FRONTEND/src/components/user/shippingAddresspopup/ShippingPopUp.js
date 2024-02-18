@@ -5,7 +5,7 @@ import "./shippingPopup.css";
 import { useParams } from "react-router-dom";
 
 function ShippingPopUp({ onClose }) {
-  const { productId } = useParams();
+  const { productId, profileId } = useParams();
   const [formData, setFormData] = useState({
     fullName: "",
     address: "",
@@ -16,6 +16,9 @@ function ShippingPopUp({ onClose }) {
   });
   const [priceId, setPriceId] = useState();
   const [paymentUrl, setPaymentUrl] = useState();
+
+  localStorage.setItem("prodileId", profileId);
+  localStorage.setItem("productId", productId);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -54,6 +57,7 @@ function ShippingPopUp({ onClose }) {
         const response = await axios.post(`http://localhost:5000/purchase/${productId}`, {
           priceId: priceId,
           shippingDetails: deliveryData,
+          profileId:profileId,
         });
 
         setPaymentUrl(response.data.url);

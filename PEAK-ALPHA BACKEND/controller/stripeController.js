@@ -1,13 +1,18 @@
 const Product = require("../models/products");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const generatePDF = require('../pdfGenerator'); // Import the PDF generation function
+const generatePDF = require('../pdfGenerator'); 
 const fs = require("fs");
 const nodemailer = require("nodemailer");
+
+
 
 // Making purchase in the stripe
 exports.makePurchase = async (req, res) => {
   const { productId } = req.params;
-  const { priceId, shippingDetails } = req.body;
+  const { priceId, shippingDetails , profileId} = req.body;
+
+  console.log(req.body);
+
   const { fullName, address, phoneNumber, state, zip, country } =
     shippingDetails;
 
@@ -37,6 +42,7 @@ exports.makePurchase = async (req, res) => {
         },
       ],
       mode: "payment",
+      currency:"inr",
       shipping_address_collection: {
         allowed_countries: allowedCountries,
       },
@@ -53,6 +59,8 @@ exports.makePurchase = async (req, res) => {
     res.status(500).json({ error: "Failed to make purchase" });
   }
 };
+
+
 
 // Get details with the session id
 exports.getBookignDetails = async (req, res) => {
@@ -107,6 +115,7 @@ exports.sendReceiptByEmail = async (req, res) => {
     htmlContent = htmlContent.replace('${paymentIntent.shipping.address.country}', paymentIntent.shipping.address.country);
     htmlContent = htmlContent.replace('${paymentIntent.shipping.phone}', paymentIntent.shipping.phone);
 
+
     // Generate PDF from HTML content
     generatePDF(htmlContent, async (err, buffer) => {
       if (err) {
@@ -114,6 +123,13 @@ exports.sendReceiptByEmail = async (req, res) => {
         res.status(500).json({ error: "Failed to generate PDF" });
         return;
       }
+
+
+      const customer = paymentIntent.customer;
+
+      console.log(customer);
+      const recEmail = await stripe.customers.retrieve(customer);
+      console.log(recEmail.email);
 
       // Set up Nodemailer transporter
       const transporter = nodemailer.createTransport({
@@ -128,7 +144,7 @@ exports.sendReceiptByEmail = async (req, res) => {
       // Define email options
       const mailOptions = {
         from: "Peak Alpha <peakalpha2024@gmail.com>",
-        to: "<way2kasinathb35@gmail.com>",
+        to: recEmail.email,
         subject: "Your Payment Receipt from Peak Alpha",
         html: htmlContent,
         attachments: [
@@ -139,7 +155,6 @@ exports.sendReceiptByEmail = async (req, res) => {
         ],
       };
       
-      // Send email
       await transporter.sendMail(mailOptions);
 
       res.status(200).json({ message: "Receipt sent successfully" });

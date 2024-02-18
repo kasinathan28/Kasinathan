@@ -13,6 +13,12 @@ function SuccessPage() {
   const { session_id } = useParams();
   const [paymentIntent, setPaymentIntent] = useState(null);
 
+  const profileId = localStorage.getItem("prodileId");
+  console.log(profileId);
+  const productId =localStorage.getItem("productId");
+  console.log(productId);
+
+
   useEffect(() => {
     const GetIntent = async () => {
       try {
@@ -26,6 +32,20 @@ function SuccessPage() {
           console.log("Email sent successfully:", emailResponse);
         } catch (error) {
           console.log("Error sending email", error);
+        }
+        try {
+          console.log("in try for stroing new booking data");
+          const newBooking = await axios.post(`http://localhost:5000/newBooking`,
+          {
+            productId:productId,
+            profileId:profileId,
+            paymentIntentId:response.data,
+          }
+          )
+          console.log(newBooking);
+        } catch (error) {
+          console.log("Error storing booking details");
+          
         }
       } catch (error) {
         console.log("Error fetching the Payment intent", error);
@@ -41,18 +61,9 @@ function SuccessPage() {
 
   const handleHome =()=>{
     navigate(-4);
-    window.location.reload();
   }
 
 
-  // useEffect(() =>{
-  //   const sendEmail = async () => {
-  //     console.log(payment_intent);
-     
-  //   };
-  //   sendEmail();
-  // }, []);
-  
 
   return (
     <div className="successPage">

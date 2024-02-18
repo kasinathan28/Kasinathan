@@ -7,7 +7,7 @@ const feedbackController = require('../controller/feedbackController');
 const cartController = require('../controller/cartController');
 const ProductDetailsController = require('../controller/productdetailsController');
 const StripeController = require("../controller/stripeController");
-
+const BookignController = require("../controller/bookingsController");
 const router = new express.Router();
 
 
@@ -54,8 +54,8 @@ router.post("/getProductDetails", cartController.getProductDetails);
 // Router for fetching single product details in details page
 router.get("/getProductDetails/:productId", ProductDetailsController.getProductDetails);
 
-// Router for getting logged in admin 
-router.get("/getAdmin/:id", adminController.getAdmin);
+// Router for adding new booking to the database.
+router.post("/newBooking", BookignController.newBooking);
 
 
 // End of users API
@@ -64,6 +64,9 @@ router.get("/getAdmin/:id", adminController.getAdmin);
 // Admin API
 // Router for admin login
 router.post('/admin/login', adminController.login);
+
+// Router for getting logged in admin 
+router.get("/getAdmin/:id", adminController.getAdmin);
 
 // Router for fetching all the product
 router.get('/getAllProducts',adminController.getAllProducts);

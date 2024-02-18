@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Bookings.css";
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-;
 
 function Bookings() {
   const profileId = useParams();
   const [bookings, setBookings] = useState([]);
-  
+  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
+  const [selectedBooking, setSelectedBooking] = useState(null); // State to store selected booking for cancellation
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get( 
+        const response = await axios.get(
           `http://localhost:5000/getUserBookings/${profileId.profileId}`
         );
         const bookingData = response.data;
@@ -51,24 +51,28 @@ function Bookings() {
     fetchBookings();
   }, [profileId]);
 
-
-  // Handling Cancllations
   const handleCancellation = async (paymentIntentId) => {
+    // Show the popup when cancellation button is clicked
+    setShowPopup(true);
+    setSelectedBooking({ paymentIntentId });
+  };
+
+  const submitCancellation = async (reason) => {
     try {
       const response = await axios.post(
         `http://localhost:5000/newCancellation/${profileId.profileId}`,
         {
-          paymentIntentId: paymentIntentId,
+          paymentIntentId: selectedBooking.paymentIntentId,
+          reason: reason, // Include the cancellation reason
         }
       );
-      // Handle the response if needed
       toast.success("Cancellation request added successfully");
+      setShowPopup(false); // Close the popup after submission
     } catch (error) {
       console.log("Error adding new cancellation", error);
       toast.error("Failed to add cancellation request");
     }
   };
-
 
   return (
     <div className="bookingPage">
@@ -81,7 +85,6 @@ function Bookings() {
                 <h3>Product Details:</h3>
                 <p>Name: {booking.productDetails.name}</p>
                 <p>Description: {booking.productDetails.description}</p>
-                {/* Display the product image */}
                 {booking.productDetails.image && (
                   <img
                     src={booking.productDetails.image}
@@ -104,10 +107,28 @@ function Bookings() {
           </div>
         ))}
       </div>
+
+      {/* Popup/Modal for cancellation reason input */}
+      {showPopup && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={() => setShowPopup(false)}>
+              &times;
+            </span>
+            <h2>Enter Cancellation Reason</h2>
+            <input
+              type="text"
+              placeholder="Reason for cancellation"
+              onChange={(e) => setSelectedBooking({...selectedBooking, reason: e.target.value})}
+            />
+            <button onClick={() => submitCancellation(selectedBooking.reason)}>Submit</button>
+          </div>
+        </div>
+      )}
+
       <ToastContainer />
     </div>
   );
-  
 }
 
 export default Bookings;

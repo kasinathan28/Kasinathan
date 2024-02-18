@@ -21,7 +21,7 @@ function Cancellations() {
   const handleCancellation = async (id) => {
     try {
       // Send a request to cancel the specified cancellation by id
-      await axios.post(`http://localhost:5000/cancelCancellation/${id}`);
+      await axios.delete(`http://localhost:5000/cancelCancellation/${id}`);
       // Update the cancellations state to reflect the cancellation
       setCancellations(cancellations.filter((item) => item._id !== id));
       console.log(`Cancellation ${id} cancelled successfully`);

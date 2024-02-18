@@ -28,4 +28,18 @@ exports.newCancellation = async(req, res)=>{
         res.status(500).json({messsage :"Error fetching the cancellations"})
     }
  }
- 
+
+
+//  Delete a req from the cancellations
+exports.deleteCancellation = async(req, res) =>{
+    const id = req.params;
+    console.log(id);
+    try{
+        const response = await Cancellation.findByIdAndDelete(id.id);
+        res.status(200).json(response);
+        console.log("Deleted the request");
+    }
+    catch(error){
+        console.log("Error deleting the cancellation req", error);
+    }
+}

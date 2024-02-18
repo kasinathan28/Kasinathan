@@ -100,6 +100,8 @@ router.get('/getBookings', BookignController.getAllBookings);
 // Router for getting all the cancellation reqs
 router.get("/getCancellation", CancellationController.Cancellations);
 
+// Router for deleting the cancellation req
+router.delete("/cancelCancellation/:id", CancellationController.deleteCancellation);
 // End of admin API
 
 

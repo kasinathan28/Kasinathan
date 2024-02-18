@@ -11,34 +11,47 @@ import "./successPage.css";
 function SuccessPage() {
   const navigate = useNavigate();
   const { session_id } = useParams();
-  const [payment_intent, setPaymentIntent] = useState(null);
+  const [paymentIntent, setPaymentIntent] = useState(null);
 
   useEffect(() => {
     const GetIntent = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/getBookingDetails/${session_id}`);
         setPaymentIntent(response.data);
+        console.log(response.data);
   
+        // Send email using response.data directly
         try {
-          const sendEmail = await axios.post(`http://localhost:5000/createInvoice/${payment_intent}`);
-          console.log(sendEmail);
+          const emailResponse = await axios.post(`http://localhost:5000/createInvoice/${response.data}`);
+          console.log("Email sent successfully:", emailResponse);
         } catch (error) {
-          console.log("Error sending email",error);
+          console.log("Error sending email", error);
         }
       } catch (error) {
         console.log("Error fetching the Payment intent", error);
       }
     };
     GetIntent();
-  }, []); 
+  }, []);
+  
   
   const handleBack = () => {
     navigate(-1);
   };
 
   const handleHome =()=>{
-    navigate(-4)
+    navigate(-4);
+    window.location.reload();
   }
+
+
+  // useEffect(() =>{
+  //   const sendEmail = async () => {
+  //     console.log(payment_intent);
+     
+  //   };
+  //   sendEmail();
+  // }, []);
   
 
   return (
@@ -66,7 +79,7 @@ function SuccessPage() {
             <p>You will get an order confirmation mail soon with the order details. And you can download the Invoice.</p>
           </div>
         </div>
-        {payment_intent && (
+        {paymentIntent && (
           <>
             <button className="invc-btn" onClick={handleHome}>
               Go Home

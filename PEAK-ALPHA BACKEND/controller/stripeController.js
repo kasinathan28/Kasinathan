@@ -66,6 +66,7 @@ exports.getBookignDetails = async (req, res) => {
     );
     console.log(session.payment_intent);
     res.status(200).json(session.payment_intent);
+    console.log("payment intent:", session.payment_intent);
   } catch (error) {
     console.error("Error retrieving Stripe session details:", error);
     res

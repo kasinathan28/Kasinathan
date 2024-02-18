@@ -1,12 +1,8 @@
 .profilepage {
   background-image: url("../../../assets/girl.png");
   background-repeat: no-repeat;
-  background-position: right center; /* Adjust as needed */
-  background-size:contain; /* or contain, or specific dimensions like 100% 100% */
-
-  
-  /* Other styling properties */
-  /* ... */
+  background-position: right center;
+  background-size:contain;
 }
 
 
@@ -16,7 +12,7 @@
     background: lightgray;
     margin: auto;
     display: flex;
-    align-items: center; /* Center items vertically */
+    align-items: center;
   }
   
   .backbutton{
@@ -24,15 +20,15 @@
     border: none;
     margin-left: 30px;
     font-size: 28px;
-    /* border:1px solid #000; */
+   
 
     transition: 0.3s ease;
   }
   .backbutton:hover{
     color: #fff;
-    /* border-radius: 50%; */
+   
     background: transparent;
-    /* border:1px solid #000; */
+   
     transform: scale(1.5), ;
   }
 
@@ -42,7 +38,7 @@
     font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
     color: #fff;
     letter-spacing: 10px;
-    font-size: 40px; /* Adjusted font size for better visibility */
+    font-size: 40px;
   }
   
   .hamburger-menu {
@@ -78,7 +74,7 @@
   .sidebar li {
     padding: 10px;
     cursor: pointer;
-    margin-top: 10px; /* Add margin to the top of the ul */
+    margin-top: 10px;
 
   }
 
@@ -93,22 +89,22 @@
     padding: 20px;
   }
   
-  /* Styling for content inside the sidebar */
+ 
   .sidebar-content {
     color: #fff;
     margin-top: 20px;
   }
   
-  /* Styling for different sections in the content */
+ 
   .profile-content {
-    display: none; /* Initially hide profile content */
+    display: none;
   }
   
   .address-content {
-    display: none; /* Initially hide address content */
+    display: none;
   }
   
-  /* Show the content based on the active item */
+ 
   .sidebar li.active {
     background-color: #555;
   }

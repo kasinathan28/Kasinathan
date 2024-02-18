@@ -57,6 +57,7 @@
 
 .display-container .product-card h1.title {
   font-size: 24px;
+  font-weight: 800;
   margin: 8px 0;
   color: #333;
   text-align: left;

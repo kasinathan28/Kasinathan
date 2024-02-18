@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './Booking.css';
+import './Bookings.css';
 import { useParams } from 'react-router-dom';
 
 function Bookings() {
+  const profileId = useParams();
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/getBookings`);
+        const response = await axios.get(`http://localhost:5000/getUserBookings/${profileId.profileId}`);
         const bookingData = response.data;
 
         if (bookingData.length === 0) {
@@ -37,12 +38,9 @@ function Bookings() {
     };
 
     fetchBookings();
-  }, []);
+  }, [profileId]);
 
   return (
-    <div className='admin'>
-
-
     <div className='bookingPage'>
       <h1>Bookings Page</h1>
       <div className='bookingCard-container'>
@@ -55,17 +53,16 @@ function Bookings() {
                 <p>Description: {booking.productDetails.description}</p>
                 {/* Display the product image */}
                 {booking.productDetails.image && (
-                  <img src={booking.productDetails.image} alt={booking.productDetails.name} />
-                  )}
+                  <img  src={booking.productDetails.image} alt={booking.productDetails.name} />
+                )}
               </div>
             ) : (
               <p>No product details found for this booking</p>
-              )}
+            )}
           </div>
         ))}
       </div>
     </div>
-        </div>
   );
 }
 

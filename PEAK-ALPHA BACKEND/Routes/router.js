@@ -57,6 +57,8 @@ router.get("/getProductDetails/:productId", ProductDetailsController.getProductD
 // Router for adding new booking to the database.
 router.post("/newBooking", BookignController.newBooking);
 
+// Router for getting the user's bookings
+router.get("/getUserBookings/:profileId", BookignController.getUserBookings);
 
 // End of users API
 
@@ -86,6 +88,9 @@ router.delete('/deleteProduct/:productId', adminController.deleteProduct);
 
 // Router for getting all the users in the database 
 router.get('/users', adminController.getUsers);
+
+// Router for getting all the bookings from the database.
+router.get('/getBookings', BookignController.getAllBookings);
 
 // End of admin API
 

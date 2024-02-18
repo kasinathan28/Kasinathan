@@ -1,33 +1,42 @@
-.admin .bookingPage {
-    width: 1850px;
-    margin-left: 240px;
+.bookingPage h1 {
+    text-align: left;
+    margin-left: 30px;
+    color: #fff;
   }
   
-  .admin .bookingDetails {
+  .bookingCard-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+    gap: 20px;
   }
   
-  .admin .bookingCard {
+  .bookingCard {
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 10px;
-    margin: 20px;
-    width: calc(25% - 20px);
+    padding: 20px;
+    flex-grow: 1;
+    max-width: calc(20% - 20px);
     margin-bottom: 20px;
     background-color: #fff;
   }
   
-  .admin   .bookingCard h3 {
+  .bookingCard h3 {
     margin-bottom: 10px;
     font-size: 18px;
     color: #333;
   }
   
-  .admin   .bookingCard p {
+  .bookingCard p {
     margin-bottom: 5px;
     font-size: 16px;
     color: #666;
   }
+  
+  .bookingCard img {
+    max-width: 250px;
+    height: auto;
+  }
+  
+  
   

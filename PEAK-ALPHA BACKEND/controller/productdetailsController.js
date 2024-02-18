@@ -5,7 +5,6 @@ exports.getProductDetails = async (req, res) => {
   console.log("api called");
     try {
       const productId = req.params.productId;
-  
       // Fetch product details from the database based on the product ID
       const productDetails = await Product.findById(productId);
   

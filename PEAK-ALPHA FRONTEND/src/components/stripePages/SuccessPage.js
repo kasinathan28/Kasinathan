@@ -3,67 +3,61 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAtlassian } from "@fortawesome/free-brands-svg-icons";
-import Confetti from "react-confetti"; // Import Confetti component
-
+import Confetti from "react-confetti";
 import success from "../../assets/success page.svg";
 import "./successPage.css";
+import DownloadLoader from "../downloadLoader/downloadLoader";
 
 function SuccessPage() {
-  const navigate = useNavigate();
   const { session_id } = useParams();
   const [paymentIntent, setPaymentIntent] = useState(null);
+  const [loading, setLoading] = useState(false); // State variable for loading animation
+  const navigate = useNavigate();
 
   const profileId = localStorage.getItem("prodileId");
-  console.log(profileId);
-  const productId =localStorage.getItem("productId");
-  console.log(productId);
-
+  const productId = localStorage.getItem("productId");
 
   useEffect(() => {
-    const GetIntent = async () => {
+    const getIntent = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/getBookingDetails/${session_id}`);
         setPaymentIntent(response.data);
-        console.log(response.data);
-  
         // Send email using response.data directly
         try {
+          setLoading(true); // Set loading state to true
           const emailResponse = await axios.post(`http://localhost:5000/createInvoice/${response.data}`);
           console.log("Email sent successfully:", emailResponse);
+          setLoading(false); // Set loading state to false after receiving response
         } catch (error) {
           console.log("Error sending email", error);
-        }
-        try {
-          console.log("in try for stroing new booking data");
-          const newBooking = await axios.post(`http://localhost:5000/newBooking`,
-          {
-            productId:productId,
-            profileId:profileId,
-            paymentIntentId:response.data,
-          }
-          )
-          console.log(newBooking);
-        } catch (error) {
-          console.log("Error storing booking details");
-          
+          setLoading(false); // Set loading state to false in case of error
         }
       } catch (error) {
         console.log("Error fetching the Payment intent", error);
       }
     };
-    GetIntent();
-  }, []);
-  
-  
+    getIntent();
+  }, [session_id]);
+
   const handleBack = () => {
-    navigate(-1);
+    window.history.back(); // Go back to the previous page
   };
 
-  const handleHome =()=>{
-    navigate(-4);
-  }
-
-
+  const handleHome = async () => {
+    try {
+      console.log("In try for storing new booking data");
+      console.log(productId);
+      const newBooking = await axios.post(`http://localhost:5000/newBooking`, {
+        productId: productId,
+        profileId: profileId,
+        paymentIntentId: paymentIntent,
+      });
+      navigate(-4);
+      console.log(newBooking.data);
+    } catch (error) {
+      console.log("Error storing booking details", error);
+    }
+  };
 
   return (
     <div className="successPage">
@@ -90,14 +84,15 @@ function SuccessPage() {
             <p>You will get an order confirmation mail soon with the order details. And you can download the Invoice.</p>
           </div>
         </div>
-        {paymentIntent && (
+        {!loading && (
           <>
             <button className="invc-btn" onClick={handleHome}>
               Go Home
             </button>
-            <Confetti /> 
+            <Confetti />
           </>
         )}
+        {loading && <DownloadLoader />}
       </div>
     </div>
   );

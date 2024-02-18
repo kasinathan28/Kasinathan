@@ -6,10 +6,11 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faShoppingCart, faHome } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import HamburgerMenu from "react-hamburger-menu";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 
 import EditProfileForm from "../editprofile/EditProfileForm";
 import AddressForm from "../address/AddressForm";
+import Bookings from "../bookings/Bookings";
 
 function Profile() {
   const profileId = useParams();
@@ -22,7 +23,6 @@ function Profile() {
   const toggleMenu = () => {
     console.log("Toggle menu");
     setIsOpen(!isOpen);
-    // setIsDropdownOpen(false); // You can remove this line if it's not being used
   };
 
   const handleItemClick = (item) => {
@@ -31,7 +31,7 @@ function Profile() {
   };
 
   const handleBack = () => {
-    navigate(`/dashboard/${profileId}`);
+    navigate(-1);
   };
 
   useEffect(() => {
@@ -68,11 +68,18 @@ function Profile() {
             >
               Address
             </li>
+            <li
+              className={activeItem === "Bookings" ? "active" : ""}
+              onClick={() => handleItemClick("Bookings")}
+            >
+              Bookings
+            </li>
           </ul>
         </div>
         <div className="content">
           {activeItem === "Profile" && <ProfileContent />}
           {activeItem === "Address" && <AddressContent />}
+          {activeItem === "Bookings" && <Bookings />}
         </div>
       </div>
     </div>

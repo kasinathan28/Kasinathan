@@ -8,7 +8,7 @@ const multer = require("multer");
 
 // Twilio configuration
 const accountSid = "ACe3e8a0c5012984c57f28389d766dc89d";
-const authToken = "e18ea88a2125204d2dcb0e0dfedf16f3";
+const authToken = "648d2f0be4b6457ffff6c52f504dff02";
 const twilioClient = twilio(accountSid, authToken);
 
 const upload = require("../multerConfig/storageConfig");

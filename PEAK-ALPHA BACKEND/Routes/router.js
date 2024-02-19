@@ -102,6 +102,9 @@ router.get("/getCancellation", CancellationController.Cancellations);
 
 // Router for deleting the cancellation req
 router.delete("/cancelCancellation/:id", CancellationController.deleteCancellation);
+
+// Router for approving the cancellation req
+router.post('/approveCancellation/:id', CancellationController.approveCancellation);
 // End of admin API
 
 

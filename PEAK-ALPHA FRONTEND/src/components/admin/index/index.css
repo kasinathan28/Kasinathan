@@ -7,6 +7,8 @@
   .adminpage .navbar {
     width: 100%;
     height: 120px;
+    max-width: 100vh; /* Set a maximum width based on the viewport height */
+
     margin: auto;
     display: flex;
     align-items: center;

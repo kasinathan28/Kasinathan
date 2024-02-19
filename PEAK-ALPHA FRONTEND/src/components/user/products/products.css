@@ -28,6 +28,10 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+.display-container .product-card:hover  img{
+  transform: scale(1.4);
+}
+
 .display-container .product-card .product-image {
   flex: 1;
   display: flex;
@@ -38,6 +42,7 @@
   width: auto;
   height: auto;
   max-height: 200px;
+  transition: 0.3s ease all;
   max-width: 100%;
   object-fit: cover;
   mix-blend-mode: multiply;

@@ -58,7 +58,7 @@ const EditProfileForm = () => {
         // Update local state with the new profile picture path
         setProfilePicture(user.profilePicture.path);
       } else {
-        console.log("Error updating the profile.", error);
+        console.log("Error updating the profile.");
         toast.error("Failed to update profile. Please try again later.");
       }
     } catch (error) {

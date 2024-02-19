@@ -63,7 +63,7 @@ function Bookings() {
         `http://localhost:5000/newCancellation/${profileId.profileId}`,
         {
           paymentIntentId: selectedBooking.paymentIntentId,
-          reason: reason, // Include the cancellation reason
+          reason: reason, 
         }
       );
       toast.success("Cancellation request added successfully");

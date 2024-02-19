@@ -10,7 +10,8 @@ const CancellationSchema = new mongoose.Schema({
     required: true,
   },
   reason:{
-    type:String,
+    type: String,
+    required: true,
   }
 });
 

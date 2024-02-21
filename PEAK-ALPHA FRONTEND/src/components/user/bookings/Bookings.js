@@ -110,8 +110,8 @@ function Bookings() {
 
       {/* Popup/Modal for cancellation reason input */}
       {showPopup && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className="Bookingmodal">
+          <div className="Bookingmodal-content">
             <span className="close" onClick={() => setShowPopup(false)}>
               &times;
             </span>

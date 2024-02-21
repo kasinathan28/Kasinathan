@@ -68,7 +68,7 @@
 
 
 /* Modal styles */
-.modal {
+.Bookingmodal {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,7 +81,7 @@
   z-index: 1000;
 }
 
-.modal-content {
+.Bookingmodal-content {
   background-color: #fefefe;
   padding: 20px;
   border-radius: 10px;
@@ -103,14 +103,14 @@
   color: #333;
 }
 
-.modal-content h2 {
+.Bookingmodal-content h2 {
   margin-bottom: 20px;
   font-size: 20px;
   color: #333;
 }
 
-input[type="text"] {
-  width: 100%;
+.Bookingmodal [type="text"] {
+  width: 80%;
   padding: 10px;
   margin-bottom: 20px;
   border: 1px solid #ccc;

@@ -6,6 +6,11 @@ import { useParams } from 'react-router-dom';
 function Bookings() {
   const [bookings, setBookings] = useState([]);
 
+  const handleViewDetails = (booking) => {
+    console.log("View button clicked for booking:", booking);
+    // Here, you have access to the details of the clicked booking object
+  }
+
   useEffect(() => {
     const fetchBookings = async () => {
       try {
@@ -41,29 +46,29 @@ function Bookings() {
 
   return (
     <div className='admin'>
-    <div className='bookingPage'>
-      <h1>Bookings Page</h1>
-      <div className='bookingCard-container'>
-        {bookings.map((booking, index) => (
-          <div key={index} className='bookingCard'>
-            {booking.productDetails ? (
-              <div>
-                <h3>Product Details:</h3>
-                <p>Name: {booking.productDetails.name}</p>
-                <p>Description: {booking.productDetails.description}</p>
-                {/* Display the product image */}
-                {booking.productDetails.image && (
-                  <img src={booking.productDetails.image} alt={booking.productDetails.name} />
+      <div className='bookingPage'>
+        <h1>Bookings Page</h1>
+        <div className='bookingCard-container'>
+          {bookings.map((booking, index) => (
+            <div key={index} className='bookingCard'>
+              {booking.productDetails ? (
+                <div>
+                  <h3>Product Details:</h3>
+                  <p>Name: {booking.productDetails.name}</p>
+                  <p>Description: {booking.productDetails.description}</p>
+                  {booking.productDetails.image && (
+                    <img src={booking.productDetails.image} alt={booking.productDetails.name} />
                   )}
-              </div>
-            ) : (
-              <p>No product details found for this booking</p>
+                </div>
+              ) : (
+                <p>No product details found for this booking</p>
               )}
-          </div>
-        ))}
+              <button onClick={() => handleViewDetails(booking)}>View Details</button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
-        </div>
   );
 }
 

@@ -131,7 +131,8 @@ router.get('/getBookingDetails/:session_id', StripeController.getBookignDetails)
 // crete invoice
 router.post('/createInvoice/:payment_intent', StripeController.sendReceiptByEmail);
 
-
+// router for making bulk purchasse.
+router.post('/bulk-purchase', StripeController.makeBulkPurchase);
 
 // Export Router
 module.exports = router;

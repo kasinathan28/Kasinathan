@@ -18,6 +18,28 @@ const Cart = () => {
     navigate(`/dashboard/${profileId}`);
   };
 
+  // const handleCheckout = async () => {
+  //   try {
+  //     // Prepare the data for bulk purchase
+  //     const bulkPurchaseData = {
+  //       productDetails: userCart.map((item) => ({
+  //         priceId: item.product,
+  //         quantity: item.quantity,
+  //       })),
+  //       // shippingDetails: { /* Add shipping details here */ },
+  //       profileId: profileId,
+  //     };
+
+  //     // Make a POST request to initiate bulk purchase
+  //     const response = await axios.post("http://localhost:5000/bulk-purchase", bulkPurchaseData);
+      
+  //     // Redirect to the Stripe Checkout page using the URL returned from the backend
+  //     window.location.href = response.data.url;
+  //   } catch (error) {
+  //     console.error("Error initiating bulk purchase:", error);
+  //     // Handle error appropriately
+  //   }
+  // };
 
   useEffect(() => {
     const fetchUserCart = async () => {
@@ -62,10 +84,6 @@ const Cart = () => {
 
     setTotalAmount(total);
   }, [userCart, productDetails]);
-
-  const handleCheckout = () => {
-    console.log("Checkout button clicked");
-  };
 
   const updateQuantity = async (itemId, newQuantity) => {
     try {
@@ -153,10 +171,10 @@ const Cart = () => {
           })}
         </div>
       </div>
-      <div className="total">
+      {/* <div className="total">
         <p>Total: ₹{totalAmount}</p>
         <button onClick={handleCheckout}>Checkout</button>
-      </div>
+      </div> */}
     </div>
   );
 };

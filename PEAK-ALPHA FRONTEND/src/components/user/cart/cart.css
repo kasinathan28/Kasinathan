@@ -140,6 +140,11 @@
  
 }
 
+.quantity-controls{
+  display: flex;
+  justify-content: space-between;
+}
+
 
 .cart .total p {
   font-size: 24px;

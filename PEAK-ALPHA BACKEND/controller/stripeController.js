@@ -62,6 +62,57 @@ exports.makePurchase = async (req, res) => {
 
 
 
+// Controller for handling bulk purchases
+exports.makeBulkPurchase = async (req, res) => {
+  const { productDetails, shippingDetails, profileId } = req.body;
+  const { fullName, address, phoneNumber, state, zip, country } = shippingDetails;
+
+  try {
+    // Define allowed countries for shipping
+    const allowedCountries = ["US", "CA", "GB", "AU", "IN"];
+
+    // Create a new Stripe customer
+    const customer = await stripe.customers.create({
+      name: fullName,
+      address: {
+        line1: address,
+        city: state,
+        postal_code: zip,
+        country: country,
+      },
+      phone: phoneNumber,
+    });
+
+    // Prepare line items for the bulk purchase
+    const lineItems = productDetails.map((product) => ({
+      price: product.priceId, // Assuming priceId is associated with each product
+      quantity: product.quantity,
+    }));
+
+    // Create a Checkout session on Stripe for the bulk purchase
+    const session = await stripe.checkout.sessions.create({
+      customer: customer.id, // Assign customer to the session
+      line_items: lineItems,
+      mode: "payment",
+      currency: "inr",
+      shipping_address_collection: {
+        allowed_countries: allowedCountries,
+      },
+      success_url: "http://localhost:3000/success/{CHECKOUT_SESSION_ID}",
+      cancel_url: "http://localhost:3000",
+    });
+
+    // Store session ID if needed
+    const storedSessionId = session.id;
+    console.log("Stored Session ID:", storedSessionId);
+    res.json({ url: session.url, sessionId: session.id });
+  } catch (error) {
+    console.log("Error making bulk purchase:", error);
+    res.status(500).json({ error: "Failed to make bulk purchase" });
+  }
+};
+
+
 // Get details with the session id
 exports.getBookignDetails = async (req, res) => {
   const session_id = req.params;
@@ -164,6 +215,8 @@ exports.sendReceiptByEmail = async (req, res) => {
     res.status(500).json({ error: "Failed to send receipt" });
   }
 };
+
+
 
 
 
